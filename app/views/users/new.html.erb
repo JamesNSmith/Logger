@@ -1,0 +1,23 @@
+<div class="login">
+  <div class="container">
+    <div class="form">
+
+    <h1>Sign up</h1>
+
+    <%= form_for(@user) do |f| %>
+    <div class="field"> 
+      <ul>
+          <li><%= f.label "Name " %><%= f.text_area :first_name %><%= f.text_area :last_name %></li> 	
+      	  <li><%= f.label "Email " %><%= f.text_area :email %></li>
+      	  <li><%= f.label "Password " %><%= f.text_area :password %></li> 
+       </ul>
+  	</div> 
+  	<div class="actions"> 
+      <%= f.submit "Create" %> 
+  	</div> 
+    <% end %>
+ 
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+// Place all the styles related to the users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.container {
+  width: 480px;
+  margin: 0 auto;
+}
+
+.users, .create {
+  margin: 40px 0;
+}
+
+.users a,
+.create .actions input {
+  background-color: #f2580b;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  padding: 12px 24px;
+  transition: background-color 0.5s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.user {
+  background-color: #fff;
+  font-weight: 300;
+  padding: 16px;
+  margin-bottom: 10px;
+}

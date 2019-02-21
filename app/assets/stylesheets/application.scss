@@ -1,0 +1,134 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+/*main*/
+
+
+/*
+html, body {
+  background: #fff;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  text-transform: lowercase;
+}
+*/
+
+body{
+	margin:0;
+	width:99.5%;
+	background-color:#DAD8D2;
+}
+
+.error{
+	border: 1px solid red;
+}
+
+/*header-----------------*/
+$headColor:rgb(227,225,225);
+$headHeight:35px;
+
+header {
+	border: 1px solid $headColor;
+	height:$headHeight;
+	width:100%;
+	background-color: $headColor;
+
+	h3 {
+		text-align:center;
+		height:25px;
+		margin:0;
+	}
+
+	table {
+		height:$headHeight;
+		width:100%;
+	}
+
+	tr {
+		height:100%;
+	}
+
+	td {
+		border: 1px solid black;
+		margin:1%;
+	}
+
+	td:first-child {
+		width:20%;
+	}
+
+	td:nth-child(2) {
+		width:60%;
+	}
+
+	td:nth-child(3) {
+		width:3%;
+	}
+
+	td:last-child {
+		width:17%;
+	}
+}
+
+/*nav------------------*/
+nav{
+	margin-top: 10px;
+
+	border: 1px solid black;
+	margin:12px 10%;
+	align:center;
+
+	display: flex;
+  	justify-content: space-between;
+  	align-items: center;
+  	
+  	height:60px;
+
+  	ul {
+  		margin:1%;
+  		width:98%;
+  		border: 1px solid black;
+  	}
+
+	li{
+		display:inline-block;
+		border: 1px solid black;
+
+		height:100%;
+		padding:12px;
+		
+		align-items: center;
+	}
+}
+
+/*.login, .signup {
+  margin: 0 auto;
+  width: 400px;
+}
+
+.login form input, .signup form input {
+  width: 280px;
+}
+
+.login form input.form-btn, .signup form input.form-btn {
+  margin-left: 30px;
+  width: 340px;
+  transition: background 0.5s, color 0.5s;
+}
+*/
+
