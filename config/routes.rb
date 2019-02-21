@@ -6,7 +6,12 @@ Rails.application.routes.draw do
   get 'signup' => 'users#new'
   resources :users
 
-  get 'clubs' => 'clubs#index'
+  match '/clubs', to: 'clubs#index', via: [:get, :post]
+  match '/addclub', to: 'clubs#new', via: [:get, :post]
+  #get 'addclub' => 'clubs#new'
+  #post 'clubs' => 'clubs#create'
+  delete '/delclub' => 'clubs#destroy'
+  match '/club/members', to: 'clubs#show', via: [:get, :post]
 
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'

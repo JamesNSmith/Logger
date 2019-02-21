@@ -34,6 +34,10 @@ body{
 	background-color:#DAD8D2;
 }
 
+h1{
+	text-align:center
+}
+
 .error{
 	border: 1px solid red;
 }
@@ -73,10 +77,14 @@ header {
 	}
 
 	td:nth-child(2) {
-		width:60%;
+		width:57%;
 	}
 
-	td:nth-child(3) {
+	td:nth-last-child(2){
+		width:3%;
+	}
+
+	td:nth-last-child(2) {
 		width:3%;
 	}
 

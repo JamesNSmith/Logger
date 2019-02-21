@@ -15,24 +15,28 @@
   				<td><h3>Connection</h3></td>
   				<td></td>
           
-  				
-            <% if current_user %> 
-
-            <td>
-            <% case current_user.utype when 'webadmin' %>
-              <h3>WA</h3>
-            <% when 'clubadmin' %>
-              <h3>CA</h3>
-            <% else %>
-              <h3>U</h3>
-            <% end %>
-            </td>
-
-            <td><h3><%= link_to current_user.email, logout_path, method: "delete" %></h3></td>
-            <% else %> 
-            <td></td>
-            <td><h3><%= link_to "Login", 'login' %></h3></td>
+  				<td>
+            <% if current_club %>
+              <h3><%= link_to current_club.initials, '/delclub', method: "delete" %></h3>
             <% end %>  
+          </td>
+            
+          <% if current_user %> 
+          <td>
+          <% case current_user.utype when 'webadmin' %>
+            <h3>WA</h3>
+          <% when 'clubadmin' %>
+            <h3>CA</h3>
+          <% else %>
+            <h3>U</h3>
+          <% end %>
+          </td>
+
+          <td><h3><%= link_to current_user.email, logout_path, method: "delete" %></h3></td>
+          <% else %> 
+          <td></td>
+          <td><h3><%= link_to "Login", 'login' %></h3></td>
+          <% end %>  
           
   			</tr>
   		</table>
@@ -41,6 +45,8 @@
   	<nav>
   		<ul>
   			<li><%= link_to 'Home', "/" %></li>
+        <li><%= link_to 'Add Club', "/addclub" %></li>
+        <li><%= link_to 'Members', "/club/members" %></li>
   			<li>Club Admin</li>
         <li><%= link_to 'Users', "/users" %></li>
         <li>Web Admin</li>

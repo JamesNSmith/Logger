@@ -1,0 +1,19 @@
+<div class="users">
+
+  <h1>Members</h1>
+
+  <div class="container">
+    <% if current_club %>
+    
+    <% @users.each do |user| %> 
+      <div class="user"> 
+      <p><%= user.email %></p> 
+      <p><%= user.first_name %></p>
+      <p><%= user.last_name %></p> 
+      <p><%= user.utype %></p> 
+      </div> 
+    <% end %>
+
+    <% end %>
+  </div>
+</div>

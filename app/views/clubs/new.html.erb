@@ -1,0 +1,23 @@
+<div class="login">
+  <div class="container">
+    <div class="form">
+
+    <h1>Add Club</h1>
+
+    <%= form_for(@club,url: '/addclub') do |f| %>
+    <div class="field"> 
+      <ul>
+          <li><%= f.label "Name " %><%= f.text_area :name %></li> 	
+      	  <li><%= f.label "Initials " %><%= f.text_area :initials %></li>
+      	  <li><%= f.label "Country " %><%= f.text_area :country %></li> 
+       </ul>
+  	</div> 
+  	<div class="actions"> 
+      <%= f.submit "Create" %> 
+  	</div> 
+    <% end %>
+ 
+
+    </div>
+  </div>
+</div>
