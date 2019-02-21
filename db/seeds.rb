@@ -12,3 +12,6 @@ User.create(email: 'julian@email.com', password: 'Julian1', password_confirmatio
 
 User.create(email: 'jamesnsmith97@gmail.com', password: '01020102', password_confirmation: '01020102', first_name: 'James', last_name: 'Smith', utype: 'clubadmin')
 User.create(email: 'jamesnsmith@hotmail.co.uk', password: '01020102', password_confirmation: '01020102', first_name: 'James', last_name: 'Smith', utype: 'webadmin')
+
+
+Club.create(name:'Logger Club', initials:'LC', country:'UK')

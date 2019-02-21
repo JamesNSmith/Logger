@@ -1,0 +1,11 @@
+<div class="users">
+  <div class="container">
+  	<% @clubs.each do |club| %> 
+	    <div class="user"> 
+  	  <p><%= club.name %></p> 
+  	  <p><%= club.initials %></p>
+  		<p><%= club.country %></p> 
+	    </div> 
+	  <% end %>
+  </div>
+</div>
