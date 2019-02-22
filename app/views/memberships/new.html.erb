@@ -2,14 +2,14 @@
   <div class="container">
     <div class="form">
 
-    <h1>Add Club</h1>
+    <h1>Add Membership</h1>
 
-    <%= form_for(@club,url: '/clubs/add') do |f| %>
+    <%= form_for(@membership,url: '/memberships/add') do |f| %>
     <div class="field"> 
       <ul>
           <li><%= f.label "Name " %><%= f.text_area :name %></li> 	
-      	  <li><%= f.label "Initials " %><%= f.text_area :initials %></li>
-      	  <li><%= f.label "Country " %><%= f.text_area :country %></li> 
+          <%= f.hidden_field :mtype, value: false%>
+      	  <li><%= f.label "Launch Price " %><%= f.number_field :launch_price, :step => :any %></li>
        </ul>
   	</div> 
   	<div class="actions"> 

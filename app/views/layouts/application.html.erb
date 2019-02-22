@@ -17,7 +17,7 @@
           
   				<td>
             <% if current_club %>
-              <h3><%= link_to current_club.initials, '/delclub', method: "delete" %></h3>
+              <h3><%= link_to current_club.initials, '/clubs/del', method: "delete" %></h3>
             <% end %>  
           </td>
             
@@ -45,12 +45,15 @@
   	<nav>
   		<ul>
   			<li><%= link_to 'Home', "/" %></li>
-        <li><%= link_to 'Add Club', "/addclub" %></li>
-        <li><%= link_to 'Members', "/club/members" %></li>
-  			<li>Club Admin</li>
-        <li><%= link_to 'Users', "/users" %></li>
-        <li>Web Admin</li>
         <li><%= link_to 'Clubs', "/clubs" %></li>
+        <li><%= link_to 'Add Club', "/clubs/add" %></li>
+        <li><%= link_to 'Members', "/clubs/members" %></li>
+        <li><%= link_to 'All Memberships', "/memberships" %></li>
+        <li><%= link_to 'Add Membership', "/memberships/add" %></li>
+        <li><%= link_to 'Memberships', "/memberships/club" %></li>
+        <li><%= link_to 'Users', "/users" %></li>
+  			<li>Club Admin</li>
+        <li>Web Admin</li>
   		</ul>
   	</nav>
 

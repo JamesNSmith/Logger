@@ -1,0 +1,19 @@
+<div class="users">
+
+  <h1>Memberships</h1>
+
+  <div class="container">
+    <% if current_club %>
+
+  	<% @memberships.each do |membership| %> 
+	    <div class="user"> 
+      <p><%= membership.id %></p> 
+  	  <p><%= membership.name %></p> 
+  	  <p><%= membership.mtype %></p>
+  		<p><%= membership.launch_price %></p> 
+      
+	    </div> 
+    <% end %>
+    <% end %>
+  </div>
+</div>

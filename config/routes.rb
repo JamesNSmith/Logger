@@ -7,11 +7,16 @@ Rails.application.routes.draw do
   resources :users
 
   match '/clubs', to: 'clubs#index', via: [:get, :post]
-  match '/addclub', to: 'clubs#new', via: [:get, :post]
+  match '/clubs/add', to: 'clubs#new', via: [:get, :post]
   #get 'addclub' => 'clubs#new'
   #post 'clubs' => 'clubs#create'
-  delete '/delclub' => 'clubs#destroy'
-  match '/club/members', to: 'clubs#show', via: [:get, :post]
+  delete '/clubs/del' => 'clubs#destroy'
+  match '/clubs/members', to: 'clubs#show', via: [:get, :post]
+
+  #get '/memberships' => 'memberships#index'
+  match '/memberships', to: 'memberships#index', via: :get
+  match '/memberships/club', to: 'memberships#show', via: [:get]
+  match '/memberships/add', to: 'memberships#new', via: [:get, :post]
 
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'

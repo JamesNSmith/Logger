@@ -2,14 +2,12 @@ class ClubsController < ApplicationController
   def index
     case request.method_symbol
     when :get
-      puts request.method_symbol
       @clubs = Club.all
     when :post
-      puts params[:clubs][:id]
       @club = Club.find_by_id(params[:clubs][:id]) 
       if @club 
         session[:club_id] = @club.id
-        redirect_to '/club/members' 
+        redirect_to '/clubs/members' 
       end
     end
   end

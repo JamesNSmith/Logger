@@ -10,14 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190221140802) do
+ActiveRecord::Schema.define(version: 20190222012223) do
+
+  create_table "club_memberships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "club_id"
+    t.bigint "membership_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["club_id"], name: "index_club_memberships_on_club_id"
+    t.index ["membership_id"], name: "index_club_memberships_on_membership_id"
+  end
 
   create_table "club_users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
+    t.bigint "membership_id"
     t.bigint "club_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["club_id"], name: "index_club_users_on_club_id"
+    t.index ["membership_id"], name: "index_club_users_on_membership_id"
     t.index ["user_id"], name: "index_club_users_on_user_id"
   end
 
@@ -25,6 +36,14 @@ ActiveRecord::Schema.define(version: 20190221140802) do
     t.string "name"
     t.string "initials"
     t.string "country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "memberships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.boolean "mtype"
+    t.decimal "launch_price", precision: 6, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
