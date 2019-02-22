@@ -5,6 +5,7 @@ class CreateMemberships < ActiveRecord::Migration[5.1]
       t.string :name
       t.boolean :mtype
       t.decimal :launch_price, precision:6, scale:2 
+      t.decimal :soaring_price, precision:6, scale:2 
 
       t.timestamps
     end

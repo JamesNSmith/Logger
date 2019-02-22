@@ -28,7 +28,7 @@ class ClubsController < ApplicationController
     when :get
   	 @club = Club.new
     when :post
-      @club = Club.new(user_params)
+      @club = Club.new(club_params)
       if @club.save
         session[:club_id] = @club.id
         redirect_to '/'
@@ -44,7 +44,7 @@ class ClubsController < ApplicationController
   end
   
   private
-  def user_params
+  def club_params
     params.require(:club).permit(:name, :initials, :country)
   end
 

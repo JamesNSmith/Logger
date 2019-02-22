@@ -1,6 +1,21 @@
 class UsersController < ApplicationController
 	def index
-    @users = User.all
+    case request.method_symbol
+    when :get
+      @users = User.all
+    when :post
+      @user = User.find_by_id(params[:user][:id]) 
+      if @user
+        session[:user_id] = @user.id
+        @clubs = @user.clubs
+        if @clubs[0]
+          session[:club_id] = @clubs[0].id   #----------dodgy---------------
+        else
+          session[:club_id] = nil
+        end
+        redirect_to '/' 
+      end
+    end
   end
 
   def new 

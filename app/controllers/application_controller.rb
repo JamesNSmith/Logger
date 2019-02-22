@@ -4,9 +4,9 @@ class ApplicationController < ActionController::Base
 
   #User ------------------------------------
   def current_user 
-    puts 'User'
-    puts session[:user_id]
-    puts session[:user_id].class
+    #puts 'User'
+    #puts session[:user_id]
+    #puts session[:user_id].class
   	@current_user ||= User.find(session[:user_id]) if session[:user_id] 
   end
   
@@ -16,9 +16,9 @@ class ApplicationController < ActionController::Base
 
   #Club ------------------------------------
   def current_club 
-    puts 'club'
-    puts session[:club_id]
-    puts session[:club_id].class
+    #puts 'club'
+    #puts session[:club_id]
+    #puts session[:club_id].class
   	@current_club ||= Club.find(session[:club_id]) if session[:club_id] 
   end
 end

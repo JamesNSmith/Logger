@@ -1,0 +1,19 @@
+<div class="users">
+
+  <h1>Club Aircraft</h1>
+  
+  <div class="container">
+    <% if current_club %>
+
+  	<% @aircrafts.each do |aircraft| %> 
+	    <div class="user"> 
+      <p><%= aircraft.id %></p> 
+      <p><%= aircraft.tail_number %></p> 
+  	  <p><%= aircraft.name %></p> 
+      <p><%= aircraft.actype %></p> 
+      
+	    </div> 
+    <% end %>
+    <% end %>
+  </div>
+</div>

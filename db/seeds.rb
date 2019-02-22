@@ -21,19 +21,26 @@ c1 = Club.create(name:'Logger Club', initials:'LC', country:'UK')
 c2 = Club.create(name:'Test Club', initials:'TC', country:'UK')
 
 md1 = Membership.create(name: 'Default', mtype: true)
-m1 = Membership.create(name: 'Full', mtype: true, launch_price:7.00)
-m2 = Membership.create(name: 'Junior', mtype: true, launch_price:4.50)
-m3 = Membership.create(name: 'Trial', mtype: true, launch_price:4.50)
+m1 = Membership.create(name: 'Full', mtype: true, launch_price:7.00, soaring_price:0.3)
+m2 = Membership.create(name: 'Junior', mtype: true, launch_price:4.50, soaring_price:0.15)
+m3 = Membership.create(name: 'Trial', mtype: true, launch_price:4.50, soaring_price:0.15)
 
 #md2 = Membership.create(name: 'Default', mtype: false)
-m4 = Membership.create(name: 'Full', mtype: false, launch_price:7.00)
-m5 = Membership.create(name: 'Junior', mtype: false, launch_price:4.50)
-m6 = Membership.create(name: 'Trial', mtype: false, launch_price:4.50)
+m4 = Membership.create(name: 'Full', mtype: false, launch_price:7.00, soaring_price:0.6)
+m5 = Membership.create(name: 'Junior', mtype: false, launch_price:4.50, soaring_price:0.3)
+m6 = Membership.create(name: 'Trial', mtype: false, launch_price:4.50, soaring_price:0.3)
 
 #md3 = Membership.create(name: 'Default', mtype: false)
-m7 = Membership.create(name: 'Full', mtype: false, launch_price:8.00)
-m8 = Membership.create(name: 'Junior', mtype: false, launch_price:6.00)
-m9 = Membership.create(name: 'Trial', mtype: false, launch_price:6.00)
+m7 = Membership.create(name: 'Full', mtype: false, launch_price:8.00, soaring_price:0.4)
+m8 = Membership.create(name: 'Junior', mtype: false, launch_price:6.00, soaring_price:0.25)
+m9 = Membership.create(name: 'Trial', mtype: false, launch_price:6.00, soaring_price:0.3)
+
+a1 = Aircraft.create(tail_number:'UHJ', name:'k13', actype:'glider')
+a2 = Aircraft.create(tail_number:'UGF', name:'k13', actype:'glider')
+a3 = Aircraft.create(tail_number:'IOP', name:'k8', actype:'glider')
+a4 = Aircraft.create(tail_number:'HYT', name:'Puchacz', actype:'glider')
+a5 = Aircraft.create(tail_number:'IRC', name:'k8', actype:'glider')
+a6 = Aircraft.create(tail_number:'HUV', name:'Puchacz', actype:'glider')
 
 cud = ClubUser.create(user:ua2,club:cd1,membership:md1)
 cu1 = ClubUser.create(user:u1,club:c1,membership:m4)
@@ -59,6 +66,11 @@ cu6 = ClubUser.create(user:u6,club:c2,membership:m9)
 cd1.memberships << [md1,m1,m2,m3]
 c1.memberships << [m4,m5,m6]
 c2.memberships << [m7,m8,m9]
+
+c1.aircrafts << [a1,a2]
+c2.aircrafts << [a3,a4]
+
+u1.aircrafts << [a5,a6]
 
 #m1.users << [u1,u2] 
 #m6.users << [u3,u4]

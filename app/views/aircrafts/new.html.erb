@@ -1,0 +1,27 @@
+<div class="login">
+  <div class="container">
+    <div class="form">
+
+    <h1>Add Aircraft</h1>
+
+    <%= form_for(@aircraft,url: '/aircraft/add') do |f| %>
+    <div class="field"> 
+      <ul>
+          <li><%= f.label "Tail Number" %><%= f.text_area :tail_number %></li> 
+          <li><%= f.label "Name" %><%= f.text_area :name %></li>
+          <li><%= f.label "actype" %><%= f.text_area :actype %></li>
+          <li><%= label_tag(:club, "Club") %></li>
+          <li><%= radio_button_tag(:owner, "club") %></li>
+          <li><%= label_tag(:user, "User") %></li> 	 
+          <li><%= radio_button_tag(:owner, "user") %></li>
+      </ul>
+  	</div> 
+  	<div class="actions"> 
+      <%= f.submit "Create" %> 
+  	</div> 
+    <% end %>
+ 
+
+    </div>
+  </div>
+</div>

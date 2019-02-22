@@ -1,0 +1,17 @@
+<div class="users">
+
+  <h1>All Aircraft</h1>
+  
+  <div class="container">
+
+  	<% @aircrafts.each do |aircraft| %> 
+	    <div class="user"> 
+      <p><%= aircraft.id %></p> 
+      <p><%= aircraft.tail_number %></p> 
+  	  <p><%= aircraft.name %></p> 
+      <p><%= aircraft.actype %></p> 
+      
+	    </div> 
+    <% end %>
+  </div>
+</div>

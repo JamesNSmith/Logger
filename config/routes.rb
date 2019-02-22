@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'pages#index' 
 
-  get 'users' => 'users#index'
+  #get 'users' => 'users#index'
+  match '/users', to: 'users#index', via: [:get, :post]
   get 'signup' => 'users#new'
   resources :users
 
@@ -17,6 +18,11 @@ Rails.application.routes.draw do
   match '/memberships', to: 'memberships#index', via: :get
   match '/memberships/club', to: 'memberships#show', via: [:get]
   match '/memberships/add', to: 'memberships#new', via: [:get, :post]
+
+  match '/aircraft', to: 'aircrafts#index', via: :get
+  match '/aircraft/club', to: 'aircrafts#showclub', via: :get
+  match '/aircraft/user', to: 'aircrafts#showuser', via: :get
+  match '/aircraft/add', to: 'aircrafts#new', via: [:get, :post]
 
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'

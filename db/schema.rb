@@ -10,7 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190222012223) do
+ActiveRecord::Schema.define(version: 20190222223451) do
+
+  create_table "aircrafts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "tail_number"
+    t.string "name"
+    t.string "actype"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "club_aircrafts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "club_id"
+    t.bigint "aircraft_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["aircraft_id"], name: "index_club_aircrafts_on_aircraft_id"
+    t.index ["club_id"], name: "index_club_aircrafts_on_club_id"
+  end
 
   create_table "club_memberships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "club_id"
@@ -44,8 +61,18 @@ ActiveRecord::Schema.define(version: 20190222012223) do
     t.string "name"
     t.boolean "mtype"
     t.decimal "launch_price", precision: 6, scale: 2
+    t.decimal "soaring_price", precision: 6, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "user_aircrafts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.bigint "aircraft_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["aircraft_id"], name: "index_user_aircrafts_on_aircraft_id"
+    t.index ["user_id"], name: "index_user_aircrafts_on_user_id"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
