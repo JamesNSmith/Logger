@@ -16,13 +16,15 @@ Rails.application.routes.draw do
 
   #get '/memberships' => 'memberships#index'
   match '/memberships', to: 'memberships#index', via: :get
-  match '/memberships/club', to: 'memberships#show', via: [:get]
+  match '/memberships/club', to: 'memberships#show', via: :get
   match '/memberships/add', to: 'memberships#new', via: [:get, :post]
 
   match '/aircraft', to: 'aircrafts#index', via: :get
   match '/aircraft/club', to: 'aircrafts#showclub', via: :get
   match '/aircraft/user', to: 'aircrafts#showuser', via: :get
   match '/aircraft/add', to: 'aircrafts#new', via: [:get, :post]
+
+  match '/flights', to: 'flights#index', via: :get
 
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
