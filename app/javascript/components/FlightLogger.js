@@ -1,94 +1,75 @@
 import React from "react"
 import PropTypes from "prop-types"
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
+import Button from 'react-bootstrap/Button'
+import Table from 'react-bootstrap/Table'
+import Form from 'react-bootstrap/Form'
 
-class box extends React.Component {
-	constructor(props){
-		super(props);
-	}
-
-	
-}
-
-class Logger extends React.Component {
-	constructor(props){
-		super(props);
-	}
-
-	render(){
-		return(
-			<table>
-				<tr>
-					<th>#</th>
-					<th>P1</th>
-					<th>P2</th>
-					<th>Flight</th>
-					<th colSpan="2">Accounting</th>
-				</tr>
-				<tr>
-					<td>
-						<input className="disabled" type="text" size ="2" maxLength="3"/>
-					</td>
-					<td><input id="imps:t" type='text' placeholder="First Name" size="10"/>
-						<input id="imps:b" type='text' placeholder="Second Name" size="10"/>
-					</td>
-					<td><input id="imp2:t" type='text' placeholder="First Name"size="10"/>
-						<input id="imp2:b" type='text' placeholder="Second Name" size="10"/>
-					</td>
-					<td><input id="imp3:t" type='time' placeholder="Launch"/>
-						<input id="imp3:1" type='time' placeholder="Land" />
-						<input id="imp3:b" type='time' placeholder="Flight Time" />
-					</td>
-					<td><input id="impl:t" type='text' placeholder="Launch Fee" size="10"/>
-						<input id="impl:1" type='text' placeholder="Soaring Fee" size="10"/>
-						<input id="impl:1" type='text' placeholder="Soaring Total" size="10"/>
-					</td>
-					<td>
-						<input id="impl:b" type='text' placeholder="total" size="10"/>
-					</td>
-					
-
-				</tr>
-
-
-			</table>
-
-		);
-	}
-
-}
-
-class table extends React.Component {
-
-}
+import TableLog from './TableLog'
+import Logger from './Logger'
 
 class FlightLogger extends React.Component {
   constructor(props){
   	super(props);
+	this.functions = [];
+	//this.addDataRow = {};
 
-  	this.key = {
-  		P1:{
-  			first_name:'',
-  			last_name:''
-  		},
-  		P2:{
-  			first_name:'',
-  			last_name:''
-  		}
+	//this.componentDidMount = this.componentDidMount.bind(this);
+	this.update = this.update.bind(this);
 
-  	}
+  	const keys = [
+				'tailNumber',
+				'acName',
+				'p1FName',
+				'p1LName',
+				'p2FName',
+				'p2LName',
+				'lFee',
+				'sFee'
+			]
+  	
+  }
+//IndexedDB ---------------------------------
+
+  database(){
+	if (!('indexedDB' in window)) {
+  	  console.log('This browser doesn\'t support IndexedDB');
+  	  return;
+	}
+	console.log('databse')
+
+  }
+// Utils -------------------------------------
+
+  update(newData){
+  	console.log('update');
+  	console.log(newData)
+  	this.addDataRow(newData)
   }
 
-  render () {
-  	console.log('ss')
+//render --------------------------------------
+  render() {
     return (
       <React.Fragment>
-        <Logger/>
+        <Logger update={this.update}/>
+        <br />
+        <TableLog getFunctions={this.functions}/>
       </React.Fragment>
     );
   }
+	componentDidMount(){
+	console.log('flight did mount')
+	console.log(this.functions)
+	this.addDataRow = this.functions[0]
+
+	this.database()
+  }
+
 }
 
-FlightLogger.propTypes = {
+/*FlightLogger.propTypes = {
   greeting: PropTypes.string
 };
+*/
 export default FlightLogger

@@ -1,6 +1,9 @@
 // Place all the styles related to the flights controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+//<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous" />
+
+@import url("https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css");
 
 input {
     font:20px Times New Roman, serif;
@@ -55,4 +58,45 @@ table{
     align:center;
     border:black 0.05px solid;
     width:200px;
+}
+
+//Table{
+   // margin:20px 5%;
+    //width:90%;
+
+//}
+
+div.form{
+    width:90%;
+    margin:10px 5%;
+    align:center;
+    border:1px solid black;
+
+    
+}
+
+.formform{
+        //position:absolute;
+        align:center;
+        border:1px solid black;
+        width:1020px;
+        margin:10px auto;
+    }
+
+.row{
+    align:center;
+    border:1px solid black;
+    width:95%;
+    margin:10px auto;
+}
+
+.group {
+    align:center;
+    border:1px solid black;
+    margin:10px auto;
+}
+
+.table{
+    width:95%;
+    margin:10px auto;
 }
