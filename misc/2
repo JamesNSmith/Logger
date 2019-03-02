@@ -1,0 +1,72 @@
+
+class box extends React.Component {
+	constructor(props){
+		super(props);
+	}
+
+	render(){
+		return(
+			<div>
+			<Button variant="primary">Primary</Button>
+			<Button variant="outline-primary">Primary</Button>
+			<Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
+  			<Tab eventKey="home" title="Home">
+    			<h3>1</h3>
+  			</Tab>
+  			<Tab eventKey="profile" title="Profile">
+    			<h3>2</h3>
+  			</Tab>
+  			<Tab eventKey="contact" title="Contact" disabled>
+    			<h3>3</h3>
+  			</Tab>
+			</Tabs>
+			<table>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Aircraft</th>
+					<th>P1</th>
+					<th>P2</th>
+					<th>Flight</th>
+					<th colSpan="2">Accounting</th>
+				</tr>
+			</thead>
+  			<tbody>
+				<tr>
+					<td>
+						<input className="disabled" type="text" size ="2" maxLength="3"/>
+					</td>
+					<td><input id="imps:t" type='text' placeholder="Tail Number" size="10"/>
+						<input id="imps:b" type='text' placeholder="Name" size="10"/>
+					</td>
+					<td><input id="imps:t" type='text' placeholder="First Name" size="10"/>
+						<input id="imps:b" type='text' placeholder="Second Name" size="10"/>
+					</td>
+					<td><input id="imp2:t" type='text' placeholder="First Name"size="10"/>
+						<input id="imp2:b" type='text' placeholder="Second Name" size="10"/>
+					</td>
+					<td><input id="imp3:t" type='text' placeholder="Launch" size="10"/>
+						<input id="imp3:1" type='text' placeholder="Land" size="10"/>
+						<input id="imp3:b" type='text' placeholder="Flight Time" size="10"/>
+					</td>
+					<td><input id="impl:t" type='text' placeholder="Launch Fee" size="10"/>
+						<input id="impl:1" type='text' placeholder="Soaring Fee" size="10"/>
+						<input id="impl:1" type='text' placeholder="Soaring Total" size="10"/>
+					</td>
+					<td>
+						<input id="impl:b" type='text' placeholder="total" size="10" type="submit"/>
+					</td>
+				
+				</tr>
+			</tbody>
+
+			</table>
+			</div>
+
+		);
+	}
+}
+
+
+
+
