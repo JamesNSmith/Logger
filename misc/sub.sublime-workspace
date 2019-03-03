@@ -1,0 +1,287 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"click",
+				"clickHandler"
+			],
+			[
+				"addD",
+				"addDataRow"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 157.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger"
+	],
+	"file_history":
+	[
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/db/schema.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/db/migrate/20190222223451_create_user_aircrafts.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/controllers/users_controller.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/views/memberships/show.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/views/memberships/index.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/controllers/memberships_controller.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/db/migrate/20190221190915_create_memberships.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/db/seeds.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/views/memberships/new.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/controllers/sessions_controller.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/views/sessions/new.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/views/aircrafts/new.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/config/routes.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/views/clubs/index.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/controllers/clubs_controller.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/controllers/aircrafts_controller.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/models/user.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/views/users/index.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/assets/stylesheets/application.scss",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/models/club_aircraft.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/models/user_aircraft.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/views/layouts/application.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/models/aircraft.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/models/club.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/views/aircrafts/showuser.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/views/aircrafts/showclub.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/controllers/application_controller.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/views/aircrafts/show.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/db/migrate/20190222213325_create_club_aircrafts.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/db/migrate/20190222171401_create_aircrafts.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/views/aircrafts/index.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/db/migrate/20190222012223_create_club_memberships.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/models/membership.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/views/clubs/new.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/views/clubs/show.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/controllers/membership_controller.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/models/club_user.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/models/club_membership.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/db/migrate/20190221140802_create_club_users.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/db/migrate/20190219185006_create_users.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/db/migrate/20190221012045_create_clubs.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/FlightLogger/app/views/users/new.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/Tutorials/Coder Journey/meal_plan/app/views/meal_plans/new.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/Tutorials/Coder Journey/meal_plan/app/views/meal_plans/show.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/Tutorials/Coder Journey/meal_plan/app/views/meal_plans/edit.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/Tutorials/Coder Journey/meal_plan/app/views/meal_plans/index.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/Tutorials/Coder Journey/meal_plan/app/views/layouts/mailer.text.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/Tutorials/Coder Journey/meal_plan/app/views/meal_plans/_form.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/Tutorials/Coder Journey/meal_plan/app/views/layouts/mailer.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/Tutorials/Coder Journey/meal_plan/app/views/shared/_errors.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum2/app/assets/stylesheets/application.css.scss",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum2/app/assets/javascripts/application.js",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum2/app/views/layouts/application.html.haml",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum_attempt/app/views/layouts/application.html.haml",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum2/README.rdoc",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum_attempt/Gemfile.lock",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum_attempt/db/migrate/20190214213608_add_devise_to_users.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum2/db/migrate/20141107234139_create_comments.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum_attempt/db/migrate/20190214172854_create_posts.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum2/db/migrate/20141107225601_add_user_id_to_posts.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum2/db/migrate/20141107224946_devise_create_users.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum2/db/migrate/20141107222320_create_posts.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum2/Gemfile.lock",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum_attempt/Rakefile",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum2/Rakefile",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum_attempt/Gemfile",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum2/Gemfile",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum2/config.ru",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum_attempt/config.ru",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum_attempt/.gitignore",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum2/.gitignore",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/config.ru",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/.gitignore",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum_attempt/config/application.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/Gemfile",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/app/views/posts/new.html.haml",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/app/views/posts/index.html.haml",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/app/views/posts/edit.html.haml",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/app/views/posts/_form.html.haml",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/app/views/comments/edit.html.haml",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/app/views/comments/_form.html.haml",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/app/views/comments/_comment.html.haml",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/app/views/posts/show.html.haml",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/config/application.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum_attempt/config/database.yml",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/config/database.yml",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/app/models/user.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/app/models/post.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/app/controllers/posts_controller.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/config/routes.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/app/views/layouts/application.html.haml",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/config/environments/development.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/app/controllers/users_controller.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/db/migrate/20190214172854_create_posts.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/db/migrate/20190214213608_add_devise_to_users.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/app/assets/stylesheets/application.css",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/app/views/posts/_comment.html.haml",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/forum/db/migrate/20190214213122_add_devise_to_users.rb",
+		"/C/Users/James/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
+		"/C/Users/James/AppData/Roaming/Sublime Text 3/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/google_docs/quickstart.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/codecademy_project/codecademytest/app/views/pages/welcome.html.erb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/codecademy_project/codecademytest/config/application.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/test.rb",
+		"/C/Users/James/OneDrive/Documents/Programming/Ruby/todo.rb"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"folders":
+	[
+		{
+			"path": "C:\\Users\\James\\OneDrive\\Documents\\Programming\\Ruby\\FlightLogger"
+		}
+	],
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 39.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 300.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

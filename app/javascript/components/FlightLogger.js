@@ -14,202 +14,8 @@ import Form from 'react-bootstrap/Form'
 import TableLog from './TableLog'
 import Logger from './Logger'
 
-//IndexedDB ---------------------------------
+import Database from '../utilities/indexedDB'
 
-class Database {
-  constructor(dbName,data){
-    this.start = this.start.bind(this);
-
-    this.dbName = dbName;
-    this.version = 1;
-    
-    this.start();
-  }
-
-  start(){
-    if (!('indexedDB' in window)) {
-      console.log('This browser doesn\'t support IndexedDB');
-      return;
-    }
-
-    var openRequest = indexedDB.open(this.dbName, this.version);
-
-    openRequest.onupgradeneeded = function(e) {
-      var db = e.target.result;
-      console.log('running onupgradeneeded');
-      if (!db.objectStoreNames.contains('flights')) {
-        var flightsOS = db.createObjectStore('flights', {keyPath: 'flightNumber', autoIncrement: true});
-      }
-    };
-
-    openRequest.onsuccess = function(e) {
-      console.log('running onsuccess 1');
-
-      var db = e.target.result;
-      db.close();
-    };
-
-    openRequest.onerror = function(e) {
-      console.log('onerror! start');
-      
-      var db = e.target.result;
-      db.close();
-    }; 
-  }
-
-  addData(table,data) {
-    //var flights = {};
-    var openRequest = indexedDB.open(this.dbName, this.version);
-
-    openRequest.onsuccess = function(e) {
-      console.log('running onsuccess 2');
-
-      var db = e.target.result;
-      var transaction = db.transaction([table], 'readwrite');
-      var flights = transaction.objectStore(table);
-
-      var request = flights.add(data);
-      request.onsuccess = function(ev) {
-        console.log('Woot! Did it -add');
-        var db = e.target.result;
-        db.close();
-      };
-      request.onerror = function(ev) {
-        console.log('Error', e.target.error.name);
-        var db = e.target.result;
-        db.close();
-      };
-    }
-
-    openRequest.onerror = function(e) {
-      console.log('onerror! add');
-
-      var db = e.target.result;
-      db.close();
-    };
-  }
-
-  updateRecord(table,id,data){
-    var openRequest = indexedDB.open(this.dbName, this.version);
-
-    openRequest.onsuccess = function(e) {
-      console.log('running onsuccess 3');
-      //var returnData
-      var db = e.target.result;
-      var transaction = db.transaction([table], 'readwrite');
-      var flights = transaction.objectStore(table);
-
-      var request = flights.get(id);
-      request.onsuccess = function(ev) {
-        console.log('Woot! Did it -update');
-
-        var record = request.result;
-        record[0][Object.keys(data)[0]] = Object.values(data)[0]
-
-        //console.log('rec');
-        //console.log(record);
-
-        var requestUpdate = flights.put(record);
-        requestUpdate.onsuccess = function(event){
-          var db = e.target.result;
-          db.close();
-
-          //successHandler(request.result);
-        }
-
-        requestUpdate.onerror = function(event){
-          var db = e.target.result;
-          db.close();
-
-          //fail
-        }
-
-      };
-      request.onerror = function(ev) {
-        console.log('Error', ev.target.error.name);
-        var db = e.target.result;
-        db.close();
-      };   
-    }
-
-    openRequest.onerror = function(e) {
-      console.log('onerror! get');
-      console.dir(e);
-
-      var db = e.target.result;
-      db.close();
-    };
-  }
-
-  getRecord(table,id,successHandler) {
-    var openRequest = indexedDB.open(this.dbName, this.version);
-
-    openRequest.onsuccess = function(e) {
-      console.log('running onsuccess 2');
-      //var returnData
-      var db = e.target.result;
-      var transaction = db.transaction([table], 'readwrite');
-      var flights = transaction.objectStore(table);
-
-      var request = flights.get(id);
-      request.onsuccess = function(ev) {
-        console.log('Woot! Did it -get');
-        var db = e.target.result;
-        db.close();
-
-        successHandler(request.result);
-      };
-      request.onerror = function(ev) {
-        console.log('Error', ev.target.error.name);
-        var db = e.target.result;
-        db.close();
-
-        //fail
-      };   
-    }
-
-    openRequest.onerror = function(e) {
-      console.log('onerror! get');
-      console.dir(e);
-
-      var db = e.target.result;
-      db.close();
-    };
-  }
-
-  getRecordRange(table,range){
-    var openRequest = indexedDB.open(this.dbName, this.version);
-
-    openRequest.onsuccess = function(e) {
-      console.log('running onsuccess 2');
-      //var returnData
-      var db = e.target.result;
-      var transaction = db.transaction([table], 'readwrite');
-      var flights = transaction.objectStore(table);
-
-      var boundKeyRange = IDBKeyRange.bound(1,2, true, true);
-      var request = index.openCursor(boundKeyRange);
-      request.onsuccess = function(ev){
-        var cursor = event.target.result;
-        console.log(cursor)
-
-        if (cursor) {
-          // Do something with the matches.
-          cursor.continue();
-        }
-      }
-
-    }
-
-    openRequest.onerror = function(e) {
-      console.log('onerror! getRange');
-      console.dir(e);
-
-      var db = e.target.result;
-      db.close();
-    };
-  }
-}
 
     
 
@@ -258,39 +64,34 @@ class FlightLogger extends React.Component {
 	console.log(this.functions)
 	this.addDataRow = this.functions[0]
 
-  const start = [{
-      flightNumber:'1',
-      tailNumber:'YUG',
-      acName:'Puchacz',
-      p1FName:'John',
-      p1LName:'Smith',
-      p2FName:'Jack',
-      p2LName:'Bing',
-      lFee:'4.50',
-      sFee:'0.15'
-      },{
-      flightNumber:'2',
-      tailNumber:'TUG',
-      acName:'Puchacz',
-      p1FName:'Jack',
-      p1LName:'Smith',
-      p2FName:'Jack',
-      p2LName:'Bing',
-      lFee:'4.50',
-      sFee:'0.15'
-      }]
-  const database = new Database('flightLogger');
-  database.addData('flights',[start[0]]);
-  database.addData('flights',[start[1]]);
- 
-  database.updateRecord('flights',1,{lFee:'5.00'});
-  //delete
 
-  var handler = function(data){
-    console.log('exit')
-    console.log(data)
+  /*
+  const database = new Database('flightLogger');
+
+  database.deleteData('flights',4);
+
+  var countHandler = function(count){
+    console.log('count:', count)
   }
-  database.getRecord('flights',1,handler)
+  database.countRecords('flights',countHandler); 
+
+  database.updateRecord('flights',1,{lFee:'5.00'});
+
+  var getHandler = function(data){
+    console.log('exit get:',data)
+  }
+  database.getRecord('flights',1,getHandler);
+
+  var getRangeHandler = function(data){
+    console.log('exit get range:',data)
+  }
+  console.log('run stop')
+  database.getRecordRange('flights',"flightNumber",[1,3],getRangeHandler);
+  
+  /*setTimeout(function(){
+    console.log('run Timeout')
+    
+  },1)*/
   
   }
 

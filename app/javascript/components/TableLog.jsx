@@ -3,6 +3,8 @@ import Table from 'react-bootstrap/Table'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
+import Database from '../utilities/indexedDB'
+
 
 class TableLog extends React.Component {
 	constructor(props){
@@ -11,13 +13,17 @@ class TableLog extends React.Component {
 		this.clickHandlert = this.clickHandlert.bind(this);
 
 		this.addData = this.addData.bind(this);
+		this.addDataTable = this.addDataTable.bind(this);
 		this.clearData = this.clearData.bind(this);
 
 		this.props.getFunctions.push(this.addData);
 		
 
 		this.state = {
-			tableData:[{
+			tableData:[]
+		}
+
+		/*{
   			flightNumber:'1',
   			tailNumber:'YUG',
 			acName:'Puchacz',
@@ -27,7 +33,8 @@ class TableLog extends React.Component {
 			p2LName:'Bing',
 			lFee:'4.50',
 			sFee:'0.15'
-  		}]}
+  		}
+  		*/
 
   		this.extraData = [{
   			flightNumber:'2',
@@ -51,19 +58,36 @@ class TableLog extends React.Component {
 			sFee:'0.15'
   		}]
 
-
+  		this.database
 		
 	}
 
 //Utils -------------------------------------
 
-	addData(inputData){
+	addDataTable(inputData){
+		//table
 		console.log('add data')
 		const tableData = this.state.tableData;
 		const returnData = tableData.concat(inputData);
 		console.log(returnData);
 
 		this.setState({tableData:returnData},console.log('ready'));
+	}
+
+	addData(inputData){
+		var addDataTable = this.addDataTable
+		var database = this.database
+
+		console.log('inputData:')
+		console.log(inputData)
+
+		this.database.countRecords('flights',function(result){
+			inputData['flightNumber'] = result+1
+			console.log(inputData)
+			addDataTable(inputData)
+			database.addData('flights',[inputData])
+		});
+		
 	}
 
 	clearData(){
@@ -155,7 +179,18 @@ class TableLog extends React.Component {
 	}
 
 	componentDidMount(){
+		var addDataTable = this.addDataTable
 		console.log('did mount')
+
+		this.database = new Database('flightLogger');
+
+		var getHandler = function(data){
+    		console.log('exit get range:',data)
+    		addDataTable(data)
+  		}
+  		console.log('run stop');
+  		this.database.getRecordAll('flights',getHandler);
+  		//this.database.getRecordRange('flights',"flightNumber",[1,11],getRangeHandler);
 	}
 	
 }
