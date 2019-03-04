@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190222235025) do
+ActiveRecord::Schema.define(version: 20190303231550) do
 
   create_table "aircrafts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "tail_number"
@@ -81,6 +81,12 @@ ActiveRecord::Schema.define(version: 20190222235025) do
     t.boolean "mtype"
     t.decimal "launch_price", precision: 6, scale: 2
     t.decimal "soaring_price", precision: 6, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "notifications", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :notifications
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'pages#index' 
 
@@ -25,9 +26,27 @@ Rails.application.routes.draw do
   match '/aircraft/add', to: 'aircrafts#new', via: [:get, :post]
 
   match '/flights', to: 'flights#index', via: :get
+  #match '/create', to: 'flights#index', via: :get
 
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
 
+  #match '/notifications', to: 'notifications#index', via: :get
+  #match '/notifications', to: 'notifications#show', via: :get
+
+  get '/notifications' => 'notifications#index'
+  #get '/notifications.json' => 'notifications#index'
+
+  #get '/notifications/1' => 'notifications#show'
+  #get '/notifications/1.json' => 'notifications#show'
+
+
+  #post '/notifications' => 'notifications#create'
+  #post '/notifications.json' => 'notifications#create'
+
+  #patch '/notifications/1' => 'notifications#update'
+  #patch '/notifications/1.json' => 'notifications#update'
+
+  #mount ActionCable.server, at: '/cable'
 end
