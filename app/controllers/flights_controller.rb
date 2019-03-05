@@ -6,5 +6,7 @@ class FlightsController < ApplicationController
 			puts(flight.id)
 			puts(flight.launch_fee)
 		end
+
+		ActionCable.server.broadcast 'flight_channel', flights: "hi"
 	end
 end

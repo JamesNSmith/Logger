@@ -30,4 +30,6 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
 
+  mount ActionCable.server, at: '/cable'
+
 end

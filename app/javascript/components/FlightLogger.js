@@ -1,4 +1,5 @@
 import React from "react"
+//import ReactDOM from "react"
 import PropTypes from "prop-types"
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
@@ -97,8 +98,8 @@ class FlightLogger extends React.Component {
 
 }
 
-FlightLogger.propTypes = {
-  greeting: PropTypes.string
-};
+//FlightLogger.propTypes = {
+  //greeting: PropTypes.string
+//};
 
 export default FlightLogger
