@@ -76,16 +76,16 @@ class TableLog extends React.Component {
 
 	addData(inputData){
 		var addDataTable = this.addDataTable
-		var database = this.database
+		var database = this.database //-----------------------------------------------------
 
 		console.log('inputData:')
 		console.log(inputData)
 
-		this.database.countRecords('flights',function(result){
+		this.database.countRecords('flights',function(result){ //---------------------------------
 			inputData['flightNumber'] = result+1
 			console.log(inputData)
 			addDataTable(inputData)
-			database.addData('flights',[inputData])
+			database.addData('flights',[inputData]) //---------------------------------
 		});
 		
 	}
@@ -182,7 +182,7 @@ class TableLog extends React.Component {
 		var addDataTable = this.addDataTable
 		console.log('did mount')
 
-		this.database = new Database('flightLogger');
+		this.database = new Database('flightLogger'); //---------------------------------
 
 		var getHandler = function(data){
     		console.log('exit get range:',data)

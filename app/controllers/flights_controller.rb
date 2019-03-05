@@ -7,6 +7,6 @@ class FlightsController < ApplicationController
 			puts(flight.launch_fee)
 		end
 
-		ActionCable.server.broadcast 'flight_channel', flights: "hi"
+		ActionCable.server.broadcast 'flight_channel', flights: @flights
 	end
 end
