@@ -58,22 +58,13 @@ ActiveRecord::Schema.define(version: 20190222235025) do
   end
 
   create_table "flights", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.bigint "club_id"
     t.string "takeoff_type"
-    t.bigint "club_user_p1_id"
-    t.bigint "club_user_p2_id"
-    t.date "launch"
-    t.date "land"
-    t.time "flight_time"
-    t.decimal "launch_fee", precision: 10
-    t.decimal "soaring_fee", precision: 10
-    t.decimal "soaring_total", precision: 10
-    t.decimal "total", precision: 10
+    t.decimal "launch_fee", precision: 6, scale: 2
+    t.decimal "soaring_fee", precision: 6, scale: 2
+    t.decimal "soaring_total", precision: 6, scale: 2
+    t.decimal "total", precision: 6, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["club_id"], name: "index_flights_on_club_id"
-    t.index ["club_user_p1_id"], name: "index_flights_on_club_user_p1_id"
-    t.index ["club_user_p2_id"], name: "index_flights_on_club_user_p2_id"
   end
 
   create_table "memberships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

@@ -3,5 +3,5 @@ class ClubUser < ApplicationRecord
 	belongs_to :membership
 	belongs_to :club
 
-	has_many :flights
+	#has_many :flights
 end
