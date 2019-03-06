@@ -3,6 +3,9 @@ import Table from 'react-bootstrap/Table'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
+import FlightController from '../utilities/flightController'
+
+
 
 class Logger extends React.Component {
 	constructor(props){
@@ -35,6 +38,10 @@ class Logger extends React.Component {
     }
     this.setState({data:data});
   }
+//coms -------------------------------------
+  message(){
+    console.log('Logger')
+  }
 
 //handlers -----------------------------------
 
@@ -42,7 +49,8 @@ class Logger extends React.Component {
     console.log('add');
     const formData = Object.assign({},this.state.data);
     console.log(formData)
-    this.props.update(formData)
+    this.fligthController.addFromLogger(formData)
+    //this.props.update(formData)
     this.clear()
   }
 
@@ -174,6 +182,9 @@ class Logger extends React.Component {
 		);
 	}
 
+  componentDidMount(){
+    this.fligthController = new FlightController(['logger',this])
+  }
 }
 
 export default Logger

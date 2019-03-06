@@ -1,5 +1,5 @@
 import React from "react"
-//import ReactDOM from "react"
+import ReactDOM from "react"
 import PropTypes from "prop-types"
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
@@ -14,6 +14,7 @@ import Form from 'react-bootstrap/Form'
 
 import TableLog from './TableLog'
 import Logger from './Logger'
+import Cable from './Cable'
 
 import Database from '../utilities/indexedDB'
 
@@ -57,6 +58,7 @@ class FlightLogger extends React.Component {
         <Logger update={this.update}/>
         <br />
         <TableLog getFunctions={this.functions}/>
+        <Cable />
       </React.Fragment>
     );
   }
@@ -65,6 +67,7 @@ class FlightLogger extends React.Component {
 	console.log(this.functions)
 	this.addDataRow = this.functions[0]
 
+  this.database = new Database('flightLogger'); 
 
   /*
   const database = new Database('flightLogger');

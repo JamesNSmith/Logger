@@ -1,4 +1,4 @@
-
+/*
 App.flight = App.cable.subscriptions.create("FlightChannel",{ 
   connected: function() {
     //Called when the subscription is ready for use on the server
@@ -23,6 +23,7 @@ App.flight = App.cable.subscriptions.create("FlightChannel",{
 
   
 })
+*/
 
 
 

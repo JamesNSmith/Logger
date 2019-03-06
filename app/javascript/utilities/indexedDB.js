@@ -1,4 +1,5 @@
 import flights from './seeds'
+import FlightController from './flightController'
 
 /*
 class Flights extends Database {
@@ -26,7 +27,8 @@ class Database {
     
     this.start();
     this.addData('flights',flights);
-    
+
+    this.flightController = new FlightController(['database',this])
   }
 
   start(){
@@ -41,7 +43,7 @@ class Database {
       if (!db.objectStoreNames.contains('flights')) {
         console.log('new flights')
         var flightsOS = db.createObjectStore('flights', {keyPath: 'id', autoIncrement: true});
-        flightsOS.createIndex("flightNumber", "flightNumber", { unique: true });
+        flightsOS.createIndex("indexedNumber", "indexedNumber", { unique: true });
         
       }
     };
