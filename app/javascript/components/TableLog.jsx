@@ -117,7 +117,7 @@ class TableLog extends React.Component {
 	row(data){
 		if(!data){
 			data = {
-  			flightNumber:'',
+  			indexNumber:'',
   			tailNumber:'',
 			acName:'',
 			p1FName:'',
@@ -130,7 +130,7 @@ class TableLog extends React.Component {
 		}
 		return(
 			<tr>
-			<td><li>{data['flightNumber']}</li></td>
+			<td><li>{data['indexNumber']}</li></td>
 			<td><li>{data['tailNumber']}</li><li>{data['acName']}</li></td>
 			<td><li>{data['p1FName']}</li><li>{data['p1LName']}</li></td>
 			<td><li>{data['p2FName']}</li><li>{data['p2LName']}</li></td>
@@ -188,14 +188,15 @@ class TableLog extends React.Component {
 		console.log('did mount')
 
 		//this.database = new Database('flightLogger'); //---------------------------------
-		this.flightController = new FlightController(['table',this])
+		//this.flightController = new FlightController(['table',this])
 
 		var getHandler = function(data){
     		console.log('exit get range:',data)
     		addDataTable(data)
   		}
   		console.log('run stop');
-  		this.database.getRecordAll('flights',getHandler);
+  		//this.flightController.tableReady(getHandler)
+  		//this.database.getRecordAll('flights',getHandler);
   		//this.database.getRecordRange('flights',"flightNumber",[1,11],getRangeHandler);
 	}
 	

@@ -183,7 +183,7 @@ class Logger extends React.Component {
 	}
 
   componentDidMount(){
-    this.fligthController = new FlightController(['logger',this])
+    //this.fligthController = new FlightController(['logger',this])
   }
 }
 

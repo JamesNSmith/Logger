@@ -1,5 +1,5 @@
 const flights = [{
-      flightNumber:1,
+      indexNumber:1,
       tailNumber:'YUG',
       acName:'Puchacz',
       p1FName:'John',
@@ -9,7 +9,7 @@ const flights = [{
       lFee:'4.50',
       sFee:'0.15'
       },{
-      flightNumber:2,
+      indexNumber:2,
       tailNumber:'TUG',
       acName:'Puchacz',
       p1FName:'Jack',
@@ -19,7 +19,7 @@ const flights = [{
       lFee:'4.50',
       sFee:'0.15'
       },{
-      flightNumber:3,
+      indexNumber:3,
       tailNumber:'PUG',
       acName:'Puchacz',
       p1FName:'Jack',
@@ -29,7 +29,7 @@ const flights = [{
       lFee:'4.50',
       sFee:'0.15'
       },{
-      flightNumber:4,
+      indexNumber:4,
       tailNumber:'AUG',
       acName:'K13',
       p1FName:'Jack',
@@ -39,7 +39,7 @@ const flights = [{
       lFee:'4.50',
       sFee:'0.15'
       },{
-      flightNumber:5,
+      indexNumber:5,
       tailNumber:'TUG',
       acName:'Puchacz',
       p1FName:'Jack',
@@ -49,7 +49,7 @@ const flights = [{
       lFee:'4.50',
       sFee:'0.15'
       },{
-      flightNumber:6,
+      indexNumber:6,
       tailNumber:'PUG',
       acName:'Puchacz',
       p1FName:'Jack',
@@ -59,7 +59,7 @@ const flights = [{
       lFee:'4.50',
       sFee:'0.15'
       },{
-      flightNumber:7,
+      indexNumber:7,
       tailNumber:'AUG',
       acName:'K13',
       p1FName:'Jack',
@@ -69,7 +69,7 @@ const flights = [{
       lFee:'4.50',
       sFee:'0.15'
       },{
-      flightNumber:8,
+      indexNumber:8,
       tailNumber:'TUG',
       acName:'Puchacz',
       p1FName:'Jack',
@@ -79,7 +79,7 @@ const flights = [{
       lFee:'4.50',
       sFee:'0.15'
       },{
-      flightNumber:9,
+      indexNumber:9,
       tailNumber:'PUG',
       acName:'Puchacz',
       p1FName:'Jack',
@@ -89,7 +89,7 @@ const flights = [{
       lFee:'4.50',
       sFee:'0.15'
       },{
-      flightNumber:10,
+      indexNumber:10,
       tailNumber:'AUG',
       acName:'K13',
       p1FName:'Jack',
@@ -99,7 +99,7 @@ const flights = [{
       lFee:'4.50',
       sFee:'0.15'
       },{
-      flightNumber:11,
+      indexNumber:11,
       tailNumber:'TUG',
       acName:'Puchacz',
       p1FName:'Jack',
@@ -109,7 +109,7 @@ const flights = [{
       lFee:'4.50',
       sFee:'0.15'
       },{
-      flightNumber:12,
+      indexNumber:12,
       tailNumber:'PUG',
       acName:'Puchacz',
       p1FName:'Jack',
@@ -119,7 +119,7 @@ const flights = [{
       lFee:'4.50',
       sFee:'0.15'
       },{
-      flightNumber:13,
+      indexNumber:13,
       tailNumber:'AUG',
       acName:'K13',
       p1FName:'Jack',

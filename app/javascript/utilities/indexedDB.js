@@ -28,14 +28,18 @@ class Database {
     this.start();
     this.addData('flights',flights);
 
-    this.flightController = new FlightController(['database',this])
+    //this.flightController = new FlightController(['database',this])
+    //this.flightController.ready()
   }
 
   start(){
+    console.log('start')
   	this.deleteDatabase();
 
     var openRequest = indexedDB.open(this.dbName, this.version);
 
+    console.log('start b')
+    console.log(openRequest)
     openRequest.onupgradeneeded = function(e) { //upgrading the database version number??
       var db = e.target.result;
       console.log('running onupgradeneeded');
@@ -43,7 +47,7 @@ class Database {
       if (!db.objectStoreNames.contains('flights')) {
         console.log('new flights')
         var flightsOS = db.createObjectStore('flights', {keyPath: 'id', autoIncrement: true});
-        flightsOS.createIndex("indexedNumber", "indexedNumber", { unique: true });
+        flightsOS.createIndex("indexNumber", "indexNumber", { unique: true });
         
       }
     };
@@ -59,7 +63,14 @@ class Database {
       
       e.target.result.close();
     }; 
+
+    console.log(openRequest)
   }
+//coms -------------------------------------
+  message(){
+    console.log('database')
+  }
+
 // Count ---------------------
   countRecords(table,successHandler){ 
     var openRequest = indexedDB.open(this.dbName, this.version);

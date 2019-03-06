@@ -17,6 +17,7 @@ import Logger from './Logger'
 import Cable from './Cable'
 
 import Database from '../utilities/indexedDB'
+import FlightController from '../utilities/flightController'
 
 
     
@@ -42,13 +43,22 @@ class FlightLogger extends React.Component {
 			]
   	
   }
-  
+
+//coms -------------------------------------
+  message(){
+    console.log('TableLog')
+  }
+
 // Utils -------------------------------------
 
   update(newData){
   	console.log('update');
   	console.log(newData)
   	this.addDataRow(newData)
+  }
+
+  componentWillMount(){
+    //this.database = new Database('flightLogger'); 
   }
 
 //render --------------------------------------
@@ -62,12 +72,15 @@ class FlightLogger extends React.Component {
       </React.Fragment>
     );
   }
+
 	componentDidMount(){
 	console.log('flight did mount')
 	console.log(this.functions)
 	this.addDataRow = this.functions[0]
 
   this.database = new Database('flightLogger'); 
+  //this.flightController = new FlightController(['flightLogger',this])
+  //this.flightController.ready()
 
   /*
   const database = new Database('flightLogger');
@@ -97,6 +110,10 @@ class FlightLogger extends React.Component {
     
   },1)*/
   
+  }
+
+  componentWillUnmount(){
+    //this.flightController.delete()
   }
 
 }
