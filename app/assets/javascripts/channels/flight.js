@@ -1,4 +1,3 @@
-//import Controller from '../../../javascript/utilities/indexedDB'
 
 App.flight = App.cable.subscriptions.create("FlightChannel",{ 
   connected: function() {
@@ -21,7 +20,11 @@ App.flight = App.cable.subscriptions.create("FlightChannel",{
     	App.flight.send({flights: 'no'})
     }
   }
+
+  
 })
+
+
 
 
 

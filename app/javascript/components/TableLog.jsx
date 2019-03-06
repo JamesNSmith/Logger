@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
 import Database from '../utilities/indexedDB'
+import Controller from '../utilities/controller'
 
 
 class TableLog extends React.Component {
@@ -94,7 +95,10 @@ class TableLog extends React.Component {
 		this.setState({tableData:[]},console.log('ready'));
 	}
 
-
+//coms -------------------------------------
+	message(){
+		console.log('TableLog')
+	}
 //handlers ----------------------------------
 
 	clickHandler(){
@@ -183,6 +187,7 @@ class TableLog extends React.Component {
 		console.log('did mount')
 
 		this.database = new Database('flightLogger'); //---------------------------------
+		this.controller = new Controller(['table',this])
 
 		var getHandler = function(data){
     		console.log('exit get range:',data)
