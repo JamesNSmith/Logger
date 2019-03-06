@@ -18,24 +18,30 @@ class Database {
     this.dbName = dbName;
     this.version = 1;
     this.count = 0;
+
+    var flightController
     
     if (!('indexedDB' in window)) { //!window.indexedDB
       console.log('This browser doesn\'t support IndexedDB');
       return;
     }
 
+    this.deleteDatabase(()=>{
+      this.start();
+    });
     
-    this.start();
-    this.addData('flights',flights);
+    this.addData('flights',flights,()=>{
+      var flightController = new FlightController(['database',this])
+    });
 
-    //this.flightController = new FlightController(['database',this])
+    this.flightController = flightController
+    
     //this.flightController.ready()
   }
 
   start(){
     console.log('start')
-  	this.deleteDatabase();
-
+  	
     var openRequest = indexedDB.open(this.dbName, this.version);
 
     console.log('start b')
@@ -116,10 +122,11 @@ class Database {
   }
   */
 // Delete ------------------------
-  deleteDatabase(){
+  deleteDatabase(successHandler){
     var deleteRequest = indexedDB.deleteDatabase(this.dbName);
     deleteRequest.onsuccess = function () {
       console.log("Deleted database successfully");
+      successHandler()
     };
     deleteRequest.onerror = function () {
       console.log("Couldn't delete database");
@@ -156,7 +163,7 @@ class Database {
     };
   }
 //Add -------------------------
-  addData(table,data) {
+  addData(table,data,successHandler) {
     var openRequest = indexedDB.open(this.dbName, this.version);
 
     openRequest.onsuccess = function(e) {
@@ -171,6 +178,7 @@ class Database {
       	count++
       	request.onsuccess = function(ev) {
         	console.log('Woot! Did it -add');
+          successHandler()
 
         	if(count == data.length){
         		e.target.result.close();

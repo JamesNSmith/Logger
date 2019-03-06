@@ -9,13 +9,19 @@ class FlightController {
       FlightController.dependents = {};
     }
 
+    console.log('aa')
+
     if(tag){
+      FlightController.dependents[tag[0]] = null
       FlightController.dependents[tag[0]] = tag[1];
     }
+
+    console.log('bb')
 
     console.log('controller');
     console.log(FlightController.dependents);
 
+    console.log('cc')
     /*for(var key in FlightController.dependents){
     	console.log('key')
     	console.log(key)
@@ -58,7 +64,7 @@ class FlightController {
   ready(){
   	var database = FlightController.dependents['database']
   	var table = FlightController.dependents['table']
-  	var cable = FlightController.dependents['cable']
+  	//var cable = FlightController.dependents['cable']
 
   	var databaseGet = function(data){
     	console.log('exit get range:',data)

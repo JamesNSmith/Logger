@@ -79,6 +79,8 @@ class FlightLogger extends React.Component {
 	this.addDataRow = this.functions[0]
 
   this.database = new Database('flightLogger'); 
+
+  console.log('ff')
   //this.flightController = new FlightController(['flightLogger',this])
   //this.flightController.ready()
 
