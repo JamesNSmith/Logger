@@ -59,17 +59,18 @@ class FlightLogger extends React.Component {
 
   componentWillMount(){
     //this.database = new Database('flightLogger'); 
+    this.flightController = new FlightController(['flightLogger',this])
   }
 
 //render --------------------------------------
   render() {
     return (
-      <React.Fragment>
-        <Logger update={this.update}/>
+      <div>
+        <Logger key='f1' update={this.update}/>
         <br />
-        <TableLog getFunctions={this.functions}/>
-        <Cable />
-      </React.Fragment>
+        <TableLog key='f2' getFunctions={this.functions}/>
+        <Cable key='f3'/>
+      </div>
     );
   }
 
@@ -81,41 +82,13 @@ class FlightLogger extends React.Component {
   this.database = new Database('flightLogger'); 
 
   console.log('ff')
-  //this.flightController = new FlightController(['flightLogger',this])
-  //this.flightController.ready()
-
-  /*
-  const database = new Database('flightLogger');
-
-  database.deleteData('flights',4);
-
-  var countHandler = function(count){
-    console.log('count:', count)
-  }
-  database.countRecords('flights',countHandler); 
-
-  database.updateRecord('flights',1,{lFee:'5.00'});
-
-  var getHandler = function(data){
-    console.log('exit get:',data)
-  }
-  database.getRecord('flights',1,getHandler);
-
-  var getRangeHandler = function(data){
-    console.log('exit get range:',data)
-  }
-  console.log('run stop')
-  database.getRecordRange('flights',"flightNumber",[1,3],getRangeHandler);
-  
-  /*setTimeout(function(){
-    console.log('run Timeout')
-    
-  },1)*/
+  console.log(window.flightControllerDependents)
   
   }
 
   componentWillUnmount(){
-    //this.flightController.delete()
+    this.flightController.delete()
+    delete this.flightContoller
   }
 
 }

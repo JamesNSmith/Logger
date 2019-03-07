@@ -5,21 +5,24 @@ class FlightController {
   	//this.database = new Database('flightLogger');
 
   	//var keys = ['cable','table','logger']
-    if(!FlightController.dependents){
+    /*if(!FlightController.dependents){
       FlightController.dependents = {};
-    }
+    }*/
+
+    window.flightController = this;
+    window.flightControllerDependents = {};
 
     console.log('aa')
 
-    if(tag){
+    /*if(tag){
       FlightController.dependents[tag[0]] = null
       FlightController.dependents[tag[0]] = tag[1];
-    }
+    }*/
 
     console.log('bb')
 
     console.log('controller');
-    console.log(FlightController.dependents);
+    //console.log(window.flightControllerDependents);
 
     console.log('cc')
     /*for(var key in FlightController.dependents){
@@ -62,9 +65,9 @@ class FlightController {
 
 //this ---------------------------------
   ready(){
-  	var database = FlightController.dependents['database']
-  	var table = FlightController.dependents['table']
-  	//var cable = FlightController.dependents['cable']
+  	var database = window.flightControllerDependents['database']
+  	var table = window.flightControllerDependents['table']
+  	var cable = window.flightControllerDependents['cable']
 
   	var databaseGet = function(data){
     	console.log('exit get range:',data)
@@ -72,12 +75,25 @@ class FlightController {
   	}
 
   	database.getRecordAll('flights',databaseGet);
+
+  	var cableGet = function(data){
+  		console.log('cableGet')
+  		console.log(data)
+  		database.addData('flights',[data])
+  		//table.addDataTable(data)
+  	}
+
+  	var queue = new Promise((resolve,reject) => {cable.ready(resolve,reject)})
+    .then(() => {cable.get('all',cableGet)})
+
   	//cable.ready()
+  	//cable.get('all',cableGet)
   }
 
   delete(){
   	console.log('delete')
-  	delete FlightController.dependents
+  	//delete FlightController.dependents
+  	delete  window.flightControllerDependents
   }
 }
 

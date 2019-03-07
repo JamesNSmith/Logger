@@ -19,6 +19,9 @@ class TableLog extends React.Component {
 		this.clearData = this.clearData.bind(this);
 
 		this.props.getFunctions.push(this.addData);
+
+		window.flightControllerDependents['table'] = this
+    	console.log(flightControllerDependents)
 		
 
 		this.state = {
@@ -129,7 +132,7 @@ class TableLog extends React.Component {
   		}
 		}
 		return(
-			<tr>
+			<tr key = {data['indexNumber']}>
 			<td><li>{data['indexNumber']}</li></td>
 			<td><li>{data['tailNumber']}</li><li>{data['acName']}</li></td>
 			<td><li>{data['p1FName']}</li><li>{data['p1LName']}</li></td>
@@ -151,7 +154,7 @@ class TableLog extends React.Component {
 		rows.push(this.row())
 
 		return (
-			<tbody id="tableBody">
+			<tbody key="t1"id="tableBody">
 			{rows}
 			</tbody>
 		);
@@ -186,9 +189,6 @@ class TableLog extends React.Component {
 	componentDidMount(){
 		var addDataTable = this.addDataTable
 		console.log('did mount')
-
-		//this.database = new Database('flightLogger'); //---------------------------------
-		//this.flightController = new FlightController(['table',this])
 
 		var getHandler = function(data){
     		console.log('exit get range:',data)

@@ -5,11 +5,15 @@ class FlightChannel < ApplicationCable::Channel
 
   def receive(data)
   	puts('receive ------------------------')
-  	if data
-  		puts('receive data ---------------------')
-  		puts(data)
-  		puts(data["flights"])
+  	if data["handshake"]
+  		puts(data["handshake"])
   	end
+
+    if data["title"] == 'get'
+      @flights = Flight.all
+      puts(@flights)
+      ActionCable.server.broadcast 'flight_channel', id:data["id"], title:'get', content:@flights
+    end
   end
 
   def unsubscribed

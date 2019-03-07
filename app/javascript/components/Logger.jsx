@@ -15,6 +15,8 @@ class Logger extends React.Component {
 		//console.log(this.props.addDataRow({}))
 
 		//this.handleAdd = this.handleAdd.bind(this);
+
+    window.flightControllerDependents['logger'] = this
 		
     this.state = {
 			data:{
@@ -183,7 +185,7 @@ class Logger extends React.Component {
 	}
 
   componentDidMount(){
-    //this.fligthController = new FlightController(['logger',this])
+   
   }
 }
 

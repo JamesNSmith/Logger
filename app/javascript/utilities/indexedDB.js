@@ -19,27 +19,22 @@ class Database {
     this.version = 1;
     this.count = 0;
 
-    var flightController
+    window.flightControllerDependents['database'] = this
     
     if (!('indexedDB' in window)) { //!window.indexedDB
       console.log('This browser doesn\'t support IndexedDB');
       return;
     }
 
-    this.deleteDatabase(()=>{
-      this.start();
-    });
+    var queue = new Promise((resolve,reject) => {this.deleteDatabase(resolve,reject)})
+    .then(() => {return new Promise((resolve,reject) => {this.start(resolve,reject)})})
+    .then(() => {return new Promise((resolve,reject) => {this.addData('flights',flights,resolve,reject)})})
+    .then(() => {window.flightController.ready()})
+    .catch(() => {console.log('queue error')})
     
-    this.addData('flights',flights,()=>{
-      var flightController = new FlightController(['database',this])
-    });
-
-    this.flightController = flightController
-    
-    //this.flightController.ready()
   }
 
-  start(){
+  start(successHandler = this.success,failureHandler = this.failure){
     console.log('start')
   	
     var openRequest = indexedDB.open(this.dbName, this.version);
@@ -62,15 +57,27 @@ class Database {
       console.log('running onsuccess 1');
 
       e.target.result.close();
+      successHandler()
     };
 
     openRequest.onerror = function(e) {
       console.log('onerror! start');
       
       e.target.result.close();
+      failureHandler()
     }; 
 
     console.log(openRequest)
+  }
+//Placeholders ------------------------------
+  success(data = 'yes'){
+    console.log('success:')
+    console.log(data)
+  }
+
+  failure(data = 'no'){
+    console.log('failure:')
+    console.log(data)
   }
 //coms -------------------------------------
   message(){
@@ -78,7 +85,7 @@ class Database {
   }
 
 // Count ---------------------
-  countRecords(table,successHandler){ 
+  countRecords(table,successHandler = this.success){ 
     var openRequest = indexedDB.open(this.dbName, this.version);
 
     openRequest.onsuccess = function(e) {
@@ -122,7 +129,7 @@ class Database {
   }
   */
 // Delete ------------------------
-  deleteDatabase(successHandler){
+  deleteDatabase(successHandler = this.success,failureHandler = this.failure){
     var deleteRequest = indexedDB.deleteDatabase(this.dbName);
     deleteRequest.onsuccess = function () {
       console.log("Deleted database successfully");
@@ -130,9 +137,11 @@ class Database {
     };
     deleteRequest.onerror = function () {
       console.log("Couldn't delete database");
+      failureHandler()
     };
     deleteRequest.onblocked = function () {
       console.log("Couldn't delete database due to the operation being blocked");
+      failureHandler()
     };
   }
 
@@ -163,7 +172,7 @@ class Database {
     };
   }
 //Add -------------------------
-  addData(table,data,successHandler) {
+  addData(table,data,successHandler = this.success,failureHandler = this.failure) {
     var openRequest = indexedDB.open(this.dbName, this.version);
 
     openRequest.onsuccess = function(e) {
@@ -173,12 +182,24 @@ class Database {
       var transaction = db.transaction([table], 'readwrite');
       var records = transaction.objectStore(table);
 
-      for(var count=0;count<data.length;){
+      var indexCount = records.count();
+      console.log(indexCount)
+
+      console.log(data)
+      for(var count=0;count<data.length;count++){
+        console.log(count)
+        console.log(data[count])
+        if(data[count]['indexNumber'] == null || data[count]['indexNumber'] == ''){
+          data[count]['indexNumber'] = indexCount + count
+          console.log('index:')
+          console.log(data[count]['indexNumber'])
+        }
+
+
       	var request = records.add(data[count]);
-      	count++
+      	
       	request.onsuccess = function(ev) {
         	console.log('Woot! Did it -add');
-          successHandler()
 
         	if(count == data.length){
         		e.target.result.close();
@@ -187,18 +208,20 @@ class Database {
       	request.onerror = function(ev) {
         	console.log('Error', ev.target.error.name);
         	e.target.result.close();
+          failureHandler()
       	};
- 		
   	  }
+      successHandler(data)
     }
 
     openRequest.onerror = function(e) {
       console.log('onerror! add');
       e.target.result.close();
+      failureHandler()
     };
   }
 //Update -----------------
-  updateRecord(table,id,data){
+  updateRecord(table,id,data,successHandler = this.success){
     var openRequest = indexedDB.open(this.dbName, this.version);
 
     openRequest.onsuccess = function(e) {

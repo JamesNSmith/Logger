@@ -10,8 +10,14 @@ class Cable extends React.Component {
 		super(props);
 		this.cableApp = {}
 		this.flight = ''
+		this.query = {}
+		this.queryCount = 0
+
 		this.cableApp.cable = actionCable.createConsumer('/cable')
 		console.log(this.cableApp)
+
+		window.flightControllerDependents['cable'] = this
+    	console.log(flightControllerDependents)
 	}
 
 //coms ----------------------------
@@ -19,8 +25,21 @@ class Cable extends React.Component {
 		console.log('Cable')
 	}
 
+//requests -------------------------=
+	get(request,successHandler){//request
+		var count = JSON.parse(JSON.stringify(this.queryCount))
+		count.to_s
+
+		this.query[count] = successHandler
+		this.flight.send({title:'get',header:'all',id:count})
+		this.queryCount += 1
+		console.log(this.queryCount)
+		
+	
+	}
+
 //kicks ---------------------------------
-	ready(){
+	ready(successHandler,failureHandler){
 		console.log('cable start')
 		console.log(this.cableApp)
 
@@ -28,11 +47,32 @@ class Cable extends React.Component {
 			connected: () => {
     			//Called when the subscription is ready for use on the server
     			console.log('connected react')
-  			}
-  			,
+    			if(confirm("press")){
+    				console.log('yes')
+    				this.flight.send({handshake: 'yes'})
+    				successHandler()
+    			} else {
+    				console.log('no')
+    				this.flight.send({handshake: 'no'})
+    			}
+  			},
       		received: (data) => {
-        	console.log(data)
-        	console.log('hi from react channel')
+        		console.log(data)
+        		console.log('hi from react channel')
+
+        		console.log(data["id"])
+
+        		if(data["id"]!=null){
+        			console.log('id')
+        			console.log(data["id"])
+        			this.query[data["id"]](data['content'])
+        			//this.query[data["id"]](data['content'])
+        		}
+
+        		/*if(data["title"] == 'get'){
+        			console.log('get')
+        			var content = data["content"]
+        		}*/
       		}
     	})
 
@@ -55,15 +95,17 @@ class Cable extends React.Component {
 	}
 
 	componentDidMount(){
-		//this.controller = new FlightController(['cable',this])
+		
 	}
 
 	componentWillUnmount(){
 		console.log(this.cableApp.cable.subscriptions)
-		//if(this.cableApp.cable.subscriptions['subscriptions'][0]){
-			//delete this.cableApp.cable.subscriptions['subscriptions'][0]
+		if(this.cableApp.cable.subscriptions['subscriptions'][0]){
+			this.cableApp.cable.subscriptions.remove(this.cableApp.cable.subscriptions['subscriptions'][0])
 		
-		//}
+		}
+		console.log(this.cableApp.cable.subscriptions)
+		this.cableApp.cable.subscriptions.consumer.disconnect();
 		console.log(this.cableApp.cable.subscriptions)
 	}
 }
