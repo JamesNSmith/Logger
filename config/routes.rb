@@ -24,7 +24,11 @@ Rails.application.routes.draw do
   match '/aircraft/user', to: 'aircrafts#showuser', via: :get
   match '/aircraft/add', to: 'aircrafts#new', via: [:get, :post]
 
+  #get '/flights' => 'flights#index'
   match '/flights', to: 'flights#index', via: :get
+  get '/flights/:launch_date' => 'flights#show', as: :flight
+
+  match '/logger', to: 'flights#logger', via: :get
 
   get '/login' => 'sessions#new'
   post '/login' => 'sessions#create'

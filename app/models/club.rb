@@ -8,4 +8,6 @@ class Club < ApplicationRecord
 
 	has_many :club_aircrafts
 	has_many :aircrafts, through: :club_aircrafts
+
+	has_many :flights
 end

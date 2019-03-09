@@ -36,8 +36,8 @@ class TableLog extends React.Component {
 			p1LName:'Smith',
 			p2FName:'Jack',
 			p2LName:'Bing',
-			lFee:'4.50',
-			sFee:'0.15'
+			launchFee:'4.50',
+			soaringFee:'0.15'
   		}
   		*/
 
@@ -49,8 +49,8 @@ class TableLog extends React.Component {
 			p1LName:'Smith',
 			p2FName:'Jack',
 			p2LName:'Bing',
-			lFee:'4.50',
-			sFee:'0.15'
+			launchFee:'4.50',
+			soaringFee:'0.15'
   		},{
   			flightNumber:'3',
   			tailNumber:'TUG',
@@ -59,8 +59,8 @@ class TableLog extends React.Component {
 			p1LName:'Smith',
 			p2FName:'Jack',
 			p2LName:'Bing',
-			lFee:'4.50',
-			sFee:'0.15'
+			launchFee:'4.50',
+			soaringFee:'0.15'
   		}]
 
   		this.database
@@ -127,8 +127,8 @@ class TableLog extends React.Component {
 			p1LName:'',
 			p2FName:'',
 			p2LName:'',
-			lFee:'',
-			sFee:''
+			launchFee:'',
+			soaringFee:''
   		}
 		}
 		return(
@@ -137,7 +137,7 @@ class TableLog extends React.Component {
 			<td><li>{data['tailNumber']}</li><li>{data['acName']}</li></td>
 			<td><li>{data['p1FName']}</li><li>{data['p1LName']}</li></td>
 			<td><li>{data['p2FName']}</li><li>{data['p2LName']}</li></td>
-			<td><li>{data['lFee']}</li><li>{data['sFee']}</li></td>
+			<td><li>{data['launchFee']}</li><li>{data['soaringFee']}</li></td>
 			<td></td>
 			</tr>
 		);

@@ -7,4 +7,6 @@ class User < ApplicationRecord
 
 	has_many :user_aircrafts
 	has_many :aircrafts, through: :user_aircrafts
+
+	has_many :flights
 end

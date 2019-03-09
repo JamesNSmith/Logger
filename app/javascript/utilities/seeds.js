@@ -6,8 +6,8 @@ const flights = [{
       p1LName:'Smith',
       p2FName:'Jack',
       p2LName:'Bing',
-      lFee:'4.50',
-      sFee:'0.15'
+      launchFee:'4.50',
+      soaringFee:'0.15'
       },{
       //indexNumber:2,
       tailNumber:'TUG',
@@ -16,8 +16,8 @@ const flights = [{
       p1LName:'Smith',
       p2FName:'Jack',
       p2LName:'Bing',
-      lFee:'4.50',
-      sFee:'0.15'
+      launchFee:'4.50',
+      soaringFee:'0.15'
       },{
       //indexNumber:3,
       tailNumber:'PUG',
@@ -26,8 +26,8 @@ const flights = [{
       p1LName:'Smith',
       p2FName:'Jack',
       p2LName:'Bing',
-      lFee:'4.50',
-      sFee:'0.15'
+      launchFee:'4.50',
+      soaringFee:'0.15'
       },{
       //indexNumber:4,
       tailNumber:'AUG',
@@ -36,8 +36,8 @@ const flights = [{
       p1LName:'Smith',
       p2FName:'Jack',
       p2LName:'Bing',
-      lFee:'4.50',
-      sFee:'0.15'
+      launchFee:'4.50',
+      soaringFee:'0.15'
       },{
       //indexNumber:5,
       tailNumber:'TUG',
@@ -46,8 +46,8 @@ const flights = [{
       p1LName:'Smith',
       p2FName:'Jack',
       p2LName:'Bing',
-      lFee:'4.50',
-      sFee:'0.15'
+      launchFee:'4.50',
+      soaringFee:'0.15'
       },{
       //indexNumber:6,
       tailNumber:'PUG',
@@ -56,8 +56,8 @@ const flights = [{
       p1LName:'Smith',
       p2FName:'Jack',
       p2LName:'Bing',
-      lFee:'4.50',
-      sFee:'0.15'
+      launchFee:'4.50',
+      soaringFee:'0.15'
       },{
       //indexNumber:7,
       tailNumber:'AUG',
@@ -66,8 +66,8 @@ const flights = [{
       p1LName:'Smith',
       p2FName:'Jack',
       p2LName:'Bing',
-      lFee:'4.50',
-      sFee:'0.15'
+      launchFee:'4.50',
+      soaringFee:'0.15'
       },{
       //indexNumber:8,
       tailNumber:'TUG',
@@ -76,8 +76,8 @@ const flights = [{
       p1LName:'Smith',
       p2FName:'Jack',
       p2LName:'Bing',
-      lFee:'4.50',
-      sFee:'0.15'
+      launchFee:'4.50',
+      soaringFee:'0.15'
       },{
       //indexNumber:9,
       tailNumber:'PUG',
@@ -86,8 +86,8 @@ const flights = [{
       p1LName:'Smith',
       p2FName:'Jack',
       p2LName:'Bing',
-      lFee:'4.50',
-      sFee:'0.15'
+      launchFee:'4.50',
+      soaringFee:'0.15'
       },{
       //indexNumber:10,
       tailNumber:'AUG',
@@ -96,8 +96,8 @@ const flights = [{
       p1LName:'Smith',
       p2FName:'Jack',
       p2LName:'Bing',
-      lFee:'4.50',
-      sFee:'0.15'
+      launchFee:'4.50',
+      soaringFee:'0.15'
       },{
       //indexNumber:11,
       tailNumber:'TUG',
@@ -106,8 +106,8 @@ const flights = [{
       p1LName:'Smith',
       p2FName:'Jack',
       p2LName:'Bing',
-      lFee:'4.50',
-      sFee:'0.15'
+      launchFee:'4.50',
+      soaringFee:'0.15'
       },{
       //indexNumber:12,
       tailNumber:'PUG',
@@ -116,8 +116,8 @@ const flights = [{
       p1LName:'Smith',
       p2FName:'Jack',
       p2LName:'Bing',
-      lFee:'4.50',
-      sFee:'0.15'
+      launchFee:'4.50',
+      soaringFee:'0.15'
       },{
       //indexNumber:13,
       tailNumber:'AUG',
@@ -126,8 +126,8 @@ const flights = [{
       p1LName:'Smith',
       p2FName:'Jack',
       p2LName:'Bing',
-      lFee:'4.50',
-      sFee:'0.15'
+      launchFee:'4.50',
+      soaringFee:'0.15'
       }]
 
 export default flights

@@ -5,18 +5,43 @@ class FlightChannel < ApplicationCable::Channel
 
   def receive(data)
   	puts('receive ------------------------')
+    
   	if data["handshake"]
   		puts(data["handshake"])
-  	end
+    end
 
-    if data["title"] == 'get'
+    case data["title"]
+    when 'insert'
+      puts(data["headers"])
+      puts(data["content"])
+    when 'get'
       @flights = Flight.all
       puts(@flights)
-      ActionCable.server.broadcast 'flight_channel', id:data["id"], title:'get', content:@flights
+      ActionCable.server.broadcast 'flight_channel', id:data["id"], title:'get', content:formatCable(@flights)
     end
+
+
   end
 
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
+  end
+
+  private
+  def formatCable(data)
+    @retData = []
+    data.each do |record|
+      @retData.push({
+        acName: record.aircraft.name,
+        tailNumber: record.aircraft.tail_number,
+        p1FName: record.club_user_p1.user.first_name,
+        p1LName: record.club_user_p1.user.last_name,
+        p2FName: record.club_user_p2.user.first_name,
+        p2LName: record.club_user_p2.user.last_name,
+        launchFee: record.launch_fee,
+        soaringFee: record.soaring_fee
+      })
+    end
+    return @retData
   end
 end

@@ -26,8 +26,8 @@ class Logger extends React.Component {
 				p1LName:'',
 				p2FName:'',
 				p2LName:'',
-				lFee:'',
-				sFee:''
+				launchFee:'',
+				soaringFee:''
 			}
 		}
 	}
@@ -154,12 +154,12 @@ class Logger extends React.Component {
 
     <Form.Group className="group" controlId="formGridEmail" >
       <Form.Label>Launch Fee</Form.Label>
-      <Form.Control placeholder="Launch Fee" name="lFee" onChange={e => this.handleChange(e)} value={this.state.data["lFee"]}/>
+      <Form.Control placeholder="Launch Fee" name="launchFee" onChange={e => this.handleChange(e)} value={this.state.data["lFee"]}/>
     </Form.Group>
 
     <Form.Group className="group" controlId="formGridPassword" >
       <Form.Label>Soaring Fee</Form.Label>
-      <Form.Control placeholder="Soaring Fee" name="sFee" onChange={e => this.handleChange(e)} value={this.state.data["sFee"]}/>
+      <Form.Control placeholder="Soaring Fee" name="soaringFee" onChange={e => this.handleChange(e)} value={this.state.data["sFee"]}/>
     </Form.Group>
 
   </Form.Row>
