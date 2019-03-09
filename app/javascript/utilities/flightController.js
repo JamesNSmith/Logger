@@ -79,7 +79,7 @@ class FlightController {
   	var cableGet = function(data){
   		console.log('cableGet')
   		console.log(data)
-  		database.addData('flights',[data])
+  		database.addData('flights',data,databaseGet)
   		//table.addDataTable(data)
   	}
 

@@ -47,8 +47,9 @@ class Database {
 
       if (!db.objectStoreNames.contains('flights')) {
         console.log('new flights')
-        var flightsOS = db.createObjectStore('flights', {keyPath: 'id', autoIncrement: true});
+        var flightsOS = db.createObjectStore('flights', {keyPath: 'indexNumber', autoIncrement: true});
         flightsOS.createIndex("indexNumber", "indexNumber", { unique: true });
+        flightsOS.createIndex("flightNumber", "flightNumber", { unique: true });
         
       }
     };
@@ -182,27 +183,19 @@ class Database {
       var transaction = db.transaction([table], 'readwrite');
       var records = transaction.objectStore(table);
 
-      var indexCount = records.count();
-      console.log(indexCount)
-
-      console.log(data)
+      var inpCount = 0
       for(var count=0;count<data.length;count++){
-        console.log(count)
-        console.log(data[count])
-        if(data[count]['indexNumber'] == null || data[count]['indexNumber'] == ''){
-          data[count]['indexNumber'] = indexCount + count
-          console.log('index:')
-          console.log(data[count]['indexNumber'])
-        }
-
-
       	var request = records.add(data[count]);
       	
       	request.onsuccess = function(ev) {
         	console.log('Woot! Did it -add');
+          data[inpCount]['indexNumber'] = ev.target.result;
 
-        	if(count == data.length){
+          inpCount += 1
+
+        	if(inpCount == data.length){
         		e.target.result.close();
+            successHandler(data)
         	}
       	};
       	request.onerror = function(ev) {
@@ -211,7 +204,6 @@ class Database {
           failureHandler()
       	};
   	  }
-      successHandler(data)
     }
 
     openRequest.onerror = function(e) {
