@@ -1,21 +1,37 @@
-<div class="users">
+<div class="main">
 
   <h1>Clubs</h1>
 
-  <div class="container">
-  	<% @clubs.each do |club| %> 
-	    <div class="user"> 
-      <p><%= club.id %></p> 
-  	  <p><%= club.name %></p> 
-  	  <p><%= club.initials %></p>
-  		<p><%= club.country %></p> 
+  <div class="limiter">
+    
+          <table>
+            <thead>
+              <tr >
+                <th >ID</th>
+                <th >Name</th>
+                <th >Initials</th>
+                <th >Country</th>
+                <th ></th>
+              </tr>
+            </thead>
+            <tbody>
+  	          <% @clubs.each do |club| %> 
+	            <tr> 
+                <td ><%= club.id %></td> 
+  	            <td ><%= club.name %></td> 
+  	            <td ><%= club.initials %></td>
+  		          <td ><%= club.country %></td> 
       
-      <%= form_for(:clubs, url: '/clubs') do |f| %> 
-      <%= f.hidden_field :id, value: club.id %>
-      <%= f.submit "Select", class: "btn" %>
-      <% end %>
-      
-	    </div> 
-    <% end %>
+                <td ><%= form_for(:clubs, url: '/clubs') do |f| %> 
+                <%= f.hidden_field :id, value: club.id %>
+                <%= f.submit "Select", class: "btn" %>
+                <% end %>
+                </td> 
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        
   </div>
+
 </div>
