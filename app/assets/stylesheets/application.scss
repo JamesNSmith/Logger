@@ -30,9 +30,10 @@ html, body {
 
 body{
 	margin:0;
-	width:99.5%;
-	background-color:#efefed;
+	width:100%;
+	background-color:#f8f8f8;
 	//background-color:#DAD8D2;
+	//#efefed
 }
 
 h1{
@@ -124,6 +125,13 @@ nav{
 		align-items: center;
 	}
 }
+
+.main {
+	margin:35px auto;
+	padding:10px;
+	width:85%;
+}
+
 
 /*.login, .signup {
   margin: 0 auto;
