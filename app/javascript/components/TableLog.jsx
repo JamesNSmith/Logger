@@ -123,20 +123,27 @@ class TableLog extends React.Component {
   			indexNumber:'',
   			tailNumber:'',
 			acName:'',
+			p1Username:'',
 			p1FName:'',
 			p1LName:'',
+			p2Username:'',
 			p2FName:'',
 			p2LName:'',
 			launchFee:'',
 			soaringFee:''
   		}
 		}
+		var timeFormat = (time) =>{
+			return (time.getHours() + ' : ' +time.getMinutes());
+			};
+
 		return(
 			<tr key = {data['indexNumber']}>
 			<td><li>{data['indexNumber']}</li></td>
 			<td><li>{data['tailNumber']}</li><li>{data['acName']}</li></td>
-			<td><li>{data['p1FName']}</li><li>{data['p1LName']}</li></td>
-			<td><li>{data['p2FName']}</li><li>{data['p2LName']}</li></td>
+			<td><li>{data['p1Username']}</li><li>{data['p1FName']}</li><li>{data['p1LName']}</li></td>
+			<td><li>{data['p2Username']}</li><li>{data['p2FName']}</li><li>{data['p2LName']}</li></td>
+			<td><li>{data['launchTime']}</li><li>{data['landTime']}</li></td>
 			<td><li>{data['launchFee']}</li><li>{data['soaringFee']}</li></td>
 			<td></td>
 			</tr>

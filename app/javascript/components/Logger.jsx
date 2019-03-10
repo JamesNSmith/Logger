@@ -22,10 +22,14 @@ class Logger extends React.Component {
 			data:{
 				tailNumber:'',
 				acName:'',
+        p1Username:'',
 				p1FName:'',
 				p1LName:'',
+        p2Username:'',
 				p2FName:'',
 				p2LName:'',
+        launchTime:'',
+        landTime:'',
 				launchFee:'',
 				soaringFee:''
 			}
