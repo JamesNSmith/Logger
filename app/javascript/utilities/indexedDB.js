@@ -213,12 +213,12 @@ class Database {
     };
   }
 //Update -----------------
-  updateRecord(table,id,data,successHandler = this.success){
+  updateRecord(table,id,column,value,successHandler = this.success,failureHandler = this.failure){
     var openRequest = indexedDB.open(this.dbName, this.version);
 
     openRequest.onsuccess = function(e) {
       console.log('running onsuccess 3');
-      //var returnData
+      console.log(table)
       var db = e.target.result;
       var transaction = db.transaction([table], 'readwrite');
       var records = transaction.objectStore(table);
@@ -231,25 +231,24 @@ class Database {
         var record = request.result;
         console.log(request)
         console.log(record)
-        record[Object.keys(data)[0]] = Object.values(data)[0]
+        record[column] = value
 
         var requestUpdate = records.put(record);
         requestUpdate.onsuccess = function(event){
           e.target.result.close();
 
-          //successHandler(request.result);
+          successHandler(requestUpdate.result);
         }
 
         requestUpdate.onerror = function(event){
           e.target.result.close();
-
-          //fail
+          failureHandler(event.target.error.name)
         }
 
       };
       request.onerror = function(ev) {
-        console.log('Error', ev.target.error.name);
         e.target.result.close();
+        failureHandler(ev.target.error.name)
       };   
     }
 
@@ -261,7 +260,7 @@ class Database {
     };
   }
 //Get ----------------------------
-  getRecord(table,id,successHandler) {
+  getRecord(table,id,successHandler = this.success,failureHandler = this.failure) {
     var openRequest = indexedDB.open(this.dbName, this.version);
 
     openRequest.onsuccess = function(e) {

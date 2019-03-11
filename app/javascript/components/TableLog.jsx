@@ -31,7 +31,7 @@ class TableLog extends React.Component {
 		
     	this.input = {}
 		this.state = {
-			tableData:[],
+			tableData:{},
 			inputData:{}
 		}
 
@@ -48,7 +48,7 @@ class TableLog extends React.Component {
   		}
   		*/
 
-  		this.extraData = [{
+  		/*this.extraData = [{
   			flightNumber:'2',
   			tailNumber:'TUG',
 			acName:'Puchacz',
@@ -68,9 +68,9 @@ class TableLog extends React.Component {
 			p2LName:'Bing',
 			launchFee:'4.50',
 			soaringFee:'0.15'
-  		}]
+  		}]*/
 
-  		this.database
+  		//this.database
 		
 	}
 
@@ -79,21 +79,20 @@ class TableLog extends React.Component {
 	addDataTable(inputData){
 		//table
 		console.log('add data')
-		const tableData = this.state.tableData;
-		const returnData = tableData.concat(inputData);
+		var tableData = this.state.tableData;
+		var returnData //= tableData.concat(inputData);
 
 		var inpData = this.state.inputData
 		for(var count in inputData){
+			tableData[inputData[count]['indexNumber']] = inputData[count]
+
 			if(inputData[count]['landTime'] == ''){
-				inpData[inputData[count]['indexNumber']] = {launchTime:'',landTime:''}
-				if(inputData[count]['launchTime'] != ''){
-					inpData[inputData[count]['indexNumber']][launchTime] = inputData[count]['launchTime']
-				}
+				inpData[inputData[count]['indexNumber']] = {launchTime:inputData[count]['launchTime'],landTime:'',launchTimeStatus:'',landTimeStatus:''}
 			}
 		}
 		this.setState({inputData:inpData},console.log('input ready'));
 
-		this.setState({tableData:returnData},console.log('table ready'));
+		this.setState({tableData:tableData},console.log('table ready'));
 	}
 
 	/*addData(inputData){
@@ -114,6 +113,43 @@ class TableLog extends React.Component {
 
 	clearData(){
 		this.setState({tableData:[]},console.log('ready'));
+	}
+
+	updateData(id,name,time){
+		var table = 'flights'
+		var tableData = this.state.tableData;
+		var timeFormated = time.toISOString()
+		tableData[id][name] = timeFormated
+
+		//stage 2
+		this.setState({tableData:tableData},() => {console.log('input ready');console.log(this.state.tableData)});
+
+		//stage 3
+		var tableFigures = (resolve,reject) =>{
+			console.log('indexedBF')
+			console.log(this.state.inputData[id]['launchTimeStatus'])
+			console.log(this.state.inputData[id]['landTimeStatus'])
+			if(this.state.inputData[id]['launchTimeStatus'] == "indexed" && this.state.inputData[id]['landTimeStatus'] == "indexed"){
+				console.log('indexed')
+				window.flightController.tableUpdateFigures(table,id,resolve,reject)
+
+			}
+		}
+		var setInputData = (resolve,reject) => {
+			var inputData = this.state.inputData;
+			inputData[id][name+'Status'] = 'indexed'
+
+			console.log(inputData)
+
+			this.setState({inputData:inputData},resolve());
+		}
+		var queue = new Promise((resolve,reject) => {window.flightController.tableUpdateTime(table,id,name,timeFormated,resolve,reject)})
+		.then(() => {return new Promise((resolve,reject) => {setInputData(resolve,reject)})})
+		.then(() => {console.log(this.state.inputData)})
+		.then(() => {return new Promise((resolve,reject) => {tableFigures(resolve,reject)})})
+		.catch((error) => {console.log('updateDate queue failed:');console.log(error)})
+
+		//
 	}
 
 //helpers ---------------------------------
@@ -147,6 +183,11 @@ class TableLog extends React.Component {
 
 	timeTextHandler(event) {
 		const {id,name,value} = event.target
+
+		var inputData = this.state.inputData;
+		inputData[id][name] = value
+
+		this.setState({inputData:inputData},() => {console.log('input ready');console.log(this.state.inputData)});
 
 		if(value.length == 5){
 
@@ -182,40 +223,39 @@ class TableLog extends React.Component {
 				time.setHours(parseInt(valHour))
 				time.setMinutes(parseInt(valMinute))
 				time.setSeconds(0)
-				console.log(time)
+
+				var tableData = this.state.tableData;
+				tableData[id][name] = time.toISOString()
+
+				this.setState({tableData:tableData},() => {console.log('input ready');console.log(this.state.tableData)});
 			} else {
 				console.log('error')
 			}
-		}
-
-				
-		var inputData = this.state.inputData;
-		inputData[id][name] = value
-
-		this.setState({inputData:inputData},() => {console.log('input ready');console.log(this.state.inputData)});
+		}			
+		
 	}
 
-	timeButtonHandler(event) {
-		const {id,name} = event.target;
-		console.log(event)
-		
-		console.log(id)
-		console.log(name)
-		
-		//var time = new Date()
-		//console.log(time)
+	timeButtonHandler(id,name) {
+		var time = new Date()
+		console.log(time)
 
-		//var inputData = this.state.inputData;
-		//console.log(inputData)
-		//inputData[id][name] = this.timeFormat(time)
+		var inputData = this.state.inputData;
+		inputData[id][name] = this.timeFormat(time)
 
-		//this.setState({inputData:inputData},() => {console.log('input ready');console.log(this.state.inputData)});
+		this.setState({inputData:inputData},() => {console.log('input ready');console.log(this.state.inputData)});
+
+		this.updateData(id,name,time)
+
+		
 	}
 
 //constructors ------------------------------
 	timeSquare(index,name,mesg,time,btnImagePath){
-		
-		if(time != ''){
+		var buttonHandler = (event) =>{
+			this.timeButtonHandler(index,name)
+		}
+
+		if(this.state.tableData[index]['launchTime'] != '' && this.state.tableData[index]['landTime'] != ''){
 			return(<ul className = "td"><li>{this.timeFormat(time)}</li></ul>);
 		} else {
 			return(	
@@ -233,9 +273,7 @@ class TableLog extends React.Component {
 				<InputGroup.Append>
       			  	<Button 
       			  	variant="outline-secondary" 
-      			  	onClick={this.timeButtonHandler}
-      			  	name ={name}
-      			  	id={index}
+      			  	onClick={buttonHandler}
       			  	>
       			  	<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d={btnImagePath}/></svg>
       			  	</Button>
@@ -260,20 +298,21 @@ class TableLog extends React.Component {
 			<td><ul className = "td"><li>{data['tailNumber']}</li><li>{data['acName']}</li></ul></td>
 			<td><ul className = "td"><li>{data['p1Username']}</li><li>{data['p1FName']}</li><li>{data['p1LName']}</li></ul></td>
 			<td><ul className = "td"><li>{data['p2Username']}</li><li>{data['p2FName']}</li><li>{data['p2LName']}</li></ul></td>
-			<td style={{width:"300px"}}>{this.timeSquare(data['indexNumber'],'launchTime','Launch Time',data['launchTime'],launchClock)}{this.timeSquare(data['indexNumber'],'landTime','Land Time',data['landTime'],landClock)}</td>
+			<td style={{width:"300px"}}>{this.timeSquare(data['indexNumber'],'launchTime','Launch Time',data['launchTime'],launchClock)}{this.timeSquare(data['indexNumber'],'landTime','Land Time',data['landTime'],landClock)}<ul className = "td"><li>{data['flightTime']}</li></ul></td>
 			<td><ul className = "td"><li>{data['launchFee']}</li><li>{data['soaringFee']}</li></ul></td>
-			<td></td>
+			<td><ul className = "td"><li>{data['total']}</li></ul></td>
 			</tr>
 		);
 	}
 
 	body(tableData){
 		const rows = [];
-		var count=0
-		while (count<tableData.length){
-			var row = this.row(tableData[tableData.length - count - 1])
+		var keys = Object.keys(tableData)
+		keys.sort((a, b) => b - a)
+
+		for(var key in keys){
+			var row = this.row(tableData[keys[key]])
 			rows.push(row)
-			count++
 		}
 		rows.push(this.row())
 
@@ -296,9 +335,9 @@ class TableLog extends React.Component {
 		<Table striped bordered hover size="sm">
 			<thead>
 				<tr>
-					<th onClick={this.clickHandler}>#</th>
+					<th>#</th>
 					<th>Aircraft</th>
-					<th onClick={this.clickHandlert}>P1</th>
+					<th>P1</th>
 					<th>P2</th>
 					<th>Flight</th>
 					<th colSpan="2">Fee</th>

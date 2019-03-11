@@ -2,44 +2,18 @@ import Database from './indexedDB'
 
 class FlightController {
   constructor(tag=null){
-  	//this.database = new Database('flightLogger');
-
-  	//var keys = ['cable','table','logger']
-    /*if(!FlightController.dependents){
-      FlightController.dependents = {};
-    }*/
 
     window.flightController = this;
     window.flightControllerDependents = {};
-
-    console.log('aa')
-
-    /*if(tag){
-      FlightController.dependents[tag[0]] = null
-      FlightController.dependents[tag[0]] = tag[1];
-    }*/
-
-    console.log('bb')
-
-    console.log('controller');
-    //console.log(window.flightControllerDependents);
-
-    console.log('cc')
-    /*for(var key in FlightController.dependents){
-    	console.log('key')
-    	console.log(key)
-    	if(FlightController.dependents[key]){
-    		FlightController.dependents[key].message();
-    	}
-    }*/
+    this.table = 'flights'
   }
 
 //Logger ---------
   addFromLogger(inputData){
   	console.log('addFromLogger')
 
-  	var database = FlightController.dependents['database']
-  	var table = FlightController.dependents['table']
+  	var database = window.flightControllerDependents['database']
+  	var table = window.flightControllerDependents['table']
   	var addDataTable = database.addDataTable
   	var index
 
@@ -58,9 +32,57 @@ class FlightController {
   }
 
 //Table ------------------------
+  getFromTable(table,index,successHandler,failureHandler){
+    
 
-  tableReady(){
-  	return FlightController.dependents['database'].getRecordAll('flights',getHandler);
+  }
+
+  tableUpdateFigures(table,id,success,failure){
+    var failureHandler = (error) => {
+      console.log('error')
+      console.log(error)
+      failure()
+    }
+    var successHandler = (request) => {
+      console.log(request)
+      var launchFee = request['launchFee']
+      var soaringFee = request['launchFee']
+
+      var launchTime =  new Date(request['launchTime'])
+      var landTime =  new Date(request['landTime'])
+      var differenceVal = landTime.getTime() - launchTime.getTime()
+      console.log(differenceVal)
+      var difference = new Date(differenceVal)
+      console.log(difference)
+      console.log(difference.toISOString())
+      
+      //var flightTime = difference.getMinutes() + difference.getHours()*60
+      //var soaringCharge = flightTime * soaringFee
+
+
+      
+      success()
+    }
+
+    var database = window.flightControllerDependents['database'];
+    database.getRecord(table,id,successHandler,failureHandler)
+  }
+
+  tableUpdateTime(table,id,column,time,success,failure){
+    var errorHandler = (error) => {
+      console.log('error')
+      console.log(error)
+      failure(error)
+    }
+    var timeHandler = (response) => {
+      console.log('time success')
+      console.log(response)
+      success()
+
+    }
+
+    var database = window.flightControllerDependents['database'];
+    database.updateRecord(table,id,column,time,timeHandler,errorHandler)
   }
 
 //this ---------------------------------

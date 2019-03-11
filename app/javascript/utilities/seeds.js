@@ -11,7 +11,10 @@ const flights = [{
       p1Username:'',
       p2Username:'',
       launchTime:'',
-      landTime:''
+      landTime:'',
+      flightTime:'',
+      soaringTotal:'',
+      total:''
       },{
       //indexNumber:2,
       tailNumber:'TUG',
@@ -25,7 +28,10 @@ const flights = [{
       p1Username:'',
       p2Username:'',
       launchTime:'',
-      landTime:''
+      landTime:'',
+      flightTime:'',
+      soaringTotal:'',
+      total:''
       },{
       //indexNumber:3,
       tailNumber:'PUG',
@@ -39,7 +45,10 @@ const flights = [{
       p1Username:'',
       p2Username:'',
       launchTime:'',
-      landTime:''
+      landTime:'',
+      flightTime:'',
+      soaringTotal:'',
+      total:''
       },{
       //indexNumber:4,
       tailNumber:'AUG',
@@ -53,7 +62,10 @@ const flights = [{
       p1Username:'',
       p2Username:'',
       launchTime:'',
-      landTime:''
+      landTime:'',
+      flightTime:'',
+      soaringTotal:'',
+      total:''
       },{
       //indexNumber:5,
       tailNumber:'TUG',
@@ -67,7 +79,10 @@ const flights = [{
       p1Username:'',
       p2Username:'',
       launchTime:'',
-      landTime:''
+      landTime:'',
+      flightTime:'',
+      soaringTotal:'',
+      total:''
       },{
       //indexNumber:6,
       tailNumber:'PUG',
@@ -81,7 +96,10 @@ const flights = [{
       p1Username:'',
       p2Username:'',
       launchTime:'',
-      landTime:''
+      landTime:'',
+      flightTime:'',
+      soaringTotal:'',
+      total:''
       },{
       //indexNumber:7,
       tailNumber:'AUG',
@@ -95,7 +113,10 @@ const flights = [{
       p1Username:'',
       p2Username:'',
       launchTime:'',
-      landTime:''
+      landTime:'',
+      flightTime:'',
+      soaringTotal:'',
+      total:''
       },{
       //indexNumber:8,
       tailNumber:'TUG',
@@ -109,7 +130,10 @@ const flights = [{
       p1Username:'',
       p2Username:'',
       launchTime:'',
-      landTime:''
+      landTime:'',
+      flightTime:'',
+      soaringTotal:'',
+      total:''
       },{
       //indexNumber:9,
       tailNumber:'PUG',
@@ -123,7 +147,10 @@ const flights = [{
       p1Username:'',
       p2Username:'',
       launchTime:'',
-      landTime:''
+      landTime:'',
+      flightTime:'',
+      soaringTotal:'',
+      total:''
       },{
       //indexNumber:10,
       tailNumber:'AUG',
@@ -137,7 +164,10 @@ const flights = [{
       p1Username:'',
       p2Username:'',
       launchTime:'',
-      landTime:''
+      landTime:'',
+      flightTime:'',
+      soaringTotal:'',
+      total:''
       },{
       //indexNumber:11,
       tailNumber:'TUG',
@@ -151,7 +181,10 @@ const flights = [{
       p1Username:'',
       p2Username:'',
       launchTime:'',
-      landTime:''
+      landTime:'',
+      flightTime:'',
+      soaringTotal:'',
+      total:''
       },{
       //indexNumber:12,
       tailNumber:'PUG',
@@ -165,7 +198,10 @@ const flights = [{
       p1Username:'',
       p2Username:'',
       launchTime:'',
-      landTime:''
+      landTime:'',
+      flightTime:'',
+      soaringTotal:'',
+      total:''
       },{
       //indexNumber:13,
       tailNumber:'AUG',
@@ -179,7 +215,10 @@ const flights = [{
       p1Username:'',
       p2Username:'',
       launchTime:'',
-      landTime:''
+      landTime:'',
+      flightTime:'',
+      soaringTotal:'',
+      total:''
       }]
 
 export default flights

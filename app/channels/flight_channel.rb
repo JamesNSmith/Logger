@@ -41,10 +41,13 @@ class FlightChannel < ApplicationCable::Channel
         p2Username: record.club_user_p2.user.username,
         p2FName: record.club_user_p2.user.first_name,
         p2LName: record.club_user_p2.user.last_name,
-        launchTime:record.launch_time,
-        landTime:record.land_time,
+        launchTime: record.launch_time,
+        landTime: record.land_time,
+        flightTime: record.flight_time,
         launchFee: record.launch_fee,
-        soaringFee: record.soaring_fee
+        soaringFee: record.soaring_fee,
+        soaringTotal: record.soaring_total,
+        total: record.total
       })
     end
     return @retData
