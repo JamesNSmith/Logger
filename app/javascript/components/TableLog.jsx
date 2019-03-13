@@ -5,10 +5,78 @@ import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
-//import Pagination from 'react-bootstrap/Pagination'
+import Pagination from 'react-bootstrap/Pagination'
 
 import Database from '../utilities/indexedDB'
 import FlightController from '../utilities/flightController'
+
+
+
+class Pagin extends React.Component {
+	constructor(props){
+		super(props)
+		
+		this.state = {
+			page:1
+		}
+
+	}
+
+	ready(){
+		
+	}
+	render(){
+		var clickHandler = (event) => {
+			console.log(event)
+			console.log(event.target)
+			console.log(event.target.id)
+			var page = event.target.id
+			var top = pageSize * page
+			var bottom = top - (pageSize - 1)
+			this.senior.range = {top:top,bottom:bottom}
+			
+			this.setState({page:event.target.id})
+		}
+		var active = (id) => {
+			if(id == this.state.page){
+				return true
+			} else {
+				return false
+			}
+		}
+		let items = [];
+		for (let number = 1; number <= 6; number++) {
+  			items.push(
+    		<Pagination.Item key={number} id={number} active={active(number)} onClick={clickHandler}>
+      		{number}
+    		</Pagination.Item>,
+  			);
+		}
+		console.log(this.pages)
+		console.log(items)
+		return(
+			<Pagination size='lg'>
+			<Pagination.Prev />
+			{items}
+			<Pagination.Next />
+			</Pagination>
+		);
+	}
+		
+		//this.records = []
+		
+		//let active = 2;
+		
+
+		
+
+		
+
+		//render
+		
+		
+}
+
 
 
 
@@ -33,8 +101,7 @@ class TableLog extends React.Component {
     	this.input = {}
 		this.state = {
 			tableData:{},
-			inputData:{},
-			page:1
+			inputData:{}
 		}
 
 		/*{
@@ -339,7 +406,10 @@ class TableLog extends React.Component {
 		
 	}
 
-	row(data){
+	row(index,data){
+		console.log('index: '+ index)
+		console.log('data: ')
+		console.log(data)
 		if(!data){
   			return (<tr key = "last"><td colSpan="100%" height="60"></td></tr>)
 		}
@@ -365,11 +435,18 @@ class TableLog extends React.Component {
 		var keys = Object.keys(tableData)
 		keys.sort((a, b) => b - a)
 
-		for(var key in keys){
-			var row = this.row(tableData[keys[key]])
+		console.log(keys)
+
+		var keysLength = keys.length
+		var count = 0
+		while(count < 10){
+			console.log(count)
+			var row = this.row(count,tableData[keys[count]])
 			rows.push(row)
+			count++
 		}
 		rows.push(this.row())
+		console.log(rows)
 
 		return (
 			<tbody key="t1"id="tableBody">
@@ -380,42 +457,7 @@ class TableLog extends React.Component {
 
 
 //pagination constructor
-	pagination(){
-		var records = 55
-		var pageSize = 10;
-		var pages = Math.ceil(records/pageSize)
-		
-		//let active = 2;
-		let items = [];
 
-		var clickHandler = (event) => {
-			console.log(event)
-			console.log(event.target)
-			console.log(event.target.id)
-			var page = this.state.page
-			this.setState({page:event.target.id})
-		}
-
-		var active = (id) => {
-			if(id == this.state.page){
-				return true
-			} else {
-				return false
-			}
-		}
-
-		//render
-		for (let number = 1; number <= pages; number++) {
-  			items.push(
-    		<Pagination.Item key={number} id={number} active={active(number)} onClick={clickHandler}>
-      		{number}
-    		</Pagination.Item>,
-  			);
-		}
-		console.log(pages)
-		console.log(items)
-		return(<Pagination size='lg'>{items}</Pagination>)
-	}
 
 	componentWillUpdate(){
 		console.log('will update')
@@ -423,9 +465,10 @@ class TableLog extends React.Component {
 
 	render(){
 		console.log('uio')
+		
 		return(
 		<div className="table">
-		{this.pagination()}
+		<Pagin />
 		<br />
 		<Table striped bordered hover size="sm">
 			<thead>
@@ -453,6 +496,7 @@ class TableLog extends React.Component {
     		addDataTable(data)
   		}
   		console.log('run stop');
+
   		//this.flightController.tableReady(getHandler)
   		//this.database.getRecordAll('flights',getHandler);
   		//this.database.getRecordRange('flights',"flightNumber",[1,11],getRangeHandler);

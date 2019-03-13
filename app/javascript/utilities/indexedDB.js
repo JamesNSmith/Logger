@@ -17,7 +17,7 @@ class Database {
 
     this.dbName = dbName;
     this.version = 1;
-    this.count = 0;
+    //window.indexedCount = 0
 
     window.flightControllerDependents['database'] = this
     
@@ -58,6 +58,8 @@ class Database {
       console.log('running onsuccess 1');
 
       e.target.result.close();
+
+      //countRecords('flights',(result) => {window.indexedCount = result})
       successHandler()
     };
 
@@ -159,6 +161,7 @@ class Database {
       var request = records.delete(id);
       request.onsuccess = function(ev) {
         console.log('Woot! Did it -delete');
+        //if(table == 'flights'){window.recordCount -= 1};
         e.target.result.close();
       };
       request.onerror = function(ev) {
@@ -193,6 +196,7 @@ class Database {
       	request.onsuccess = function(ev) {
         	console.log('Woot! Did it -add');
           data[inpCount]['indexNumber'] = ev.target.result;
+          //if(table == 'flights'){window.recordCount += 1};
 
           inpCount += 1
 
