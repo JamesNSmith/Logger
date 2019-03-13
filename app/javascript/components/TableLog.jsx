@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import InputGroup from 'react-bootstrap/InputGroup'
+//import Pagination from 'react-bootstrap/Pagination'
 
 import Database from '../utilities/indexedDB'
 import FlightController from '../utilities/flightController'
@@ -32,7 +33,8 @@ class TableLog extends React.Component {
     	this.input = {}
 		this.state = {
 			tableData:{},
-			inputData:{}
+			inputData:{},
+			page:1
 		}
 
 		/*{
@@ -302,7 +304,7 @@ class TableLog extends React.Component {
 		
 	}
 
-//constructors ------------------------------
+//table constructors ------------------------------
 	timeSquare(index,name,mesg,time,btnImagePath){
 		var buttonHandler = (event) =>{
 			this.timeButtonHandler(index,name)
@@ -377,6 +379,44 @@ class TableLog extends React.Component {
 	}
 
 
+//pagination constructor
+	/*pagination(){
+		var records = 55
+		var pageSize = 10;
+		var pages = Math.ceil(records/pageSize)
+		
+		//let active = 2;
+		let items = [];
+
+		var clickHandler = (event) => {
+			console.log(event)
+			console.log(event.target)
+			console.log(event.target.id)
+			var page = this.state.page
+			this.setState({page:event.target.id})
+		}
+
+		var active = (id) => {
+			if(id == this.state.page){
+				return true
+			} else {
+				return false
+			}
+		}
+
+		//render
+		for (let number = 1; number <= pages; number++) {
+  			items.push(
+    		<Pagination.Item key={number} id={number} active={active(number)} onClick={clickHandler}>
+      		{number}
+    		</Pagination.Item>,
+  			);
+		}
+		console.log(pages)
+		console.log(items)
+		return(<Pagination size='lg'>{items}</Pagination>)
+	}*/
+
 	componentWillUpdate(){
 		console.log('will update')
 	}
@@ -385,6 +425,8 @@ class TableLog extends React.Component {
 		console.log('uio')
 		return(
 		<div className="table">
+		
+		<br />
 		<Table striped bordered hover size="sm">
 			<thead>
 				<tr>
