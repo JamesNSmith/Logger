@@ -78,7 +78,7 @@ class FlightController {
 
       var launchTime =  new Date(request['launchTime'])
       var landTime =  new Date(request['landTime'])
-      var flightTime = Math.floor(Math.abs((landTime.getTime() - launchTime.getTime())/(1000*60)))
+      var flightTime = Math.floor(Math.abs((landTime.getTime() - launchTime.getTime()))/(1000*60))
       console.log('flightTime: ' + flightTime)
       console.log(launchTime)
       console.log(landTime)
@@ -98,22 +98,24 @@ class FlightController {
     database.getRecord(table,id,recordHandler,failureHandler)
   }
 
-  tableUpdateTime(table,id,column,time,success,failure){
+  tableUpdate(table,id,columnValue,success,failure){
     var database = window.flightControllerDependents['database'];
+    console.log('tableUpdate')
+    console.log(columnValue)
 
     var errorHandler = (error) => {
       console.log('error')
       console.log(error)
       failure(error)
     }
-    var timeHandler = (response) => {
+    var updateHandler = (response) => {
       console.log('time success')
       console.log(response)
       success()
 
     }
 
-    database.updateRecord(table,id,[[column,time]],timeHandler,errorHandler)
+    database.updateRecord(table,id,columnValue,updateHandler,errorHandler)
   }
 
 //this ---------------------------------

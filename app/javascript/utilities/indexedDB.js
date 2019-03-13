@@ -235,6 +235,8 @@ class Database {
         console.log(request)
         console.log(record)
 
+        console.log(id)
+        console.log(columnValue)
         for(var key in columnValue){
           record[columnValue[key][0]] = columnValue[key][1]
         }

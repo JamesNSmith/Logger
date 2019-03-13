@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20190222235025) do
     t.bigint "user_id"
     t.bigint "membership_id"
     t.bigint "club_id"
+    t.string "utype"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["club_id"], name: "index_club_users_on_club_id"

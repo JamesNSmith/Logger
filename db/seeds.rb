@@ -16,6 +16,10 @@ u4 = User.create(username:'losBu',email: 'los@email.com', password: 'Carlos1', p
 u5 = User.create(username:'idaBu',email: 'ida@email.com', password: 'Freida1', password_confirmation: 'Freida1', first_name: 'eda', last_name: 'Bueno')
 u6 = User.create(username:'lianBu',email: 'lian@email.com', password: 'Julian1', password_confirmation: 'Julian1', first_name: 'lian', last_name: 'Bueno')
 
+u7 = User.create(first_name: 'Jack', last_name: 'Bueno', password:'@4321', password_confirmation:'@4321')
+puts(u7.errors.messages)
+
+
 cd1 = Club.create(name:'Default', initials:'D', country:'UK')
 c1 = Club.create(name:'Logger Club', initials:'LC', country:'UK')
 c2 = Club.create(name:'Test Club', initials:'TC', country:'UK')
@@ -42,13 +46,14 @@ a4 = Aircraft.create(registration:'G-CHYT', name:'Puchacz', actype:'glider')
 a5 = Aircraft.create(registration:'G-CIRC', name:'k8', actype:'glider')
 a6 = Aircraft.create(registration:'G-CHUV', name:'Puchacz', actype:'glider')
 
-cud = ClubUser.create(user:ua2,club:cd1,membership:md1)
-cu1 = ClubUser.create(user:u1,club:c1,membership:m4)
-cu2 = ClubUser.create(user:u2,club:c1,membership:m4)
-cu3 = ClubUser.create(user:u3,club:c1,membership:m5)
-cu4 = ClubUser.create(user:u4,club:c2,membership:m7)
-cu5 = ClubUser.create(user:u5,club:c2,membership:m8)
-cu6 = ClubUser.create(user:u6,club:c2,membership:m9)
+cud1 = ClubUser.create(user:ua1,club:cd1,membership:md1,utype:'admin')
+cud2 = ClubUser.create(user:ua2,club:cd1,membership:md1,utype:'admin') #userType:normal,admin,normal editor, normal financial
+cu1 = ClubUser.create(user:u1,club:c1,membership:m4,utype:'')
+cu2 = ClubUser.create(user:u2,club:c1,membership:m4,utype:'')
+cu3 = ClubUser.create(user:u3,club:c1,membership:m5,utype:'')
+cu4 = ClubUser.create(user:u4,club:c2,membership:m7,utype:'')
+cu5 = ClubUser.create(user:u5,club:c2,membership:m8,utype:'')
+cu6 = ClubUser.create(user:u6,club:c2,membership:m9,utype:'')
 
 f1 = Flight.create(user:u3,club:c1,takeoff_type:"winch",aircraft:a1,club_user_p1:cu1,club_user_p2:cu2,launch_fee:7.00,soaring_fee:0.15,launch_date:Date.current,launch_time:Time.parse("12:00"),land_time:Time.parse("12:10"),flight_time:10)
 puts(f1.errors.messages)

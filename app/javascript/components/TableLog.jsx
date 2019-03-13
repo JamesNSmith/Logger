@@ -124,30 +124,51 @@ class TableLog extends React.Component {
 		//stage 2
 		this.setState({tableData:tableData},() => {console.log('updateData ready');console.log(this.state.tableData)});
 
+		//helper
+		var updateTable = (columnValues) => {
+			var tableData = this.state.tableData
+			for(var key in columnValues){
+				tableData[id][columnValues[key][0]] = columnValues[key][1]
+			}
+			this.setState({tableData:tableData},() => {console.log('updateTable ready');console.log(this.state.tableData)});
+		}
+
 		//stage 3
-		var updateTableFigures = (record,resolve,reject) =>{
+		var processReturnData = (returnData,resolve,reject) => {
+			console.log('processReturnData')
+			console.log(returnData)
+
+			if(returnData['error'] == null){
+				updateTable(returnData)
+				resolve([['flightNumber',returnData['flightNumber']]])
+			} else {
+				reject(returnData['error'])
+			}
+
+		}
+
+		var updateTableFigures = (record,resolve,reject) => {
 			console.log('update table figures')
 			console.log(record)
 
 			var columns = ['flightTime','soaringTotal','total']
 
-			var tableData = this.state.tableData
+			var updateValues = []
 			for(var key in columns){
-				tableData[id][columns[key]] = record[columns[key]]
+				updateValues.push([columns[key],record[columns[key]]])
 			}
-			console.log(record)
-			this.setState({tableData:tableData},() => {console.log('updateTableFigures ready');console.log(this.state.tableData)});
 
-			window.flightController.tableAddRecordDatabase(record,resolve,reject)
+			updateTable(updateValues)
+			resolve(record)
 
 		}
-		var tableFigures = (resolve,reject) =>{
+		var checkIndex = (resolve,reject) =>{
 			console.log('indexedBF')
 			console.log(this.state.inputData[id]['launchTimeStatus'])
 			console.log(this.state.inputData[id]['landTimeStatus'])
 			if(this.state.inputData[id]['launchTimeStatus'] == "indexed" && this.state.inputData[id]['landTimeStatus'] == "indexed"){
 				console.log('indexedEnter')
-				window.flightController.tableUpdateFigures(table,id,resolve,reject)
+				resolve()
 
 			}
 			
@@ -160,12 +181,15 @@ class TableLog extends React.Component {
 
 			this.setState({inputData:inputData},resolve());
 		}
-		var queue = new Promise((resolve,reject) => {window.flightController.tableUpdateTime(table,id,name,timeFormated,resolve,reject)})
-		.then(() => {return new Promise((resolve,reject) => {setInputData(resolve,reject)})})
-		.then(() => {console.log(this.state.inputData)})
-		.then(() => {return new Promise((resolve,reject) => {tableFigures(resolve,reject)})})
-		.then((record) => {return new Promise((resolve,reject) => {updateTableFigures(record,resolve,reject)})})
-		.then((param) => {console.log(param)})
+		var queue = new Promise((resolve,reject) => {window.flightController.tableUpdate(table,id,[[name,timeFormated]],resolve,reject)})	//indexed update time
+		.then(() => {return new Promise((resolve,reject) => {setInputData(resolve,reject)})})												//update input data
+		.then(() => {return new Promise((resolve,reject) => {checkIndex(resolve,reject)})})													//check input data
+		.then(() => {return new Promise((resolve,reject) => {window.flightController.tableUpdateFigures(table,id,resolve,reject)})})		//update record figures
+		.then((record) => {return new Promise((resolve,reject) => {updateTableFigures(record,resolve,reject)})})							//add those figures to table data
+		.then((record) => {return new Promise((resolve,reject) => {window.flightController.tableAddRecordDatabase(record,resolve,reject)})})//add record to mysql
+		.then((returnData) => {return new Promise((resolve,reject) => {processReturnData(returnData,resolve,reject)})})						//add mysql data to table data
+		.then((columnValue) => {return new Promise((resolve,reject) => {window.flightController.tableUpdate(table,id,columnValue,resolve,reject)})}) //add mysql data to indexed
+		//.then((param) => {console.log(param)})
 		.catch((error) => {console.log('updateDate queue failed:');console.log(error)})
 
 		//
@@ -209,6 +233,7 @@ class TableLog extends React.Component {
 		this.setState({inputData:inputData},() => {console.log('input ready');console.log(this.state.inputData)});
 
 		if(value.length == 5){
+			console.log('validate')
 
 			var valHour = value.slice(0,2);
 			var valColon = value[2];
@@ -219,7 +244,11 @@ class TableLog extends React.Component {
 			var minute = false
 
 			for(var count = 0;count<24;count++){
-				if(valHour == count.toString()){
+				var compareVal = count.toString()
+				if (compareVal.length < 2){
+					compareVal = '0' + compareVal
+				}
+				if(valHour == compareVal){
 					hour = true
 					break;
 				}
@@ -230,7 +259,11 @@ class TableLog extends React.Component {
 			} 
 
 			for(var count = 0;count<60;count++){
-				if(valMinute == count.toString()){
+				var compareVal = count.toString()
+				if (compareVal.length < 2){
+					compareVal = '0' + compareVal
+				}
+				if(valMinute == compareVal){
 					minute = true
 					break;
 				}
@@ -242,13 +275,10 @@ class TableLog extends React.Component {
 				time.setHours(parseInt(valHour))
 				time.setMinutes(parseInt(valMinute))
 				time.setSeconds(0)
+				time.setMilliseconds(0)
 
-				console.log(time)
+				this.updateData(parseInt(id),name,time)
 
-				var tableData = this.state.tableData;
-				tableData[id][name] = time.toISOString()
-
-				this.setState({tableData:tableData},() => {console.log('input ready');console.log(this.state.tableData)});
 			} else {
 				console.log('error')
 			}
@@ -259,6 +289,7 @@ class TableLog extends React.Component {
 	timeButtonHandler(id,name) {
 		var time = new Date()
 		time.setSeconds(0)
+		time.setMilliseconds(0)
 		console.log(time)
 
 		var inputData = this.state.inputData;
