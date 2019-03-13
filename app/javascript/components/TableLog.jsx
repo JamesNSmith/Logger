@@ -380,7 +380,7 @@ class TableLog extends React.Component {
 
 
 //pagination constructor
-	/*pagination(){
+	pagination(){
 		var records = 55
 		var pageSize = 10;
 		var pages = Math.ceil(records/pageSize)
@@ -415,7 +415,7 @@ class TableLog extends React.Component {
 		console.log(pages)
 		console.log(items)
 		return(<Pagination size='lg'>{items}</Pagination>)
-	}*/
+	}
 
 	componentWillUpdate(){
 		console.log('will update')
@@ -425,7 +425,7 @@ class TableLog extends React.Component {
 		console.log('uio')
 		return(
 		<div className="table">
-		
+		{this.pagination()}
 		<br />
 		<Table striped bordered hover size="sm">
 			<thead>
