@@ -35,12 +35,12 @@ m7 = Membership.create(name: 'Full', mtype: false, launch_fee:8.00, soaring_fee:
 m8 = Membership.create(name: 'Junior', mtype: false, launch_fee:6.00, soaring_fee:0.25)
 m9 = Membership.create(name: 'Trial', mtype: false, launch_fee:6.00, soaring_fee:0.3)
 
-a1 = Aircraft.create(tail_number:'UHJ', name:'k13', actype:'glider')
-a2 = Aircraft.create(tail_number:'UGF', name:'k13', actype:'glider')
-a3 = Aircraft.create(tail_number:'IOP', name:'k8', actype:'glider')
-a4 = Aircraft.create(tail_number:'HYT', name:'Puchacz', actype:'glider')
-a5 = Aircraft.create(tail_number:'IRC', name:'k8', actype:'glider')
-a6 = Aircraft.create(tail_number:'HUV', name:'Puchacz', actype:'glider')
+a1 = Aircraft.create(registration:'G-CUHJ', name:'k13', actype:'glider')
+a2 = Aircraft.create(registration:'G-CUGF', name:'k13', actype:'glider')
+a3 = Aircraft.create(registration:'G-CIOP', name:'k8', actype:'glider')
+a4 = Aircraft.create(registration:'G-CHYT', name:'Puchacz', actype:'glider')
+a5 = Aircraft.create(registration:'G-CIRC', name:'k8', actype:'glider')
+a6 = Aircraft.create(registration:'G-CHUV', name:'Puchacz', actype:'glider')
 
 cud = ClubUser.create(user:ua2,club:cd1,membership:md1)
 cu1 = ClubUser.create(user:u1,club:c1,membership:m4)

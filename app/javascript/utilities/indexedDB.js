@@ -186,6 +186,9 @@ class Database {
       var inpCount = 0
       for(var count=0;count<data.length;count++){
       	var request = records.add(data[count]);
+
+        console.log(data[count])
+        console.log(request)
       	
       	request.onsuccess = function(ev) {
         	console.log('Woot! Did it -add');
@@ -199,7 +202,7 @@ class Database {
         	}
       	};
       	request.onerror = function(ev) {
-        	console.log('Error', ev.target.error.name);
+        	console.log('Error', ev.target.error);
         	e.target.result.close();
           failureHandler()
       	};
@@ -213,7 +216,7 @@ class Database {
     };
   }
 //Update -----------------
-  updateRecord(table,id,column,value,successHandler = this.success,failureHandler = this.failure){
+  updateRecord(table,id,columnValue,successHandler = this.success,failureHandler = this.failure){
     var openRequest = indexedDB.open(this.dbName, this.version);
 
     openRequest.onsuccess = function(e) {
@@ -231,7 +234,10 @@ class Database {
         var record = request.result;
         console.log(request)
         console.log(record)
-        record[column] = value
+
+        for(var key in columnValue){
+          record[columnValue[key][0]] = columnValue[key][1]
+        }
 
         var requestUpdate = records.put(record);
         requestUpdate.onsuccess = function(event){

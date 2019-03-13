@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(version: 20190222235025) do
 
   create_table "aircrafts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "tail_number"
+    t.string "registration"
     t.string "name"
     t.string "actype"
     t.datetime "created_at", null: false

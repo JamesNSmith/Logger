@@ -20,22 +20,42 @@ class Cable extends React.Component {
     	console.log(flightControllerDependents)
 	}
 
+//Placeholders ------------------------------
+  success(data = 'yes'){
+    console.log('success:')
+    console.log(data)
+  }
+
+  failure(data = 'no'){
+    console.log('failure:')
+    console.log(data)
+  }
+
 //coms ----------------------------
 	message(){
 		console.log('Cable')
 	}
 
-//requests -------------------------=
-	get(request,successHandler){//request
+//requests ---------------------------
+	get(request,successHandler = this.success,failureHandler = this.failure){//request
 		var count = JSON.parse(JSON.stringify(this.queryCount))
 		count.to_s
 
 		this.query[count] = successHandler
-		this.flight.send({title:'get',header:'all',id:count})
+		this.flight.send({title:'get',header:request,id:count})
 		this.queryCount += 1
 		console.log(this.queryCount)
-		
-	
+	}
+
+	add(request,record,successHandler = this.success,failureHandler = this.failure){
+		var count = JSON.parse(JSON.stringify(this.queryCount))
+		count.to_s
+
+		this.query[count] = successHandler
+		this.flight.send({title:'add',header:request,id:count,content:record})
+		this.queryCount += 1
+		console.log(this.queryCount)
+
 	}
 
 //kicks ---------------------------------

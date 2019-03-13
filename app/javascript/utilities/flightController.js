@@ -31,44 +31,76 @@ class FlightController {
 
   }
 
-//Table ------------------------
-  getFromTable(table,index,successHandler,failureHandler){
-    
-
+//Table helpers ------------------------
+  updateRequest(request,columnValue){
+    for(var key in columnValue){
+      request[columnValue[key][0]] = columnValue[key][1]
+    }
+    return request
   }
 
-  tableUpdateFigures(table,id,success,failure){
+//Table main ------------------------
+  tableAddRecordDatabase(record,success,failure){
+    var cable = window.flightControllerDependents['cable']
+
     var failureHandler = (error) => {
-      console.log('error')
+      console.log('tableAddRecordDatabase error')
       console.log(error)
       failure()
     }
-    var successHandler = (request) => {
+    var databaseAdd = (response) => {
+      console.log('cableAdd')
+      console.log(response)
+      success(response)
+    }
+
+    console.log(record)
+    cable.add('flightInsert',record,databaseAdd,failureHandler)
+  }
+
+  tableUpdateFigures(table,id,success,failure){// time requires improvement!!!
+    var database = window.flightControllerDependents['database'];
+    var record = {}
+
+    var failureHandler = (error) => {
+      console.log('tableUpdateFigures error')
+      console.log(error)
+      failure()
+    }
+      
+    var updateHandler = (response) => {
+      success(record)
+    }
+    var recordHandler = (request) => {
       console.log(request)
       var launchFee = request['launchFee']
-      var soaringFee = request['launchFee']
+      var soaringFee = request['soaringFee']
 
       var launchTime =  new Date(request['launchTime'])
       var landTime =  new Date(request['landTime'])
-      var differenceVal = landTime.getTime() - launchTime.getTime()
-      console.log(differenceVal)
-      var difference = new Date(differenceVal)
-      console.log(difference)
-      console.log(difference.toISOString())
+      var flightTime = Math.floor(Math.abs((landTime.getTime() - launchTime.getTime())/(1000*60)))
+      console.log('flightTime: ' + flightTime)
+      console.log(launchTime)
+      console.log(landTime)
+      console.log(launchTime.getTime())
+      console.log(landTime.getTime())
       
-      //var flightTime = difference.getMinutes() + difference.getHours()*60
-      //var soaringCharge = flightTime * soaringFee
+      var soaringTotal = flightTime * soaringFee
+      var total = parseFloat(launchFee) + soaringTotal
 
+      var returnVals = [['flightTime',flightTime],['soaringTotal',soaringTotal],['total',total]]
 
-      
-      success()
+      record = this.updateRequest(request,returnVals)
+
+      database.updateRecord(table,id,returnVals,updateHandler,failureHandler)
     }
 
-    var database = window.flightControllerDependents['database'];
-    database.getRecord(table,id,successHandler,failureHandler)
+    database.getRecord(table,id,recordHandler,failureHandler)
   }
 
   tableUpdateTime(table,id,column,time,success,failure){
+    var database = window.flightControllerDependents['database'];
+
     var errorHandler = (error) => {
       console.log('error')
       console.log(error)
@@ -81,8 +113,7 @@ class FlightController {
 
     }
 
-    var database = window.flightControllerDependents['database'];
-    database.updateRecord(table,id,column,time,timeHandler,errorHandler)
+    database.updateRecord(table,id,[[column,time]],timeHandler,errorHandler)
   }
 
 //this ---------------------------------

@@ -122,18 +122,35 @@ class TableLog extends React.Component {
 		tableData[id][name] = timeFormated
 
 		//stage 2
-		this.setState({tableData:tableData},() => {console.log('input ready');console.log(this.state.tableData)});
+		this.setState({tableData:tableData},() => {console.log('updateData ready');console.log(this.state.tableData)});
 
 		//stage 3
+		var updateTableFigures = (record,resolve,reject) =>{
+			console.log('update table figures')
+			console.log(record)
+
+			var columns = ['flightTime','soaringTotal','total']
+
+			var tableData = this.state.tableData
+			for(var key in columns){
+				tableData[id][columns[key]] = record[columns[key]]
+			}
+			console.log(record)
+			this.setState({tableData:tableData},() => {console.log('updateTableFigures ready');console.log(this.state.tableData)});
+
+			window.flightController.tableAddRecordDatabase(record,resolve,reject)
+
+		}
 		var tableFigures = (resolve,reject) =>{
 			console.log('indexedBF')
 			console.log(this.state.inputData[id]['launchTimeStatus'])
 			console.log(this.state.inputData[id]['landTimeStatus'])
 			if(this.state.inputData[id]['launchTimeStatus'] == "indexed" && this.state.inputData[id]['landTimeStatus'] == "indexed"){
-				console.log('indexed')
+				console.log('indexedEnter')
 				window.flightController.tableUpdateFigures(table,id,resolve,reject)
 
 			}
+			
 		}
 		var setInputData = (resolve,reject) => {
 			var inputData = this.state.inputData;
@@ -147,6 +164,8 @@ class TableLog extends React.Component {
 		.then(() => {return new Promise((resolve,reject) => {setInputData(resolve,reject)})})
 		.then(() => {console.log(this.state.inputData)})
 		.then(() => {return new Promise((resolve,reject) => {tableFigures(resolve,reject)})})
+		.then((record) => {return new Promise((resolve,reject) => {updateTableFigures(record,resolve,reject)})})
+		.then((param) => {console.log(param)})
 		.catch((error) => {console.log('updateDate queue failed:');console.log(error)})
 
 		//
@@ -206,7 +225,7 @@ class TableLog extends React.Component {
 				}
 			}
 
-			if(valColon == ':'){
+			if(valColon == ':'){ // needs improvement
 				colon = true
 			} 
 
@@ -224,6 +243,8 @@ class TableLog extends React.Component {
 				time.setMinutes(parseInt(valMinute))
 				time.setSeconds(0)
 
+				console.log(time)
+
 				var tableData = this.state.tableData;
 				tableData[id][name] = time.toISOString()
 
@@ -237,6 +258,7 @@ class TableLog extends React.Component {
 
 	timeButtonHandler(id,name) {
 		var time = new Date()
+		time.setSeconds(0)
 		console.log(time)
 
 		var inputData = this.state.inputData;
@@ -261,7 +283,7 @@ class TableLog extends React.Component {
 			return(	
 				<InputGroup className="mb-3">
 				<FormControl
-     			  	placeholder={mesg + '   (hh:mm) - 24'} 
+     			  	placeholder={mesg + ' - 24(hh:mm)'} 
       			  	aria-label={name}
       			  	aria-describedby={name}
       			  	maxLength={5}
@@ -299,7 +321,7 @@ class TableLog extends React.Component {
 			<td><ul className = "td"><li>{data['p1Username']}</li><li>{data['p1FName']}</li><li>{data['p1LName']}</li></ul></td>
 			<td><ul className = "td"><li>{data['p2Username']}</li><li>{data['p2FName']}</li><li>{data['p2LName']}</li></ul></td>
 			<td style={{width:"300px"}}>{this.timeSquare(data['indexNumber'],'launchTime','Launch Time',data['launchTime'],launchClock)}{this.timeSquare(data['indexNumber'],'landTime','Land Time',data['landTime'],landClock)}<ul className = "td"><li>{data['flightTime']}</li></ul></td>
-			<td><ul className = "td"><li>{data['launchFee']}</li><li>{data['soaringFee']}</li></ul></td>
+			<td><ul className = "td"><li>{data['launchFee']}</li><li>{data['soaringFee']}</li><li>{data['soaringTotal']}</li></ul></td>
 			<td><ul className = "td"><li>{data['total']}</li></ul></td>
 			</tr>
 		);
