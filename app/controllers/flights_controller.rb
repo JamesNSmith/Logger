@@ -13,6 +13,10 @@ class FlightsController < ApplicationController
 	def logger
 		@flights = Flight.all
 		puts("logger --------------")
+		@user = current_user()
+		@club = current_club()
+		#@data = {user:@user,club:@club}
+		#data-url="<%= @data %>"
 		#puts(Time.current)
 		#ActionCable.server.broadcast 'flight_channel', flights: @flights
 	end

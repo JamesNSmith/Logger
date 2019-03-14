@@ -85,7 +85,7 @@ class Logger extends React.Component {
   <Form.Label><h3>Aircraft</h3></Form.Label>
 
     <Form.Group className="group" controlId="formGridEmail" >
-      <Form.Label>Tail Number</Form.Label>
+      <Form.Label>Registration</Form.Label>
       <Form.Control placeholder="Tail Number" name="tailNumber" onChange={e => this.handleChange(e)} value={this.state.data["tailNumber"]}/>
     </Form.Group>
 
@@ -99,15 +99,6 @@ class Logger extends React.Component {
   <Form.Row className="row">
   <Form.Label><h3>P1</h3></Form.Label>
 
-  	<Form.Group className="group" controlId="formGridState">
-  	  <Form.Label>.</Form.Label>
-      <Form.Control as="select" >
-        <option>Member</option>
-        <option>Tempory Member</option>
-        <option>Trial Flight</option>
-      </Form.Control>
-    </Form.Group>
-
     <Form.Group className="group" controlId="formGridEmail" >
       <Form.Label>First Name</Form.Label>
       <Form.Control placeholder="First Name" name="p1FName" onChange={e => this.handleChange(e)} value={this.state.data["p1FName"]}/>
@@ -118,19 +109,19 @@ class Logger extends React.Component {
       <Form.Control placeholder="Second Name" name="p1LName" onChange={e => this.handleChange(e)} value={this.state.data["p1LName"]}/>
     </Form.Group>
 
-  </Form.Row>
-
-  <Form.Row className="row">
-  <Form.Label><h3>P2</h3></Form.Label>
-
-  	<Form.Group className="group" controlId="formGridState">
-  	  <Form.Label>.</Form.Label>
-      <Form.Control as="select">
+    <Form.Group className="group" controlId="formGridState">
+      <Form.Label>.</Form.Label>
+      <Form.Control as="select" >
         <option>Member</option>
         <option>Tempory Member</option>
         <option>Trial Flight</option>
       </Form.Control>
     </Form.Group>
+
+  </Form.Row>
+
+  <Form.Row className="row">
+  <Form.Label><h3>P2</h3></Form.Label>
 
     <Form.Group className="group" controlId="formGridEmail" >
       <Form.Label>First Name</Form.Label>
@@ -140,6 +131,15 @@ class Logger extends React.Component {
     <Form.Group className="group" controlId="formGridPassword">
       <Form.Label>Second Name</Form.Label>
       <Form.Control placeholder="Second Name" name="p2LName" onChange={e => this.handleChange(e)} value={this.state.data["p2LName"]}/>
+    </Form.Group>
+
+    <Form.Group className="group" controlId="formGridState">
+      <Form.Label>.</Form.Label>
+      <Form.Control as="select">
+        <option>Member</option>
+        <option>Tempory Member</option>
+        <option>Trial Flight</option>
+      </Form.Control>
     </Form.Group>
 
   </Form.Row>
