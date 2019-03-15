@@ -1,10 +1,20 @@
-
 <div>
+  <%= javascript_tag do %>
+    window.user = {id:<%= @user['id'] %>,username:'<%= @user['username'] %>'}; 
+    console.log(window.user);
+    window.club = {id:<%=  @club['id'] %>, name:'<%= @club['name'] %>'}; 
+    console.log(window.club);
+    window.memberships = []
+    <% @memberships.each do |membership| %>
+      memberships.push({id:<%= membership['id'] %>,name:'<%= membership['name'] %>',launchFee:<%= membership['launch_fee'] %>,soaringFee:<%= membership['soaring_fee'] %>})
+    <% end %>
+    console.log(memberships)
+  <% end %>
+  
   <h1>Logger</h1>
-  <div id="club" data-url="<%= @club %>"></div>
-  <div id="user" data-url="<%= @user %>"></div>
+
   <div>
-	<%= react_component("FlightLogger",key:'m1') %>
+	<%= react_component("FlightLogger",{key:'m1'}) %>
   </div>
 
 </div>

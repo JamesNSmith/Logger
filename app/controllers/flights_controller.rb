@@ -11,13 +11,17 @@ class FlightsController < ApplicationController
 	end
 
 	def logger
-		@flights = Flight.all
-		puts("logger --------------")
 		@user = current_user()
 		@club = current_club()
-		#@data = {user:@user,club:@club}
-		#data-url="<%= @data %>"
-		#puts(Time.current)
+		@memberships = @club.memberships
+		puts @memberships
+		@flights = Flight.all
+		puts("logger --------------")
+		
+
+
+
+		
 		#ActionCable.server.broadcast 'flight_channel', flights: @flights
 	end
 end

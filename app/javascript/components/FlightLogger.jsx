@@ -25,11 +25,11 @@ import FlightController from '../utilities/flightController'
 class FlightLogger extends React.Component {
   constructor(props){
   	super(props);
-	this.functions = [];
+	//this.functions = [];
 	//this.addDataRow = {};
 
 	//this.componentDidMount = this.componentDidMount.bind(this);
-	this.update = this.update.bind(this);
+	//this.update = this.update.bind(this);
 
   	const keys = [
 				'tailNumber',
@@ -51,11 +51,13 @@ class FlightLogger extends React.Component {
 
 // Utils -------------------------------------
 
-  update(newData){
-  	console.log('update');
-  	console.log(newData)
-  	this.addDataRow(newData)
-  }
+  //update(newData){
+  	//console.log('update');
+  	//console.log(newData)
+  	//this.addDataRow(newData)
+    //update={this.update}
+    //getFunctions={this.functions}
+  //}
 
   componentWillMount(){
     //this.database = new Database('flightLogger'); 
@@ -66,9 +68,9 @@ class FlightLogger extends React.Component {
   render() {
     return (
       <div>
-        <Logger key='f1' update={this.update}/>
+        <Logger key='f1' />
         <br />
-        <TableLog key='f2' getFunctions={this.functions}/>
+        <TableLog key='f2' />
         <Cable key='f3'/>
       </div>
     );
@@ -76,8 +78,8 @@ class FlightLogger extends React.Component {
 
 	componentDidMount(){
 	console.log('flight did mount')
-	console.log(this.functions)
-	this.addDataRow = this.functions[0]
+	//console.log(this.functions)
+	//this.addDataRow = this.functions[0]
 
   this.database = new Database('flightLogger'); 
 

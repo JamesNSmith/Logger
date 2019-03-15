@@ -24,7 +24,7 @@ class TableLog extends React.Component {
 		this.timeTextHandler = this.timeTextHandler.bind(this);
 		this.timeButtonHandler = this.timeButtonHandler.bind(this);
 
-		this.props.getFunctions.push(this.addData);
+		//this.props.getFunctions.push(this.addData);
 
 		window.flightControllerDependents['table'] = this
     	console.log(flightControllerDependents)

@@ -11,7 +11,7 @@ class Logger extends React.Component {
 	constructor(props){
 		super(props);
 		//this.props.addDataRow();
-		console.log(this.props.addDataRow)
+		//console.log(this.props.addDataRow)
 		//console.log(this.props.addDataRow({}))
 
 		//this.handleAdd = this.handleAdd.bind(this);
@@ -69,11 +69,52 @@ class Logger extends React.Component {
 		console.log(this.state.data);	
 	}
 
+  membershipHandler(event,memberships){
+    console.log('mem')
+    var option = event.target
+    var line = option[option.value]
+    console.log(line)
+    var data = memberships[option.value]
+    console.log(data)
+    //console.log(line.innerhtml())
+    //console.log(data)
+    //console.log(data.id)
+    //console.log(data.value)
+    //console.log(data[0])
+  }
+
 	handleClear(event){
 		this.clear()
 	}
 
 //constructor ---------------------------------
+  membership(memberships){
+    console.log('membership')
+    console.log(memberships)
+    var options = () => {
+      var lst = [];
+      for(var key in memberships){
+        var defkey = 'opt' + key
+        lst.push(<option key = {defkey} value={key}>{memberships[key]['name']}</option>);
+      }
+      console.log(lst);
+      return lst
+    }
+
+    var handler = (event) => {
+      this.membershipHandler(event,memberships)
+    }
+
+    return(
+    <Form.Group className="group" controlId="formGridState">
+      <Form.Label>.</Form.Label>
+      <Form.Control as="select" onChange={handler}>
+        {options()}
+      </Form.Control>
+    </Form.Group>
+    );
+  }
+  
 
 	render(){
 		return(
@@ -109,14 +150,7 @@ class Logger extends React.Component {
       <Form.Control placeholder="Second Name" name="p1LName" onChange={e => this.handleChange(e)} value={this.state.data["p1LName"]}/>
     </Form.Group>
 
-    <Form.Group className="group" controlId="formGridState">
-      <Form.Label>.</Form.Label>
-      <Form.Control as="select" >
-        <option>Member</option>
-        <option>Tempory Member</option>
-        <option>Trial Flight</option>
-      </Form.Control>
-    </Form.Group>
+    {this.membership(window.memberships)}
 
   </Form.Row>
 
