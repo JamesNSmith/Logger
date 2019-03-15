@@ -2,10 +2,30 @@ import React from "react"
 import Table from 'react-bootstrap/Table'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
+import Dropdown from 'react-bootstrap/Dropdown'
 
 import FlightController from '../utilities/flightController'
 
+/*class CustomToggle extends React.Component {
+  constructor(props, context) {
+    super(props, context);
 
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    e.preventDefault();
+
+    this.props.onClick(e);
+  }
+
+  render() {
+    return (
+      {this.props.children}
+    );
+  }
+}
+*/
 
 class Logger extends React.Component {
 	constructor(props){
@@ -17,25 +37,43 @@ class Logger extends React.Component {
 		//this.handleAdd = this.handleAdd.bind(this);
 
     window.flightControllerDependents['logger'] = this
+
+    this.memberships = window.memberships
 		
     this.state = {
 			data:{
+        aircraftId:'',//aircraft
 				tailNumber:'',
 				acName:'',
+        p1Id:'',//P1
         p1Username:'',
 				p1FName:'',
 				p1LName:'',
+        p1MembershipId:'',
+        p1LaunchFee:'',
+        p1SoaringFee:'',
+        p2Id:'', //P2
         p2Username:'',
-				p2FName:'',
-				p2LName:'',
-        launchTime:'',
-        landTime:'',
+        p2FName:'',
+        p2LName:'',
+        p2MembershipId:'',
+        p2LaunchFee:'',
+        p2SoaringFee:'',
+        payee:'p1',//payment
 				launchFee:'',
-				soaringFee:''
+				soaringFee:'',
+        launchTime:'',//time
+        landTime:''
 			}
 		}
 	}
 
+//coms -------------------------------------
+  //message(){
+    //console.log('Logger')
+  //}
+
+//utils --------------------------------------
   clear(){
     console.log('clear')
     const data = this.state.data
@@ -44,9 +82,16 @@ class Logger extends React.Component {
     }
     this.setState({data:data});
   }
-//coms -------------------------------------
-  message(){
-    console.log('Logger')
+
+  setMembership(membership,user){
+    const data = this.state.data
+
+    data[user+'MembershipId'] = membership['id']
+    data[user+'LaunchFee'] = membership['launchFee']
+    data[user+'SoaringFee'] = membership['soaringFee']
+    console.log(membership)
+
+    this.setState({data:data},() => {console.log('setMembership');console.log(data)});
   }
 
 //handlers -----------------------------------
@@ -64,23 +109,11 @@ class Logger extends React.Component {
 		const data = this.state.data
 		const {name,value} = event.target
 		data[name] = value
-		this.setState({data:data});
-
-		console.log(this.state.data);	
+		this.setState({data:data},console.log(this.state.data));
 	}
 
-  membershipHandler(event,memberships){
-    console.log('mem')
-    var option = event.target
-    var line = option[option.value]
-    console.log(line)
-    var data = memberships[option.value]
-    console.log(data)
-    //console.log(line.innerhtml())
-    //console.log(data)
-    //console.log(data.id)
-    //console.log(data.value)
-    //console.log(data[0])
+  membershipHandler(event,memberships,user){
+    this.setMembership(memberships[event.target.value],user)
   }
 
 	handleClear(event){
@@ -88,30 +121,57 @@ class Logger extends React.Component {
 	}
 
 //constructor ---------------------------------
-  membership(memberships){
-    console.log('membership')
-    console.log(memberships)
+  membership(memberships,user){
     var options = () => {
       var lst = [];
       for(var key in memberships){
         var defkey = 'opt' + key
         lst.push(<option key = {defkey} value={key}>{memberships[key]['name']}</option>);
       }
-      console.log(lst);
       return lst
     }
 
     var handler = (event) => {
-      this.membershipHandler(event,memberships)
+      this.membershipHandler(event,memberships,user)
     }
 
     return(
     <Form.Group className="group" controlId="formGridState">
       <Form.Label>.</Form.Label>
-      <Form.Control as="select" onChange={handler}>
+      <Form.Control as="select" onChange={handler} value={this.state.data[user+'MembershipId']}>
         {options()}
       </Form.Control>
     </Form.Group>
+    );
+  }
+
+  user(title,memberships,user){
+
+    return(
+    <Form.Row className="row">
+      <Form.Label><h3>{title}</h3></Form.Label>
+    
+      <Dropdown>
+      <Form.Group className="group" controlId="formGridFName" >
+        <Form.Label>Name</Form.Label>
+        <Dropdown.Toggle>
+          <Form.Control placeholder="First Name" name={user+"FName"} onChange={e => this.handleChange(e)} value={this.state.data[user+"FName"]}/>
+        </Dropdown.Toggle>
+      </Form.Group>
+
+      <Dropdown.Menu>
+        <Dropdown.Item eventKey="1">Red</Dropdown.Item>
+      </Dropdown.Menu>
+      </Dropdown>
+
+      <Form.Group className="group" controlId="formGridSName">
+        <Form.Label>Second Name</Form.Label>
+        <Form.Control placeholder="Second Name" name={user+"LName"} onChange={e => this.handleChange(e)} value={this.state.data[user+"LName"]}/>
+      </Form.Group>
+
+      {this.membership(memberships,'p1')}
+
+    </Form.Row>
     );
   }
   
@@ -137,22 +197,12 @@ class Logger extends React.Component {
 
   </Form.Row>
 
-  <Form.Row className="row">
-  <Form.Label><h3>P1</h3></Form.Label>
+  
 
-    <Form.Group className="group" controlId="formGridEmail" >
-      <Form.Label>First Name</Form.Label>
-      <Form.Control placeholder="First Name" name="p1FName" onChange={e => this.handleChange(e)} value={this.state.data["p1FName"]}/>
-    </Form.Group>
+    
+  {this.user('P1',this.memberships,'p1')}
 
-    <Form.Group className="group" controlId="formGridPassword">
-      <Form.Label>Second Name</Form.Label>
-      <Form.Control placeholder="Second Name" name="p1LName" onChange={e => this.handleChange(e)} value={this.state.data["p1LName"]}/>
-    </Form.Group>
-
-    {this.membership(window.memberships)}
-
-  </Form.Row>
+    
 
   <Form.Row className="row">
   <Form.Label><h3>P2</h3></Form.Label>
@@ -223,6 +273,8 @@ class Logger extends React.Component {
 	}
 
   componentDidMount(){
+    console.log('logger did mount')
+    this.setMembership(this.memberships[Object.keys(this.memberships)[0]],'p1')
    
   }
 }

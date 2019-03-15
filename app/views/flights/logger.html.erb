@@ -4,11 +4,20 @@
     console.log(window.user);
     window.club = {id:<%=  @club['id'] %>, name:'<%= @club['name'] %>'}; 
     console.log(window.club);
-    window.memberships = []
+
+    window.memberships = {}
     <% @memberships.each do |membership| %>
-      memberships.push({id:<%= membership['id'] %>,name:'<%= membership['name'] %>',launchFee:<%= membership['launch_fee'] %>,soaringFee:<%= membership['soaring_fee'] %>})
+      memberships[<%= membership['id'] %>] = {id:<%= membership['id'] %>,name:'<%= membership['name'] %>',launchFee:<%= membership['launch_fee'] %>,soaringFee:<%= membership['soaring_fee'] %>}
     <% end %>
     console.log(memberships)
+
+    window.users = []
+    console.log('Users -------------------------------')
+    <% @users.each do |user| %>
+      users.push({id:<%= user['id'] %>, fName:'<%= user['first_name'] %>', lName:'<%= user['last_name'] %>',membershipId:<%= @userMemberships[user['id']] %>})
+    <% end %>
+    console.log(users)
+
   <% end %>
   
   <h1>Logger</h1>
@@ -18,3 +27,4 @@
   </div>
 
 </div>
+
