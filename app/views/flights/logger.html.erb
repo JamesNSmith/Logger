@@ -11,12 +11,12 @@
     <% end %>
     console.log(memberships)
 
-    window.users = []
+    window.clubUsers = []
     console.log('Users -------------------------------')
     <% @users.each do |user| %>
-      users.push({id:<%= user['id'] %>, fName:'<%= user['first_name'] %>', lName:'<%= user['last_name'] %>',membershipId:<%= @userMemberships[user['id']] %>})
+      clubUsers.push({id:<%= user['id'] %>, fName:'<%= user['first_name'] %>', lName:'<%= user['last_name'] %>',membershipId:<%= @userMemberships[user['id']] %>})
     <% end %>
-    console.log(users)
+    console.log(clubUsers)
 
   <% end %>
   

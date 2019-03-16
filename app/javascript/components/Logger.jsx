@@ -1,31 +1,77 @@
 import React from "react"
 import Table from 'react-bootstrap/Table'
 import Form from 'react-bootstrap/Form'
+import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import Dropdown from 'react-bootstrap/Dropdown'
 
 import FlightController from '../utilities/flightController'
 
-/*class CustomToggle extends React.Component {
+class CustomToggle extends React.Component {
   constructor(props, context) {
     super(props, context);
-
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(e) {
-    e.preventDefault();
-
-    this.props.onClick(e);
   }
 
   render() {
+    const children = React.Children.map(this.props.children, child => {
+      return React.cloneElement(child, {
+          onClick: this.props.onClick
+        });
+    });
+    
     return (
-      {this.props.children}
+      <div>
+        {children}
+      </div>
     );
   }
 }
-*/
+
+class CustomMenu extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleChange = this.handleChange.bind(this);
+
+    this.state = { value: '' };
+    console.log('CustomMenu')
+    console.log(this.props.value)
+  }
+
+  handleChange(e) {
+    this.setState({ value: e.target.value.toLowerCase().trim() });
+
+  }
+
+  render() {
+    const {
+      children,
+      style,
+      className,
+      'aria-labelledby': labeledBy,
+    } = this.props;
+
+    const value = this.props.value;
+
+    console.log('CustomMenuRender')
+    console.log(value)
+
+    var query = React.Children.toArray(children).filter(
+            child =>
+              !value || child.props.children.toLowerCase().startsWith(value),
+          )
+    console.log(query)
+
+    return (
+      <div style={style} className={className} aria-labelledby={labeledBy}>
+        <ul className="list-unstyled">
+          {query}
+        </ul>
+      </div>
+    );
+  }
+}
+
 
 class Logger extends React.Component {
 	constructor(props){
@@ -39,6 +85,7 @@ class Logger extends React.Component {
     window.flightControllerDependents['logger'] = this
 
     this.memberships = window.memberships
+    this.clubUsers = window.clubUsers
 		
     this.state = {
 			data:{
@@ -145,22 +192,33 @@ class Logger extends React.Component {
     );
   }
 
-  user(title,memberships,user){
+  user(title,user,clubUsers,memberships){
+
+    var userRows = () => {
+      var lst = []
+      for(var key in clubUsers){
+        lst.push(<Dropdown.Item eventKey={key}>{clubUsers[key]['fName']}</Dropdown.Item>);
+      }
+      return lst
+    }
 
     return(
     <Form.Row className="row">
       <Form.Label><h3>{title}</h3></Form.Label>
     
-      <Dropdown>
+      <Dropdown dropupauto="false">
       <Form.Group className="group" controlId="formGridFName" >
         <Form.Label>Name</Form.Label>
-        <Dropdown.Toggle>
-          <Form.Control placeholder="First Name" name={user+"FName"} onChange={e => this.handleChange(e)} value={this.state.data[user+"FName"]}/>
+        
+        <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+          <Form.Control autoComplete="new-password" placeholder="First Name" name={user+"FName"} onChange={e => this.handleChange(e)} value={this.state.data[user+"FName"]}/>
         </Dropdown.Toggle>
       </Form.Group>
 
-      <Dropdown.Menu>
-        <Dropdown.Item eventKey="1">Red</Dropdown.Item>
+      <Dropdown.Menu as={CustomMenu} value={this.state.data[user+"FName"]}>
+        {userRows()}
+        
+        <Dropdown.Item eventKey="2">Green</Dropdown.Item>
       </Dropdown.Menu>
       </Dropdown>
 
@@ -181,7 +239,7 @@ class Logger extends React.Component {
 			<div>
 			
 <div className="form">
-<Form className="formform" onSubmit={e => this.handleAdd(e)}>
+<Form className="formform" onSubmit={e => this.handleAdd(e)} >
   <Form.Row className="row">
   <Form.Label><h3>Aircraft</h3></Form.Label>
 
@@ -200,7 +258,7 @@ class Logger extends React.Component {
   
 
     
-  {this.user('P1',this.memberships,'p1')}
+  {this.user('P1','p1',this.clubUsers,this.memberships)}
 
     
 
