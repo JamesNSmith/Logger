@@ -17,7 +17,7 @@
 /*main*/
 
 
-/*
+
 html, body {
   background: #fff;
   font-family: Arial, sans-serif;
@@ -26,7 +26,7 @@ html, body {
   padding: 0;
   text-transform: lowercase;
 }
-*/
+
 
 body{
 	margin:0;
@@ -44,7 +44,7 @@ h1{
 	border: 1px solid red;
 }
 
-/*header-----------------*/
+//header-----------------
 $headColor:rgb(227,225,225);
 $headHeight:35px;
 
@@ -95,7 +95,7 @@ header {
 	}
 }
 
-/*nav------------------*/
+//nav------------------
 nav{
 	margin-top: 10px;
 
@@ -126,12 +126,12 @@ nav{
 	}
 }
 
-.main {
+/*.main {
 	margin:35px auto;
 	padding:10px;
 	width:85%;
 }
-
+*/
 
 /*.login, .signup {
   margin: 0 auto;
