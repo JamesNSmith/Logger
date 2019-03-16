@@ -5,8 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-ua1 = User.create(username:'jamesnsmith',email: 'jamesnsmith@hotmail.co.uk', password: '01020102', password_confirmation: '01020102', first_name: 'James', last_name: 'Smith', utype: 'webadmin')
-ua2 = User.create(username:'jamesnsmith97',email: 'jamesnsmith97@gmail.com', password: '01020102', password_confirmation: '01020102', first_name: 'James', last_name: 'Smith', utype: 'clubadmin')
+ua1 = User.create(username:'jamesnsmith',email: 'jamesnsmith@hotmail.co.uk', password: '1234', password_confirmation: '1234', first_name: 'James', last_name: 'Smith', utype: 'webadmin')
+ua2 = User.create(username:'jamesnsmith97',email: 'jamesnsmith97@gmail.com', password: '1234', password_confirmation: '1234', first_name: 'James', last_name: 'Smith', utype: '')
 
 u1 = User.create(username:'carlosBu',email: 'carlos@email.com', password: 'Carlos1', password_confirmation: 'Carlos1', first_name: 'Carlos', last_name: 'Bueno')
 u2 = User.create(username:'freidaBu',email: 'freida@email.com', password: 'Freida1', password_confirmation: 'Freida1', first_name: 'Frieda', last_name: 'Bueno')
@@ -47,7 +47,7 @@ a5 = Aircraft.create(registration:'G-CIRC', name:'k8', actype:'glider')
 a6 = Aircraft.create(registration:'G-CHUV', name:'Puchacz', actype:'glider')
 
 cud1 = ClubUser.create(user:ua1,club:cd1,membership:md1,utype:'admin')
-cud2 = ClubUser.create(user:ua2,club:cd1,membership:md1,utype:'admin') #userType:normal,admin,normal editor, normal financial
+cud2 = ClubUser.create(user:ua2,club:c1,membership:m4,utype:'admin') #userType:normal,admin,normal editor, normal financial
 cu1 = ClubUser.create(user:u1,club:c1,membership:m4,utype:'')
 cu2 = ClubUser.create(user:u2,club:c1,membership:m4,utype:'')
 cu3 = ClubUser.create(user:u3,club:c1,membership:m5,utype:'')

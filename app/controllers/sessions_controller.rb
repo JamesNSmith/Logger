@@ -9,6 +9,11 @@ class SessionsController < ApplicationController
     @user = User.find_by_email(params[:session][:email]) 
     if @user && @user.authenticate(params[:session][:password]) 
       session[:user_id] = @user.id
+      @club = @user.clubs
+      if @club 
+        session[:club_id] = (@club.first)['id']
+      end
+
       #session[:expires] = 1.hour
       @@status = ''
       redirect_to '/' 

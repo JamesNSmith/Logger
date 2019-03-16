@@ -1,4 +1,6 @@
 class FlightsController < ApplicationController
+	before_action :require_user #, only: [:index, :show]
+
 	def index
 		puts("index --------------")
       	@flight_dates = Flight.select(:launch_date).distinct.order(launch_date: :desc)
