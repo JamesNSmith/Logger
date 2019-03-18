@@ -108,3 +108,19 @@ div.form{
     margin:0;
     padding:0;
 }
+
+#name{
+    width:400px;
+    height:40px;
+}
+
+#name ul{
+    display: inline-block;
+}
+
+#name li{
+    width:190px;
+    display:block;
+    float: left;
+    padding: 5px;
+}

@@ -12,6 +12,10 @@ class CustomToggle extends React.Component {
     super(props, context);
   }
 
+  //click(){
+    //this.props.onClick
+  //}
+
   render() {
     const children = React.Children.map(this.props.children, child => {
       return React.cloneElement(child, {
@@ -31,17 +35,14 @@ class CustomMenu extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.handleChange = this.handleChange.bind(this);
-
     this.state = { value: '' };
-    console.log('CustomMenu')
-    console.log(this.props.value)
   }
-
+  /*
   handleChange(e) {
     this.setState({ value: e.target.value.toLowerCase().trim() });
 
   }
+  */
 
   render() {
     const {
@@ -53,19 +54,19 @@ class CustomMenu extends React.Component {
 
     const value = this.props.value;
 
-    console.log('CustomMenuRender')
-    console.log(value)
+    //var query = React.Children.toArray(children).filter(
+            //child =>
+              //!value || child.props.children.toLowerCase().startsWith(value.toLowerCase()),
+          //)
 
-    var query = React.Children.toArray(children).filter(
-            child =>
-              !value || child.props.children.toLowerCase().startsWith(value),
-          )
-    console.log(query)
+    const childs = React.Children.map(this.props.children, child => {
+      return React.cloneElement(child,{});
+    });
 
     return (
       <div style={style} className={className} aria-labelledby={labeledBy}>
         <ul className="list-unstyled">
-          {query}
+          {childs}
         </ul>
       </div>
     );
@@ -80,12 +81,13 @@ class Logger extends React.Component {
 		//console.log(this.props.addDataRow)
 		//console.log(this.props.addDataRow({}))
 
-		//this.handleAdd = this.handleAdd.bind(this);
+		this.handleAdd = this.handleAdd.bind(this);
+    //this.menuHandler = this.menuHandler.bind(this);
 
     window.flightControllerDependents['logger'] = this
 
     this.memberships = window.memberships
-    this.clubUsers = window.clubUsers
+    this.totalClubUsers = window.clubUsers
 		
     this.state = {
 			data:{
@@ -111,7 +113,8 @@ class Logger extends React.Component {
 				soaringFee:'',
         launchTime:'',//time
         landTime:''
-			}
+			},
+      clubUsers:this.totalClubUsers
 		}
 	}
 
@@ -130,15 +133,22 @@ class Logger extends React.Component {
     this.setState({data:data});
   }
 
-  setMembership(membership,user){
+  setData(nameValue,successHandler = () => {console.log(this.state.data)}){
+    console.log(nameValue)
     const data = this.state.data
+    for(var key in nameValue){
+      data[nameValue[key][0]] = nameValue[key][1]
+    }
+    this.setState({data:data},successHandler());
+  }
 
-    data[user+'MembershipId'] = membership['id']
-    data[user+'LaunchFee'] = membership['launchFee']
-    data[user+'SoaringFee'] = membership['soaringFee']
-    console.log(membership)
-
-    this.setState({data:data},() => {console.log('setMembership');console.log(data)});
+  setMembership(membership,user){
+    var data = [
+      [user+'MembershipId', membership['id']],
+      [user+'LaunchFee', membership['launchFee']],
+      [user+'SoaringFee', membership['soaringFee']]
+    ]
+    this.setData(data)
   }
 
 //handlers -----------------------------------
@@ -163,6 +173,13 @@ class Logger extends React.Component {
     this.setMembership(memberships[event.target.value],user)
   }
 
+  /*menuHandler(event,column){
+    console.log('menuHandler')
+    console.log(column)
+    console.log(event.target.name)
+    this.setData([['p1'+column,event.target.innerHTML]])
+  }*/
+
 	handleClear(event){
 		this.clear()
 	}
@@ -178,14 +195,14 @@ class Logger extends React.Component {
       return lst
     }
 
-    var handler = (event) => {
-      this.membershipHandler(event,memberships,user)
-    }
+    //var handler = (event) => {
+      //this.membershipHandler(event,memberships,user)
+    //}
 
     return(
     <Form.Group className="group" controlId="formGridState">
-      <Form.Label>.</Form.Label>
-      <Form.Control as="select" onChange={handler} value={this.state.data[user+'MembershipId']}>
+      <Form.Label>Membership</Form.Label>
+      <Form.Control as="select" onChange={e => this.membershipHandler(e,memberships,user)} value={this.state.data[user+'MembershipId']}>
         {options()}
       </Form.Control>
     </Form.Group>
@@ -193,12 +210,60 @@ class Logger extends React.Component {
   }
 
   user(title,user,clubUsers,memberships){
+    var columns = {'FName':'','LName':''}
 
-    var userRows = () => {
+    var filter = (handler = (result) => {console.log(result)}) => {
       var lst = []
-      for(var key in clubUsers){
+      var tUsers = this.totalClubUsers
+      
+      for(var userKey in tUsers){
+        var count = 0
+        for(var columnKey in columns){
+          if(!((tUsers[userKey][columnKey].toLowerCase().startsWith(columns[columnKey].toLowerCase()))||(columns[columnKey] == ''))){count++}
+        }
+        if(count == 0){lst.push(tUsers[userKey])}
+      }
+      this.setState({clubUsers:lst});
+      return lst
+    }
+
+    var handleChange = (event) => {
+      const {name,value} = event.target
+      console.log('handle')
+      columns[name.slice(2)] = value
+      filter()
+
+      this.setData([[name,value]])
+    }
+
+    var menuHandler = (event,column,key) => {
+      columns[column] = event.target.innerHTML
+      var clubUsr = filter()
+      if(clubUsr.length == 1){
+        console.log('filter')
+        console.log(clubUsr)
+        var lst = []
+        var clubUser = clubUsr[0]
+        for(var key in clubUser){
+          lst.push([user + key,clubUser[key]])
+        }
+        console.log(lst)
+        this.setData(lst)
+      } else {
+        this.setData([[user+column,event.target.innerHTML]])
+      }
+      
+      
+      console.log('end')
+      console.log(this.state.clubUsers)
+    }
+
+    var userRows = (column) => {
+      
+      var lst = []
+      for(var key in this.state.clubUsers){
         var idkey = 'DI' + key
-        lst.push(<Dropdown.Item key={idkey} eventKey={key}>{clubUsers[key]['fName']}</Dropdown.Item>);
+        lst.push(<Dropdown.Item key={idkey} eventKey={key} onClick={e => menuHandler(e,column,key)}>{this.state.clubUsers[key][column]}</Dropdown.Item>);
       }
       return lst
     }
@@ -207,26 +272,38 @@ class Logger extends React.Component {
     <Form.Row className="row">
       <Form.Label><h3>{title}</h3></Form.Label>
     
-      <Dropdown dropupauto="false">
+      
       <Form.Group className="group" controlId="formGridFName" >
         <Form.Label>Name</Form.Label>
+       
+        <ul id="name">
+        <li>
+        <Dropdown dropupauto="false">
+          <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+            <Form.Control autoComplete="new-password" placeholder="First Name" name={user+"FName"} onChange={e => handleChange(e)} value={this.state.data[user+"FName"]}/>
+          </Dropdown.Toggle>
+
+          <Dropdown.Menu key="DMFName" as={CustomMenu} value={this.state.data[user+"FName"]}>
+            {userRows('FName')}
+          </Dropdown.Menu>
+        </Dropdown>
+        </li>
+
+        <li>
+        <Dropdown dropupauto="false">
+          <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+            <Form.Control autoComplete="new-password" placeholder="Last Name" name={user+"LName"} onChange={e => handleChange(e)} value={this.state.data[user+"LName"]}/>
+          </Dropdown.Toggle>
+          <Dropdown.Menu key="DMLName" as={CustomMenu} value={this.state.data[user+"LName"]}>
+            {userRows('LName')}
+          </Dropdown.Menu>
+        </Dropdown>
+        </li>
+        </ul>
         
-        <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-          <Form.Control autoComplete="new-password" placeholder="First Name" name={user+"FName"} onChange={e => this.handleChange(e)} value={this.state.data[user+"FName"]}/>
-        </Dropdown.Toggle>
       </Form.Group>
 
-      <Dropdown.Menu as={CustomMenu} value={this.state.data[user+"FName"]}>
-        {userRows()}
-        
-        <Dropdown.Item eventKey="2">Green</Dropdown.Item>
-      </Dropdown.Menu>
-      </Dropdown>
-
-      <Form.Group className="group" controlId="formGridSName">
-        <Form.Label>Second Name</Form.Label>
-        <Form.Control placeholder="Second Name" name={user+"LName"} onChange={e => this.handleChange(e)} value={this.state.data[user+"LName"]}/>
-      </Form.Group>
+      
 
       {this.membership(memberships,'p1')}
 
