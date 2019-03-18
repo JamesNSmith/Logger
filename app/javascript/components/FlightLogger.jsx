@@ -89,6 +89,7 @@ class FlightLogger extends React.Component {
   }
 
   componentWillUnmount(){
+    console.log('end')
     this.flightController.delete()
     delete this.flightContoller
   }

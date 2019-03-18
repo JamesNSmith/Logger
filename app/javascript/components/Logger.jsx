@@ -197,7 +197,8 @@ class Logger extends React.Component {
     var userRows = () => {
       var lst = []
       for(var key in clubUsers){
-        lst.push(<Dropdown.Item eventKey={key}>{clubUsers[key]['fName']}</Dropdown.Item>);
+        var idkey = 'DI' + key
+        lst.push(<Dropdown.Item key={idkey} eventKey={key}>{clubUsers[key]['fName']}</Dropdown.Item>);
       }
       return lst
     }
@@ -334,6 +335,10 @@ class Logger extends React.Component {
     console.log('logger did mount')
     this.setMembership(this.memberships[Object.keys(this.memberships)[0]],'p1')
    
+  }
+
+  componentWillUnmount(){
+    console.log('end logger')
   }
 }
 
