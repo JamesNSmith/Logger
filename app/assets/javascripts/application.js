@@ -16,3 +16,12 @@
 //= require react_ujs
 //= require components
 //= require_tree .
+//= require jquery
+
+$(document).ready(() => {
+  $('.user-button').on('click', () => {
+  	console.log('click')
+    $('.user-menu').toggleClass('hide');
+    $('.user-button').toggleClass('button-active');
+  })  
+}); 

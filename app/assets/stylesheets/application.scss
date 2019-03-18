@@ -14,7 +14,7 @@
  *= require_self
  */
 
-/*main*/
+//main ------------------------------------
 
 
 
@@ -24,9 +24,11 @@ html, body {
   font-weight: bold;
   margin: 0;
   padding: 0;
-  text-transform: lowercase;
+  //text-transform: lowercase;
+  height: 100%;
+  //font-weight: 300;
+  //color: #656565;
 }
-
 
 body{
 	margin:0;
@@ -35,14 +37,221 @@ body{
 	//background-color:#DAD8D2;
 	//#efefed
 }
+	
+/*body
+{
+	margin: 0px;
+	padding: 0px;
+	background: #333333;
+	font-family: 'Varela', sans-serif;
+	font-size: 11pt;
+	font-weight: 300;
+	color: #656565;
+}*/
+	
+	
+h1, h2, h3
+{
+	margin: 0;
+	padding: 0;
+	font-weight: 700;
+	color: #2B3F48;
+}
 
 h1{
 	text-align:center
+}
+	
+p, ol, ul
+{
+	margin-top: 0;
+}
+	
+ol, ul
+{
+	padding: 0;
+	list-style: none;
+}
+	
+strong
+{
+}
+	
+a
+{
+	color: #0000FF;
+}
+	
+a:hover
+{
+	text-decoration: none;
 }
 
 .error{
 	border: 1px solid red;
 }
+
+//new header
+
+.containerPageHeader
+	{
+		//overflow: hidden;
+		margin: 0em auto;
+		width: 1400px;
+	}
+
+/*********************************************************************************/
+/* Header                                                                        */
+/*********************************************************************************/
+
+	#header-wrapper
+	{
+		background: #333333;
+	}
+
+	#header
+	{
+		position: relative;
+		padding: 3em 0em;
+	}
+
+/*********************************************************************************/
+/* Logo                                                                          */
+/*********************************************************************************/
+
+	#logo
+	{
+		position: absolute;
+		top: 1em;
+		left: 0;
+	}
+	
+	#logo h1
+	{
+		color: #FFF;
+	}
+	
+	#logo a
+	{
+		text-decoration: none;
+		text-transform: uppercase;
+		color: #FFF;
+	}
+
+/*********************************************************************************/
+/* Menu                                                                          */
+/*********************************************************************************/
+
+	#menu
+	{
+		position: absolute;
+		top: 2em;
+		right: 0em;
+	}
+	
+	#menu ul
+	{
+		display: inline-block;
+	}
+	
+	#menu li
+	{
+		display: block;
+		float: left;
+		text-align: center;
+	}
+	
+	#menu li a, #menu li span
+	{
+		padding: 1em 1.5em;
+		letter-spacing: 1px;
+		text-decoration: none;
+		text-transform: uppercase;
+		font-size: 0.8em;
+		color: #FFF;
+	}
+	
+	#menu li:hover a, #menu li.active a, #menu li.active span
+	{
+		color: #FFF;
+	}
+	
+	#menu .current_page_item a
+	{
+		background: #009E2D;
+		color: #FFF;
+	}
+	
+	#menu .icon
+	{
+	}
+
+	.containerUser {
+  		max-width: 450px;
+  		margin: 0 auto; 
+	}
+
+	.hide {
+  		display: none; 
+  	}
+
+  	.user-menu {
+  		background-color: #535353;
+  		color: #EFEFEF;
+  		//display: flex;
+  		//justify-content: right;
+  		width:150px;
+  		position:absolute;
+  		top:5em;
+  		right:0em;
+  	}
+  	
+  	.user-menu .containerUser {
+    	padding: 1.5em;
+    	display: flex; 
+    }
+    .user-menu .containerUser ul {
+      	list-style: none; 
+      }
+    .user-menu .containerUser ul li {
+        padding: 0.25em 0.5em; 
+    }
+    .user-menu .containerUser ul li:first-child {
+        text-transform: uppercase;
+        color: #C3FF00;
+        letter-spacing: 0.05em; 
+    }
+
+/*********************************************************************************/
+/* User                                                                          */
+/*********************************************************************************/
+/*
+#user
+{
+	position: absolute;
+	top: 1em;
+	right: 0;
+}
+
+#user ul
+{
+	display: inline-block;
+}
+
+#user li
+{
+	display: block;
+	float: left;
+	text-align: center;
+
+	padding: 1em 1.5em;
+	letter-spacing: 1px;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 0.8em;
+	color: #FFF;
+}
+*/
 
 //header-----------------
 $headColor:rgb(227,225,225);

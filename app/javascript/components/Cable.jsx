@@ -120,12 +120,12 @@ class Cable extends React.Component {
 
 	componentWillUnmount(){
 		console.log(this.cableApp.cable.subscriptions)
-		if(this.cableApp.cable.subscriptions['subscriptions'][0]){
-			this.cableApp.cable.subscriptions.remove(this.cableApp.cable.subscriptions['subscriptions'][0])
+		//if(this.cableApp.cable.subscriptions['subscriptions'][0]){
+			//this.cableApp.cable.subscriptions.remove(this.cableApp.cable.subscriptions['subscriptions'][0])
 		
-		}
+		//}
 		console.log(this.cableApp.cable.subscriptions)
-		this.cableApp.cable.subscriptions.consumer.disconnect();
+		//this.cableApp.cable.subscriptions.consumer.disconnect();
 		console.log(this.cableApp.cable.subscriptions)
 	}
 }

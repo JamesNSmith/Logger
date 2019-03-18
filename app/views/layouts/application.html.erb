@@ -38,8 +38,6 @@
           <td>
           <% case current_user.utype when 'webadmin' %>
             <h3>WA</h3>
-          <% when 'clubadmin' %>
-            <h3>CA</h3>
           <% else %>
             <h3>U</h3>
           <% end %>
@@ -75,6 +73,46 @@
         <li>Web Admin</li-->
   		</ul>
   	</nav>
+
+    <div id="header-wrapper">
+      <div id="header" class="containerPageHeader">
+        <div id="logo">
+          <h1><a href="#">FlightLogger</a></h1>
+        </div>
+        <div id="menu">
+        <ul>
+          <li class="current_page_item"><a href="#" accesskey="1" title="">Homepage</a></li>
+          <li><a href="#" accesskey="2" title="">Logger</a></li>
+          <li><a href="#" accesskey="3" title="">About</a></li>
+        </ul>
+        <ul>
+          <% if current_user %>
+      
+          <li class="user-button"><a accesskey="4" title=""><%= current_user.username %></a></li>
+      
+          <% else %>
+          <li><a accesskey="4" title=""><%= link_to "Sign In", 'login' %></a></li>
+          <li><a accesskey="5" title=""><%= link_to "Sign Up", 'signup' %></a></li>
+          <% end %>  
+        </ul>
+        </div>
+        <div class="user-menu hide">
+        <div class="containerUser">
+        <ul>
+          <li>
+            <% if current_club %>
+              <%= link_to current_club.initials, '/clubs/del', method: "delete" %>
+            <% end %>
+          </li>
+          <li>two</li>
+          <li><a accesskey="8" title=""><%= link_to "Log Out", logout_path, method: "delete" %></a></li>
+        </ul>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    
 
     <%= yield %>
 
