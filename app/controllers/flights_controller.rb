@@ -28,6 +28,8 @@ class FlightsController < ApplicationController
 			end
 			
 		end
+
+		@aircrafts = @club.aircrafts
 		
 
 		@flights = Flight.all

@@ -10,11 +10,25 @@ import FlightController from '../utilities/flightController'
 class CustomToggle extends React.Component {
   constructor(props, context) {
     super(props, context);
+
+    
   }
 
-  //click(){
-    //this.props.onClick
-  //}
+  /*
+  this.state = { position: 'closed' };
+    this.state.position = this.props.state
+
+    this.clickHandler = this.clickHandler.bind(this);
+  clickHandler(e){
+    console.log('click')
+    this.props.onClick(e)
+    console.log(e)
+    if(this.state.position == 'closed'){
+      this.setState({position: 'open'},console.log(this.state.position))
+    } else {
+      this.setState({position: 'closed'},console.log(this.state.position))
+    }
+  }*/
 
   render() {
     const children = React.Children.map(this.props.children, child => {
@@ -88,11 +102,12 @@ class Logger extends React.Component {
 
     this.memberships = window.memberships
     this.totalClubUsers = window.clubUsers
+    this.totalAircrafts = window.aircrafts
 		
     this.state = {
 			data:{
         aircraftId:'',//aircraft
-				tailNumber:'',
+				registration:'',
 				acName:'',
         p1Id:'',//P1
         p1Username:'',
@@ -114,7 +129,9 @@ class Logger extends React.Component {
         launchTime:'',//time
         landTime:''
 			},
-      clubUsers:this.totalClubUsers
+      p1ClubUsers:this.totalClubUsers,
+      p2ClubUsers:this.totalClubUsers,
+      aircrafts:this.totalAircrafts
 		}
 	}
 
@@ -180,11 +197,15 @@ class Logger extends React.Component {
     this.setData([['p1'+column,event.target.innerHTML]])
   }*/
 
+  //formHandler(e){
+    //console.log(e)
+  //}
+
 	handleClear(event){
 		this.clear()
 	}
 
-//constructor ---------------------------------
+//constructors ---------------------------------
   membership(memberships,user){
     var options = () => {
       var lst = [];
@@ -195,26 +216,64 @@ class Logger extends React.Component {
       return lst
     }
 
-    //var handler = (event) => {
-      //this.membershipHandler(event,memberships,user)
-    //}
-
     return(
-    <Form.Group className="group" controlId="formGridState">
-      <Form.Label>Membership</Form.Label>
       <Form.Control as="select" onChange={e => this.membershipHandler(e,memberships,user)} value={this.state.data[user+'MembershipId']}>
         {options()}
       </Form.Control>
-    </Form.Group>
     );
   }
 
-  user(title,user,clubUsers,memberships){
-    var columns = {'FName':'','LName':''}
+  dropdownInput(column,columnFull,placeHolder,dropdownRows,filter,menuUpdateHandler){
+    var formHandler = (event) => {
+      const {name,value} = event.target
+      this.setData([[name,value]],filter)
+    }
+
+    var menuHandler = (event,columnFull,key) => {
+      var text = event.target.innerHTML
+
+      var menuQueue = new Promise((resolve,reject) => {this.setData([[columnFull,text]],resolve)})
+      .then(()=>{return new Promise((resolve,reject) => {filter(resolve)})})
+      .then(()=>{menuUpdateHandler(text,columnFull,key)})
+      .catch((error) => {console.log('menuQueue failed:');console.log(error)})
+      
+    }
+
+    var dropRows = (column,columnFull) => {
+      
+      var lst = []
+      for(var key in dropdownRows){
+        var idkey = 'DI' + key
+        lst.push(<Dropdown.Item key={idkey} eventKey={key} onClick={e => menuHandler(e,columnFull,key)}>{dropdownRows[key][column]}</Dropdown.Item>);
+      }
+      return lst
+    }
+
+    return (
+      <Dropdown dropupauto="false">
+        <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+          <Form.Control autoComplete="new-password" placeholder={placeHolder} name={columnFull} onChange={e => formHandler(e)}  value={this.state.data[columnFull]}/>
+        </Dropdown.Toggle>
+
+        <Dropdown.Menu key={"DM" + columnFull} as={CustomMenu} value={this.state.data[columnFull]}>
+          {dropRows(column,columnFull)}
+        </Dropdown.Menu>
+      </Dropdown>
+      );
+  }
+
+  user(title,user){
+    var columnNames = ['FName','LName']
+    var menuName = user+'ClubUsers'
 
     var filter = (handler = (result) => {console.log(result)}) => {
       var lst = []
+      var columns = {}
       var tUsers = this.totalClubUsers
+
+      for(var key in columnNames){
+        columns[columnNames[key]] = this.state.data[user+columnNames[key]]
+      }
       
       for(var userKey in tUsers){
         var count = 0
@@ -223,91 +282,143 @@ class Logger extends React.Component {
         }
         if(count == 0){lst.push(tUsers[userKey])}
       }
-      this.setState({clubUsers:lst});
-      return lst
+
+      var data = {}
+      data[menuName] = lst
+      this.setState(data,handler(lst));
     }
 
-    var handleChange = (event) => {
-      const {name,value} = event.target
-      console.log('handle')
-      columns[name.slice(2)] = value
-      filter()
+    var menuUpdateHandler = (text,columnFull,key) => {
+      var users = this.state[menuName]
+      if(users.length == 1){
 
-      this.setData([[name,value]])
-    }
-
-    var menuHandler = (event,column,key) => {
-      columns[column] = event.target.innerHTML
-      var clubUsr = filter()
-      if(clubUsr.length == 1){
-        console.log('filter')
-        console.log(clubUsr)
         var lst = []
-        var clubUser = clubUsr[0]
+        var clubUser = users[0]
         for(var key in clubUser){
-          lst.push([user + key,clubUser[key]])
-        }
-        console.log(lst)
-        this.setData(lst)
-      } else {
-        this.setData([[user+column,event.target.innerHTML]])
-      }
-      
-      
-      console.log('end')
-      console.log(this.state.clubUsers)
-    }
 
-    var userRows = (column) => {
-      
-      var lst = []
-      for(var key in this.state.clubUsers){
-        var idkey = 'DI' + key
-        lst.push(<Dropdown.Item key={idkey} eventKey={key} onClick={e => menuHandler(e,column,key)}>{this.state.clubUsers[key][column]}</Dropdown.Item>);
+          if(key == 'MembershipId'){
+            this.setMembership(this.memberships[clubUser['MembershipId']],user)
+          } else {
+          lst.push([user + key,clubUser[key]])
+          }
+        }
+        this.setData(lst)
+
+      } else {
+        this.setData([[columnFull,text]])
       }
-      return lst
+      
     }
 
     return(
     <Form.Row className="row">
       <Form.Label><h3>{title}</h3></Form.Label>
     
-      
       <Form.Group className="group" controlId="formGridFName" >
         <Form.Label>Name</Form.Label>
-       
+      
         <ul id="name">
-        <li>
-        <Dropdown dropupauto="false">
-          <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-            <Form.Control autoComplete="new-password" placeholder="First Name" name={user+"FName"} onChange={e => handleChange(e)} value={this.state.data[user+"FName"]}/>
-          </Dropdown.Toggle>
 
-          <Dropdown.Menu key="DMFName" as={CustomMenu} value={this.state.data[user+"FName"]}>
-            {userRows('FName')}
-          </Dropdown.Menu>
-        </Dropdown>
+        <li>
+        {this.dropdownInput('FName',user+'FName',"First Name",this.state[menuName],filter,menuUpdateHandler)}
         </li>
 
         <li>
-        <Dropdown dropupauto="false">
-          <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-            <Form.Control autoComplete="new-password" placeholder="Last Name" name={user+"LName"} onChange={e => handleChange(e)} value={this.state.data[user+"LName"]}/>
-          </Dropdown.Toggle>
-          <Dropdown.Menu key="DMLName" as={CustomMenu} value={this.state.data[user+"LName"]}>
-            {userRows('LName')}
-          </Dropdown.Menu>
-        </Dropdown>
+        {this.dropdownInput('LName',user+'LName',"Last Name",this.state[menuName],filter,menuUpdateHandler)}
         </li>
         </ul>
         
       </Form.Group>
 
-      
+      <Form.Group className="group" controlId="formGridState">
+        <Form.Label>Membership</Form.Label>
 
-      {this.membership(memberships,'p1')}
+        {this.membership(this.memberships,user)}
+
+      </Form.Group>
 
     </Form.Row>
+    );
+  }
+
+  aircraft(){
+    var columnNames = ['registration','acName']; //
+    var menuName = 'aircrafts';
+
+    var filter = (handler = (result) => {console.log(result)}) => {
+      console.log('aircraft filter')
+
+      var lst = []
+      var columns = {}
+      var tAircrafts = this.totalAircrafts
+
+      for(var key in columnNames){
+        columns[columnNames[key]] = this.state.data[columnNames[key]]
+      }
+      
+      for(var userKey in tAircrafts){
+        var count = 0
+        for(var columnKey in columns){
+
+          if(!((tAircrafts[userKey][columnKey].toLowerCase().startsWith(columns[columnKey].toLowerCase()))||(columns[columnKey] == ''))){
+            if(!tAircrafts[userKey][columnKey].toLowerCase().slice(3).startsWith(columns[columnKey].toLowerCase())){
+              count++
+            }
+          }
+
+        }
+        if(count == 0){lst.push(tAircrafts[userKey])}
+      }
+
+      var data = {}
+      data[menuName] = lst
+      this.setState(data,handler(lst));
+    }
+
+    var menuUpdateHandler = (text,columnFull,key) => {
+      var aircrafts = this.state[menuName]
+      if(aircrafts.length == 1){
+
+        var lst = []
+        var aircraft = aircrafts[0]
+        for(var key in aircraft){
+          
+          if(key == 'id'){
+            lst.push(['aircraftId',aircraft[key]])
+          } else {
+            lst.push([key,aircraft[key]])
+          }
+
+        }
+        this.setData(lst)
+
+      } else {
+        this.setData([[columnFull,text]])
+      }
+
+    }
+
+    return (
+      <Form.Row className="row">
+      <Form.Label><h3>Aircraft</h3></Form.Label>
+
+      <Form.Group className="group" controlId="formGridEmail" >
+        <Form.Label>Registration</Form.Label>
+        {this.dropdownInput('registration','registration',"Registration",this.state[menuName],filter,menuUpdateHandler)}
+      </Form.Group>
+
+      <Form.Group className="group" controlId="formGridPassword">
+        <Form.Label>Name</Form.Label>
+        {this.dropdownInput('acName','acName',"Name",this.state[menuName],filter,menuUpdateHandler)}
+      </Form.Group>
+
+      <Form.Group className="group" controlId="formGridPassword">
+        <Form.Label>Payee</Form.Label>
+        
+      </Form.Group>
+
+      </Form.Row>
+
     );
   }
   
@@ -318,51 +429,18 @@ class Logger extends React.Component {
 			
 <div className="form">
 <Form className="formform" onSubmit={e => this.handleAdd(e)} >
-  <Form.Row className="row">
-  <Form.Label><h3>Aircraft</h3></Form.Label>
-
-    <Form.Group className="group" controlId="formGridEmail" >
-      <Form.Label>Registration</Form.Label>
-      <Form.Control placeholder="Tail Number" name="tailNumber" onChange={e => this.handleChange(e)} value={this.state.data["tailNumber"]}/>
-    </Form.Group>
-
-    <Form.Group className="group" controlId="formGridPassword">
-      <Form.Label>Name</Form.Label>
-      <Form.Control placeholder="Name" name="acName" onChange={e => this.handleChange(e)} value={this.state.data["acName"]}/>
-    </Form.Group>
-
-  </Form.Row>
-
   
 
+  
+  {this.aircraft()}
     
-  {this.user('P1','p1',this.clubUsers,this.memberships)}
+  {this.user('P1','p1')}
+
+  {this.user('P2','p2')}
 
     
 
-  <Form.Row className="row">
-  <Form.Label><h3>P2</h3></Form.Label>
-
-    <Form.Group className="group" controlId="formGridEmail" >
-      <Form.Label>First Name</Form.Label>
-      <Form.Control placeholder="First Name" name="p2FName" onChange={e => this.handleChange(e)} value={this.state.data["p2FName"]}/>
-    </Form.Group>
-
-    <Form.Group className="group" controlId="formGridPassword">
-      <Form.Label>Second Name</Form.Label>
-      <Form.Control placeholder="Second Name" name="p2LName" onChange={e => this.handleChange(e)} value={this.state.data["p2LName"]}/>
-    </Form.Group>
-
-    <Form.Group className="group" controlId="formGridState">
-      <Form.Label>.</Form.Label>
-      <Form.Control as="select">
-        <option>Member</option>
-        <option>Tempory Member</option>
-        <option>Trial Flight</option>
-      </Form.Control>
-    </Form.Group>
-
-  </Form.Row>
+  
 
   <Form.Row className="row">
   <Form.Label><h3>Fees</h3></Form.Label>
@@ -411,7 +489,12 @@ class Logger extends React.Component {
   componentDidMount(){
     console.log('logger did mount')
     this.setMembership(this.memberships[Object.keys(this.memberships)[0]],'p1')
+    this.setMembership(this.memberships[Object.keys(this.memberships)[0]],'p2')
    
+  }
+
+  componentWillUpdate(){
+    console.log('update')
   }
 
   componentWillUnmount(){

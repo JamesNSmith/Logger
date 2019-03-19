@@ -18,6 +18,12 @@
     <% end %>
     console.log(clubUsers)
 
+    window.aircrafts = {}
+    <% @aircrafts.each do |aircraft| %>
+      aircrafts[<%= aircraft['id'] %>] = {id:<%= aircraft['id'] %>, registration:'<%= aircraft['registration'] %>', acName:'<%= aircraft['name'] %>'}
+    <% end %>
+    console.log(aircrafts)
+
   <% end %>
   
   <h1>Logger</h1>
