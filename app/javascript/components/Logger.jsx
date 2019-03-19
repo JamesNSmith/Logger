@@ -1,9 +1,15 @@
 import React from "react"
+
 import Table from 'react-bootstrap/Table'
+import Dropdown from 'react-bootstrap/Dropdown'
+
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
+import InputGroup from 'react-bootstrap/InputGroup'
+
 import Button from 'react-bootstrap/Button'
-import Dropdown from 'react-bootstrap/Dropdown'
+import ToggleButton from 'react-bootstrap/ToggleButton'
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 
 import FlightController from '../utilities/flightController'
 
@@ -109,6 +115,11 @@ class Logger extends React.Component {
         aircraftId:'',//aircraft
 				registration:'',
 				acName:'',
+        tugId:'',//tug
+        tugregistration:'',
+        tugacName:'',
+        launchType:'winch',
+        releaseHeight:'2000',
         p1Id:'',//P1
         p1Username:'',
 				p1FName:'',
@@ -341,6 +352,26 @@ class Logger extends React.Component {
     );
   }
 
+  aircraftFilter(columns){
+    var lst = []
+    var tAircrafts = this.totalAircrafts
+      
+    for(var aircraftKey in tAircrafts){
+      var count = 0
+      for(var columnKey in columns){
+
+        if(!((tAircrafts[aircraftKey][columnKey].toLowerCase().startsWith(columns[columnKey].toLowerCase()))||(columns[columnKey] == ''))){
+          if(!tAircrafts[aircraftKey][columnKey].toLowerCase().slice(3).startsWith(columns[columnKey].toLowerCase())){
+            count++
+          }
+        }
+
+      }
+      if(count == 0){lst.push(tAircrafts[aircraftKey])}
+    }
+    return lst
+  }
+
   aircraft(){
     var columnNames = ['registration','acName']; //
     var menuName = 'aircrafts';
@@ -348,31 +379,16 @@ class Logger extends React.Component {
     var filter = (handler = (result) => {console.log(result)}) => {
       console.log('aircraft filter')
 
-      var lst = []
       var columns = {}
-      var tAircrafts = this.totalAircrafts
-
       for(var key in columnNames){
         columns[columnNames[key]] = this.state.data[columnNames[key]]
       }
-      
-      for(var userKey in tAircrafts){
-        var count = 0
-        for(var columnKey in columns){
 
-          if(!((tAircrafts[userKey][columnKey].toLowerCase().startsWith(columns[columnKey].toLowerCase()))||(columns[columnKey] == ''))){
-            if(!tAircrafts[userKey][columnKey].toLowerCase().slice(3).startsWith(columns[columnKey].toLowerCase())){
-              count++
-            }
-          }
-
-        }
-        if(count == 0){lst.push(tAircrafts[userKey])}
-      }
+      var aircraftList = this.aircraftFilter(columns)
 
       var data = {}
-      data[menuName] = lst
-      this.setState(data,handler(lst));
+      data[menuName] = aircraftList
+      this.setState(data,handler(aircraftList));
     }
 
     var menuUpdateHandler = (text,columnFull,key) => {
@@ -395,26 +411,28 @@ class Logger extends React.Component {
       } else {
         this.setData([[columnFull,text]])
       }
-
     }
 
     return (
       <Form.Row className="row">
       <Form.Label><h3>Aircraft</h3></Form.Label>
 
-      <Form.Group className="group" controlId="formGridEmail" >
+      <Form.Group className="group" controlId="formGridRegistration" >
         <Form.Label>Registration</Form.Label>
         {this.dropdownInput('registration','registration',"Registration",this.state[menuName],filter,menuUpdateHandler)}
       </Form.Group>
 
-      <Form.Group className="group" controlId="formGridPassword">
+      <Form.Group className="group" controlId="formGridacName">
         <Form.Label>Name</Form.Label>
         {this.dropdownInput('acName','acName',"Name",this.state[menuName],filter,menuUpdateHandler)}
       </Form.Group>
 
-      <Form.Group className="group" controlId="formGridPassword">
-        <Form.Label>Payee</Form.Label>
-        
+      <Form.Group className="group" controlId="formGridacName">
+        <Form.Label>Launch</Form.Label>
+        <ToggleButtonGroup name="launchType" type="radio" onChange={(event) => this.setData([['launchType',event]])} value={this.state.data['launchType']}>
+        <ToggleButton variant="outline-primary" value={'winch'}>Winch</ToggleButton>
+        <ToggleButton variant="outline-primary" value={'aerotow'}>Aerotow</ToggleButton>
+        </ToggleButtonGroup>
       </Form.Group>
 
       </Form.Row>
@@ -422,6 +440,85 @@ class Logger extends React.Component {
     );
   }
   
+  tug(){
+    var columnNames = ['registration','acName']; //
+    var menuName = 'aircrafts';
+
+    var filter = (handler = (result) => {console.log(result)}) => {
+      console.log('tug filter')
+
+      var columns = {}
+      for(var key in columnNames){
+        columns[columnNames[key]] = this.state.data['tug' + columnNames[key]]
+      }
+
+      var aircraftList = this.aircraftFilter(columns)
+
+      var data = {}
+      data[menuName] = aircraftList
+      this.setState(data,handler(aircraftList));
+    }
+
+    var menuUpdateHandler = (text,columnFull,key) => {
+      var aircrafts = this.state[menuName]
+      if(aircrafts.length == 1){
+
+        var lst = []
+        var aircraft = aircrafts[0]
+        for(var key in aircraft){
+          
+          if(key == 'id'){
+            lst.push(['tugId',aircraft[key]])
+          } else {
+            lst.push(['tug'+key,aircraft[key]])
+          }
+
+        }
+        this.setData(lst)
+
+      } else {
+        this.setData([[columnFull,text]])
+      }
+    }
+
+    var handleClick = (event,figure) => {
+      var height = this.state.data['releaseHeight']
+      var returnHeight = (parseInt(height) + figure)
+      
+      if(returnHeight >= 2000){
+        this.setData([['releaseHeight',returnHeight.toString()]]);
+      }
+    }
+
+    return (
+      <Form.Row className={(this.state.data['launchType'] == 'winch') ? "row hideTug" : "row showTug"}>
+      <Form.Label><h3>Tug</h3></Form.Label>
+
+      <Form.Group className="group" controlId="formGridRegistration" >
+        <Form.Label>Registration</Form.Label>
+        {this.dropdownInput('registration','tugregistration',"Registration",this.state[menuName],filter,menuUpdateHandler)}
+      </Form.Group>
+
+      <Form.Group className="group" controlId="formGridacName">
+        <Form.Label>Name</Form.Label>
+        {this.dropdownInput('acName','tugacName',"Name",this.state[menuName],filter,menuUpdateHandler)}
+      </Form.Group>
+
+      <Form.Group className="group" controlId="formGridacName">
+        <Form.Label>Release Height</Form.Label>
+        <InputGroup className="mb-3">
+          <InputGroup.Prepend>
+            <Button variant="outline-secondary" onClick={(e) => handleClick(e,+1000)}>+</Button>
+            <Button variant="outline-secondary" onClick={(e) => handleClick(e,-1000)}>-</Button>
+          </InputGroup.Prepend>
+          <FormControl disabled aria-describedby="basic-addon1" value={this.state.data['releaseHeight']}/>
+        </InputGroup>
+      </Form.Group>
+
+      </Form.Row>
+
+    );
+  }
 
 	render(){
 		return(
@@ -433,6 +530,8 @@ class Logger extends React.Component {
 
   
   {this.aircraft()}
+
+  {this.tug()}
     
   {this.user('P1','p1')}
 

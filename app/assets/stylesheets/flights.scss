@@ -76,6 +76,20 @@ div.form{
     
 }
 
+.showTug {
+    transition-delay: 500ms;
+    transition: all 2s linear;
+    
+}
+
+.hideTugVisual {
+    opacity: 0;
+}
+
+.hideTug {
+    display: none; 
+}
+
 .formform{
         //position:absolute;
         align:center;
