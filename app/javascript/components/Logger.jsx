@@ -102,6 +102,7 @@ class Logger extends React.Component {
 		//console.log(this.props.addDataRow({}))
 
 		this.handleAdd = this.handleAdd.bind(this);
+    this.setPayee = this.setPayee.bind(this);
     //this.menuHandler = this.menuHandler.bind(this);
 
     window.flightControllerDependents['logger'] = this
@@ -135,7 +136,10 @@ class Logger extends React.Component {
         p2LaunchFee:'',
         p2SoaringFee:'',
         payee:'p1',//payment
-				launchFee:'',
+        aerotowLaunchFee:'', //aerotow
+        aerotowUnitFee:'',
+        aerotowTotalLaunchFee:'',
+				launchFee:'', //winch
 				soaringFee:'',
         launchTime:'',//time
         landTime:''
@@ -174,9 +178,28 @@ class Logger extends React.Component {
     var data = [
       [user+'MembershipId', membership['id']],
       [user+'LaunchFee', membership['launchFee']],
-      [user+'SoaringFee', membership['soaringFee']]
+      [user+'SoaringFee', membership['soaringFee']],
+      ['payee', user],
+      ['launchFee', membership['launchFee']],
+      ['soaringFee', membership['soaringFee']]
     ]
     this.setData(data)
+  }
+
+  setPayee(payee){
+    const columns = ['launchFee','soaringFee']
+
+    const data = this.state.data
+    var launchType = this.state.data['launchType']
+
+    data['payee'] = payee
+
+    var objectKey = ''
+    for(var key in columns){
+      data[columns[key]] = data[payee + columns[key][0].toUpperCase() + columns[key].slice(1)]
+    }
+
+    this.setState({data:data},console.log(this.state.data))
   }
 
 //handlers -----------------------------------
@@ -301,9 +324,10 @@ class Logger extends React.Component {
 
     var menuUpdateHandler = (text,columnFull,key) => {
       var users = this.state[menuName]
+      var lst = []
+
       if(users.length == 1){
 
-        var lst = []
         var clubUser = users[0]
         for(var key in clubUser){
 
@@ -318,7 +342,8 @@ class Logger extends React.Component {
       } else {
         this.setData([[columnFull,text]])
       }
-      
+
+        
     }
 
     return(
@@ -484,7 +509,7 @@ class Logger extends React.Component {
     var handleClick = (event,figure) => {
       var height = this.state.data['releaseHeight']
       var returnHeight = (parseInt(height) + figure)
-      
+
       if(returnHeight >= 2000){
         this.setData([['releaseHeight',returnHeight.toString()]]);
       }
@@ -520,6 +545,34 @@ class Logger extends React.Component {
     );
   }
 
+  fees(){
+    
+    return (
+      <Form.Row className="row">
+      <Form.Label><h3>Fees</h3></Form.Label>
+
+      <Form.Group className="group" controlId="formGridacName">
+        <Form.Label>Payee</Form.Label>
+        <ToggleButtonGroup name="launchType" type="radio" onChange={this.setPayee} value={this.state.data['payee']}>
+        <ToggleButton variant="outline-primary" value={'p1'}>P1</ToggleButton>
+        <ToggleButton variant="outline-primary" value={'p2'}>P2</ToggleButton>
+        </ToggleButtonGroup>
+      </Form.Group>
+      
+      <Form.Group className="group" controlId="formGridEmail" >
+        <Form.Label>Launch Fee</Form.Label>
+        <Form.Control placeholder="Launch Fee" name="launchFee" onChange={(e) => {this.setData([[e.target.name,e.target.value]])}} value={this.state.data["launchFee"]}/>
+      </Form.Group>
+
+      <Form.Group className="group" controlId="formGridPassword" >
+        <Form.Label>Soaring Fee</Form.Label>
+        <Form.Control placeholder="Soaring Fee" name="soaringFee" onChange={(e) => {this.setData([[e.target.name,e.target.value]])}} value={this.state.data["soaringFee"]}/>
+      </Form.Group>
+
+      </Form.Row>
+    );
+  }
+
 	render(){
 		return(
 			<div>
@@ -537,33 +590,11 @@ class Logger extends React.Component {
 
   {this.user('P2','p2')}
 
-    
+  {this.fees()}  
 
   
 
-  <Form.Row className="row">
-  <Form.Label><h3>Fees</h3></Form.Label>
-
-  	<Form.Group className="group" controlId="formGridState">
-  	  <Form.Label>Membership</Form.Label>
-      <Form.Control as="select">
-        <option>Full</option>
-        <option>Junior</option>
-        <option>Tempory Member</option>
-      </Form.Control>
-    </Form.Group>
-
-    <Form.Group className="group" controlId="formGridEmail" >
-      <Form.Label>Launch Fee</Form.Label>
-      <Form.Control placeholder="Launch Fee" name="launchFee" onChange={e => this.handleChange(e)} value={this.state.data["lFee"]}/>
-    </Form.Group>
-
-    <Form.Group className="group" controlId="formGridPassword" >
-      <Form.Label>Soaring Fee</Form.Label>
-      <Form.Control placeholder="Soaring Fee" name="soaringFee" onChange={e => this.handleChange(e)} value={this.state.data["sFee"]}/>
-    </Form.Group>
-
-  </Form.Row>
+  
 
   <Form.Group id="formGridCheckbox">
     <Form.Check type="checkbox" label="Check me out" />
