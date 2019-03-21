@@ -16,25 +16,7 @@ import FlightController from '../utilities/flightController'
 class CustomToggle extends React.Component {
   constructor(props, context) {
     super(props, context);
-
-    
   }
-
-  /*
-  this.state = { position: 'closed' };
-    this.state.position = this.props.state
-
-    this.clickHandler = this.clickHandler.bind(this);
-  clickHandler(e){
-    console.log('click')
-    this.props.onClick(e)
-    console.log(e)
-    if(this.state.position == 'closed'){
-      this.setState({position: 'open'},console.log(this.state.position))
-    } else {
-      this.setState({position: 'closed'},console.log(this.state.position))
-    }
-  }*/
 
   render() {
     const children = React.Children.map(this.props.children, child => {
@@ -57,12 +39,6 @@ class CustomMenu extends React.Component {
 
     this.state = { value: '' };
   }
-  /*
-  handleChange(e) {
-    this.setState({ value: e.target.value.toLowerCase().trim() });
-
-  }
-  */
 
   render() {
     const {
@@ -73,11 +49,6 @@ class CustomMenu extends React.Component {
     } = this.props;
 
     const value = this.props.value;
-
-    //var query = React.Children.toArray(children).filter(
-            //child =>
-              //!value || child.props.children.toLowerCase().startsWith(value.toLowerCase()),
-          //)
 
     const childs = React.Children.map(this.props.children, child => {
       return React.cloneElement(child,{});
@@ -97,13 +68,9 @@ class CustomMenu extends React.Component {
 class Logger extends React.Component {
 	constructor(props){
 		super(props);
-		//this.props.addDataRow();
-		//console.log(this.props.addDataRow)
-		//console.log(this.props.addDataRow({}))
 
-		this.handleAdd = this.handleAdd.bind(this);
+		//this.handleAdd = this.handleAdd.bind(this);
     this.setPayee = this.setPayee.bind(this);
-    //this.menuHandler = this.menuHandler.bind(this);
 
     window.flightControllerDependents['logger'] = this
 
@@ -113,14 +80,17 @@ class Logger extends React.Component {
 		
     this.state = {
 			data:{
+        user:'',//Info
+        date:'', 
+        club:'',
         aircraftId:'',//aircraft
 				registration:'',
 				acName:'',
         tugId:'',//tug
         tugregistration:'',
         tugacName:'',
-        launchType:'winch',
-        releaseHeight:'2000',
+        launchType:'',
+        releaseHeight:'',
         p1Id:'',//P1
         p1Username:'',
 				p1FName:'',
@@ -128,6 +98,8 @@ class Logger extends React.Component {
         p1MembershipId:'',
         p1LaunchFee:'',
         p1SoaringFee:'',
+        p1AerotowStandardFee:'',
+        p1AerotowUnitFee:'',
         p2Id:'', //P2
         p2Username:'',
         p2FName:'',
@@ -135,10 +107,12 @@ class Logger extends React.Component {
         p2MembershipId:'',
         p2LaunchFee:'',
         p2SoaringFee:'',
-        payee:'p1',//payment
-        aerotowLaunchFee:'', //aerotow
+        p2AerotowStandardFee:'',
+        p2AerotowUnitFee:'',
+        payee:'',//payment
+        aerotowStandardFee:'',//aerotow
         aerotowUnitFee:'',
-        aerotowTotalLaunchFee:'',
+        aerotowLaunchFee:'',
 				launchFee:'', //winch
 				soaringFee:'',
         launchTime:'',//time
@@ -146,22 +120,52 @@ class Logger extends React.Component {
 			},
       p1ClubUsers:this.totalClubUsers,
       p2ClubUsers:this.totalClubUsers,
-      aircrafts:this.totalAircrafts
+      aircrafts:this.totalAircrafts,
+      tugAircrafts:this.totalAircrafts
 		}
+
+    this.defaultValues = [
+      ['launchType','winch'],
+      ['releaseHeight','2000'],
+      ['payee','p1'],
+      ['user',window.user],
+      ['date',new Date()],
+      ['club',window.club]
+    ];
+
+    for(var key in this.defaultValues){
+      this.state.data[this.defaultValues[key][0]] = this.defaultValues[key][1]
+    }
 	}
+//Calculations
+getAerotowFee(launchFee,unitFee,height){
+    var figure = parseInt(launchFee) + parseInt(unitFee)*parseInt(height - 2000)/1000
+    console.log(figure)
+    return figure 
+  }
 
-//coms -------------------------------------
-  //message(){
-    //console.log('Logger')
-  //}
+//formatters
+  formatDate(date){
+    var day = date.getDate();
+    var month = date.getMonth()+1;
+    var year = date.getFullYear();
 
-//utils --------------------------------------
+    return (day.toString() + " / " + month.toString() + " / " + year.toString());
+  }
+
+// Helpers
   clear(){
     console.log('clear')
     const data = this.state.data
+
     for(var line in data){
       data[line] = ''
     }
+
+    for(var key in this.defaultValues){
+      data[this.defaultValues[key][0]] = this.defaultValues[key][1]
+    }
+
     this.setState({data:data});
   }
 
@@ -174,15 +178,28 @@ class Logger extends React.Component {
     this.setState({data:data},successHandler());
   }
 
-  setMembership(membership,user){
+  setMembership(membership,user,start=false){
     var data = [
       [user+'MembershipId', membership['id']],
       [user+'LaunchFee', membership['launchFee']],
       [user+'SoaringFee', membership['soaringFee']],
-      ['payee', user],
-      ['launchFee', membership['launchFee']],
-      ['soaringFee', membership['soaringFee']]
+      [user+'AerotowStandardFee', membership['aerotowStandardFee']],
+      [user+'AerotowUnitFee', membership['aerotowUnitFee']]
     ]
+
+    if(!start){
+      console.log('start')
+      var fees = [
+        ['payee', user],
+        ['launchFee', membership['launchFee']],
+        ['soaringFee', membership['soaringFee']],
+        ['aerotowStandardFee', membership['aerotowStandardFee']],
+        ['aerotowUnitFee', membership['aerotowUnitFee']],
+        ['aerotowLaunchFee',this.getAerotowFee(membership['aerotowStandardFee'],membership['aerotowUnitFee'],this.state.data['releaseHeight'])]
+      ]
+      data = data.concat(fees)
+
+    }
     this.setData(data)
   }
 
@@ -203,16 +220,6 @@ class Logger extends React.Component {
   }
 
 //handlers -----------------------------------
-
-  handleAdd(event){
-    console.log('add');
-    const formData = Object.assign({},this.state.data);
-    console.log(formData)
-    this.fligthController.addFromLogger(formData)
-    //this.props.update(formData)
-    this.clear()
-  }
-
 	handleChange(event){
 		const data = this.state.data
 		const {name,value} = event.target
@@ -220,24 +227,10 @@ class Logger extends React.Component {
 		this.setState({data:data},console.log(this.state.data));
 	}
 
-  membershipHandler(event,memberships,user){
-    this.setMembership(memberships[event.target.value],user)
-  }
-
-  /*menuHandler(event,column){
-    console.log('menuHandler')
-    console.log(column)
-    console.log(event.target.name)
-    this.setData([['p1'+column,event.target.innerHTML]])
-  }*/
-
-  //formHandler(e){
-    //console.log(e)
+  //membershipHandler(event,memberships,user){
+    //this.setMembership(memberships[event.target.value],user)
   //}
 
-	handleClear(event){
-		this.clear()
-	}
 
 //constructors ---------------------------------
   membership(memberships,user){
@@ -249,9 +242,9 @@ class Logger extends React.Component {
       }
       return lst
     }
-
+    //this.membershipHandler(e,memberships,user)
     return(
-      <Form.Control as="select" onChange={e => this.membershipHandler(e,memberships,user)} value={this.state.data[user+'MembershipId']}>
+      <Form.Control as="select" onChange={e => this.setMembership(memberships[e.target.value],user)} value={this.state.data[user+'MembershipId']}>
         {options()}
       </Form.Control>
     );
@@ -300,7 +293,7 @@ class Logger extends React.Component {
     var columnNames = ['FName','LName']
     var menuName = user+'ClubUsers'
 
-    var filter = (handler = (result) => {console.log(result)}) => {
+    var filter = (handler = () => {}) => {
       var lst = []
       var columns = {}
       var tUsers = this.totalClubUsers
@@ -319,7 +312,7 @@ class Logger extends React.Component {
 
       var data = {}
       data[menuName] = lst
-      this.setState(data,handler(lst));
+      this.setState(data,handler());
     }
 
     var menuUpdateHandler = (text,columnFull,key) => {
@@ -350,7 +343,7 @@ class Logger extends React.Component {
     <Form.Row className="row">
       <Form.Label><h3>{title}</h3></Form.Label>
     
-      <Form.Group className="group" controlId="formGridFName" >
+      <Form.Group className="group" controlId="formGridName" >
         <Form.Label>Name</Form.Label>
       
         <ul id="name">
@@ -401,7 +394,7 @@ class Logger extends React.Component {
     var columnNames = ['registration','acName']; //
     var menuName = 'aircrafts';
 
-    var filter = (handler = (result) => {console.log(result)}) => {
+    var filter = (handler = () => {}) => {
       console.log('aircraft filter')
 
       var columns = {}
@@ -413,7 +406,7 @@ class Logger extends React.Component {
 
       var data = {}
       data[menuName] = aircraftList
-      this.setState(data,handler(aircraftList));
+      this.setState(data,handler());
     }
 
     var menuUpdateHandler = (text,columnFull,key) => {
@@ -467,9 +460,9 @@ class Logger extends React.Component {
   
   tug(){
     var columnNames = ['registration','acName']; //
-    var menuName = 'aircrafts';
+    var menuName = 'tugAircrafts';
 
-    var filter = (handler = (result) => {console.log(result)}) => {
+    var filter = (handler = () => {}) => {
       console.log('tug filter')
 
       var columns = {}
@@ -509,12 +502,17 @@ class Logger extends React.Component {
     var handleClick = (event,figure) => {
       var height = this.state.data['releaseHeight']
       var returnHeight = (parseInt(height) + figure)
+      var returnLst = [['releaseHeight',returnHeight.toString()]]
 
       if(returnHeight >= 2000){
-        this.setData([['releaseHeight',returnHeight.toString()]]);
+        if(this.state.data['aerotowLaunchFee'] != ''){
+          returnLst[1] = ['aerotowLaunchFee',this.getAerotowFee(this.state.data['aerotowStandardFee'],this.state.data['aerotowUnitFee'],returnHeight)]
+        }
+
+        this.setData(returnLst);
       }
     }
-
+    //<FormControl disabled aria-describedby="basic-addon1" value={this.state.data['releaseHeight']}/>
     return (
       <Form.Row className={(this.state.data['launchType'] == 'winch') ? "row hideTug" : "row showTug"}>
       <Form.Label><h3>Tug</h3></Form.Label>
@@ -533,10 +531,10 @@ class Logger extends React.Component {
         <Form.Label>Release Height</Form.Label>
         <InputGroup className="mb-3">
           <InputGroup.Prepend>
-            <Button variant="outline-secondary" onClick={(e) => handleClick(e,+1000)}>+</Button>
-            <Button variant="outline-secondary" onClick={(e) => handleClick(e,-1000)}>-</Button>
+            <Button variant="outline-primary" onClick={(e) => handleClick(e,+1000)}>+</Button>
+            <Button variant="outline-primary" onClick={(e) => handleClick(e,-1000)}>-</Button>
+            <Button variant="outline-primary" onClick={(e) => handleClick(e,+1000)}>{this.state.data['releaseHeight']}</Button>
           </InputGroup.Prepend>
-          <FormControl disabled aria-describedby="basic-addon1" value={this.state.data['releaseHeight']}/>
         </InputGroup>
       </Form.Group>
 
@@ -546,6 +544,40 @@ class Logger extends React.Component {
   }
 
   fees(){
+
+    var launch = () => {
+      if(this.state.data['launchType'] == 'aerotow'){
+
+        return (
+        <div className = "placeHolder">
+        <Form.Group className="group" controlId="formGridEmail" >
+          <Form.Label>Aerotow Launch to 2000</Form.Label>
+          <Form.Control placeholder="Launch Fee" name="aerotowStandardFee" onChange={(e) => {this.setData([[e.target.name,e.target.value]])}} onClick={(e)=>e.target.select()} value={this.state.data["aerotowStandardFee"]}/>
+        </Form.Group>
+
+        <Form.Group className="group" controlId="formGridEmail" >
+          <Form.Label>Fee per 1000ft above</Form.Label>
+          <Form.Control placeholder="Launch Fee" name="aerotowUnitFee" onChange={(e) => {this.setData([[e.target.name,e.target.value]])}} onClick={(e)=>e.target.select()} value={this.state.data["aerotowUnitFee"]}/>
+        </Form.Group>
+
+        <Form.Group className="group" controlId="formGridEmail" >
+          <Form.Label>Launch Fee</Form.Label>
+          <Form.Control placeholder="Launch Fee" name="aerotowLaunchFee" onChange={(e) => {this.setData([[e.target.name,e.target.value]])}} onClick={(e)=>e.target.select()} value={this.state.data["aerotowLaunchFee"]}/>
+        </Form.Group>
+        </div>
+        );
+
+      } else {
+    
+        return (
+        <Form.Group className="group" controlId="formGridEmail" >
+          <Form.Label>Launch Fee</Form.Label>
+          <Form.Control placeholder="Launch Fee" name="launchFee" onChange={(e) => {this.setData([[e.target.name,e.target.value]])}} onClick={(e)=>e.target.select()} value={this.state.data["launchFee"]}/>
+        </Form.Group>
+        );
+
+      }
+    }
     
     return (
       <Form.Row className="row">
@@ -558,15 +590,12 @@ class Logger extends React.Component {
         <ToggleButton variant="outline-primary" value={'p2'}>P2</ToggleButton>
         </ToggleButtonGroup>
       </Form.Group>
-      
-      <Form.Group className="group" controlId="formGridEmail" >
-        <Form.Label>Launch Fee</Form.Label>
-        <Form.Control placeholder="Launch Fee" name="launchFee" onChange={(e) => {this.setData([[e.target.name,e.target.value]])}} value={this.state.data["launchFee"]}/>
-      </Form.Group>
 
+      {launch()}
+      
       <Form.Group className="group" controlId="formGridPassword" >
         <Form.Label>Soaring Fee</Form.Label>
-        <Form.Control placeholder="Soaring Fee" name="soaringFee" onChange={(e) => {this.setData([[e.target.name,e.target.value]])}} value={this.state.data["soaringFee"]}/>
+        <Form.Control placeholder="Soaring Fee" name="soaringFee" onChange={(e) => {this.setData([[e.target.name,e.target.value]])}} onClick={(e)=>e.target.select()} value={this.state.data["soaringFee"]}/>
       </Form.Group>
 
       </Form.Row>
@@ -574,53 +603,66 @@ class Logger extends React.Component {
   }
 
 	render(){
+    var handleAdd = (event) => {
+      console.log('add');
+      const formData = Object.assign({},this.state.data);
+      console.log(formData)
+      this.fligthController.addFromLogger(formData)
+      this.clear()
+    }
+
+    var handleClear = (event) =>{
+      this.clear()
+    }
+
 		return(
 			<div>
 			
-<div className="form">
-<Form className="formform" onSubmit={e => this.handleAdd(e)} >
-  
+        <div className="form">
+          <Form className="formform" onSubmit={e => this.handleAdd(e)} >
 
-  
-  {this.aircraft()}
+            <Form.Row className="row">
+            <Form.Label><h3>Info</h3></Form.Label>
+              <Form.Group className="group" controlId="formGridDate" >
+                <Form.Control disabled aria-describedby="basic-addon1" placeholder="Date" name="date" value={this.formatDate(this.state.data['date'])}/>
+              </Form.Group>
 
-  {this.tug()}
+              <Form.Group className="group" controlId="formGridClub" >
+                <Form.Control disabled aria-describedby="basic-addon1" placeholder="Club" name="club" value={this.state.data['club']['name']}/>
+              </Form.Group>
+
+            </Form.Row>
+  
+            {this.aircraft()}
+
+            {this.tug()}
     
-  {this.user('P1','p1')}
+            {this.user('P1','p1')}
 
-  {this.user('P2','p2')}
+            {this.user('P2','p2')}
 
-  {this.fees()}  
+            {this.fees()}  
 
-  
 
-  
+            <Button variant="outline-success" onClick={e => handleAdd(e)}>
+              Add
+            </Button>
+            <Button variant="outline-danger" onClick={e => this.clear()}>
+              Clear
+            </Button>
 
-  <Form.Group id="formGridCheckbox">
-    <Form.Check type="checkbox" label="Check me out" />
-  </Form.Group>
-
-  <Button variant="outline-success" onClick={e => this.handleAdd(e)}>
-    Add
-  </Button>
-  <Button variant="outline-danger" onClick={e => this.handleClear(e)}>
-    Clear
-  </Button>
-</Form>
-</div>
-
+          </Form>
+        </div>
 
 			</div>
-			
-
 		);
 	}
 
   componentDidMount(){
     console.log('logger did mount')
-    this.setMembership(this.memberships[Object.keys(this.memberships)[0]],'p1')
-    this.setMembership(this.memberships[Object.keys(this.memberships)[0]],'p2')
-   
+    this.setMembership(this.memberships[Object.keys(this.memberships)[0]],'p1',true)
+    this.setMembership(this.memberships[Object.keys(this.memberships)[0]],'p2',true)
+    
   }
 
   componentWillUpdate(){

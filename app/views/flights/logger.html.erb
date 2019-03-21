@@ -7,7 +7,7 @@
 
     window.memberships = {}
     <% @memberships.each do |membership| %>
-      memberships[<%= membership['id'] %>] = {id:<%= membership['id'] %>,name:'<%= membership['name'] %>',launchFee:<%= membership['launch_fee'] %>,soaringFee:<%= membership['soaring_fee'] %>}
+      memberships[<%= membership['id'] %>] = {id:<%= membership['id'] %>,name:'<%= membership['name'] %>',launchFee:<%= membership['launch_fee'] %>,soaringFee:<%= membership['soaring_fee'] %>, aerotowStandardFee: 20, aerotowUnitFee: 5}
     <% end %>
     console.log(memberships)
 
