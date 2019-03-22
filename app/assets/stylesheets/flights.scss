@@ -90,6 +90,16 @@ div.form{
     display: none; 
 }
 
+.showElement {
+    transition-delay: 500ms;
+    transition: all 2s linear;
+    
+}
+
+.hideElement {
+    display: none; 
+}
+
 .formform{
         //position:absolute;
         align:center;

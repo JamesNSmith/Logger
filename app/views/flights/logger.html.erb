@@ -15,14 +15,14 @@
 
     window.memberships = {}
     <% @memberships.each do |membership| %>
-      memberships[<%= membership['id'] %>] = {id:<%= membership['id'] %>,name:'<%= membership['name'] %>',launchFee:<%= membership['launch_fee'] %>,soaringFee:<%= membership['soaring_fee'] %>, aerotowStandardFee: 20, aerotowUnitFee: 5}
+      memberships[<%= membership['id'] %>] = {membershipId:<%= membership['id'] %>,name:'<%= membership['name'] %>',launchFee:<%= membership['launch_fee'] %>,soaringFee:<%= membership['soaring_fee'] %>, aerotowStandardFee: 20, aerotowUnitFee: 5}
     <% end %>
     console.log(memberships)
 
     window.clubUsers = {}
     console.log('Users -------------------------------')
     <% @users.each do |user| %>
-      clubUsers[<%= user['id'] %>] = {Id:<%= user['id'] %>, FName:'<%= user['first_name'] %>', LName:'<%= user['last_name'] %>',MembershipId:<%= @userMemberships[user['id']] %>}
+      clubUsers[<%= user['id'] %>] = {userId:<%= user['id'] %>, fName:'<%= user['first_name'] %>', lName:'<%= user['last_name'] %>',membershipId:<%= @userMemberships[user['id']] %>}
     <% end %>
     console.log(clubUsers)
 

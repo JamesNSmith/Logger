@@ -78,38 +78,26 @@ class Logger extends React.Component {
     this.memberships = window.memberships
     this.totalClubUsers = window.clubUsers
     this.totalAircrafts = window.aircrafts
+
+    this.aircraftObj = {id:'',registration:'',acName:''}
+    this.userObj = {userId:'',username:'',fName:'',lName:'',membershipId:'',launchFee:'',soaringFee:'',aerotowStandardFee:'',aerotowUnitFee:''}
+
 		
     this.state = {
 			data:{
         user:'',//Info
         date:'', 
         club:'',
-        aircraftId:'',//aircraft
-				registration:'',
-				acName:'',
-        tugId:'',//tug
-        tugregistration:'',
-        tugacName:'',
+
+        aircraft:JSON.parse(JSON.stringify(this.aircraftObj)),
+				tug:JSON.parse(JSON.stringify(this.aircraftObj)),
+        
         launchType:'',
         releaseHeight:'',
-        p1Id:'',//P1
-        p1Username:'',
-				p1FName:'',
-				p1LName:'',
-        p1MembershipId:'',
-        p1LaunchFee:'',
-        p1SoaringFee:'',
-        p1AerotowStandardFee:'',
-        p1AerotowUnitFee:'',
-        p2Id:'', //P2
-        p2Username:'',
-        p2FName:'',
-        p2LName:'',
-        p2MembershipId:'',
-        p2LaunchFee:'',
-        p2SoaringFee:'',
-        p2AerotowStandardFee:'',
-        p2AerotowUnitFee:'',
+
+        p1:JSON.parse(JSON.stringify(this.userObj)),
+        p2:JSON.parse(JSON.stringify(this.userObj)),
+
         payee:'',//payment
         aerotowStandardFee:'',//aerotow
         aerotowUnitFee:'',
@@ -118,12 +106,12 @@ class Logger extends React.Component {
 				soaringFee:'',
         launchTime:'',//time
         landTime:'',
-        notes:''
+        //notes:''
 			},
-      p1ClubUsers:this.totalClubUsers,
-      p2ClubUsers:this.totalClubUsers,
-      aircrafts:this.totalAircrafts,
-      tugAircrafts:this.totalAircrafts
+      p1ClubUsers:JSON.parse(JSON.stringify(this.totalClubUsers)),
+      p2ClubUsers:JSON.parse(JSON.stringify(this.totalClubUsers)),
+      aircrafts:JSON.parse(JSON.stringify(this.totalAircrafts)),
+      tugAircrafts:JSON.parse(JSON.stringify(this.totalAircrafts))
 		}
 
     this.defaultValues = [
@@ -161,7 +149,14 @@ getAerotowFee(launchFee,unitFee,height){
     const data = this.state.data
 
     for(var line in data){
-      data[line] = ''
+      if(line == 'p1' || line == 'p2'){
+        data[line] = JSON.parse(JSON.stringify(this.userObj))
+      } else if(line == 'aircraft' || line == 'tug'){
+        data[line] = JSON.parse(JSON.stringify(this.aircraftObj))
+      } else {
+        data[line] = ''
+      }
+      
     }
 
     for(var key in this.defaultValues){
@@ -177,17 +172,29 @@ getAerotowFee(launchFee,unitFee,height){
     for(var key in nameValue){
       data[nameValue[key][0]] = nameValue[key][1]
     }
-    this.setState({data:data},successHandler());
+    this.setState({data:data},successHandler);
+  }
+
+  setDataRow(row,nameValue,successHandler = () => {console.log(this.state.data)}){
+    console.log(nameValue)
+    const data = this.state.data
+    for(var key in nameValue){
+      data[row][nameValue[key][0]] = nameValue[key][1]
+    }
+    this.setState({data:data},successHandler);
   }
 
   setMembership(membership,user,start=false){
+    console.log('setMembership')
     var data = [
-      [user+'MembershipId', membership['id']],
-      [user+'LaunchFee', membership['launchFee']],
-      [user+'SoaringFee', membership['soaringFee']],
-      [user+'AerotowStandardFee', membership['aerotowStandardFee']],
-      [user+'AerotowUnitFee', membership['aerotowUnitFee']]
+      ['membershipId', membership['membershipId']],
+      ['launchFee', membership['launchFee']],
+      ['soaringFee', membership['soaringFee']],
+      ['aerotowStandardFee', membership['aerotowStandardFee']],
+      ['aerotowUnitFee', membership['aerotowUnitFee']]
     ]
+
+    this.setDataRow(user,data)
 
     if(!start){
       console.log('start')
@@ -199,10 +206,9 @@ getAerotowFee(launchFee,unitFee,height){
         ['aerotowUnitFee', membership['aerotowUnitFee']],
         ['aerotowLaunchFee',this.getAerotowFee(membership['aerotowStandardFee'],membership['aerotowUnitFee'],this.state.data['releaseHeight'])]
       ]
-      data = data.concat(fees)
+      this.setData(fees)
 
     }
-    this.setData(data)
   }
 
   setPayee(payee){
@@ -215,7 +221,7 @@ getAerotowFee(launchFee,unitFee,height){
 
     var objectKey = ''
     for(var key in columns){
-      data[columns[key]] = data[payee + columns[key][0].toUpperCase() + columns[key].slice(1)]
+      data[columns[key]] = data[payee][columns[key]]
     }
 
     this.setState({data:data},console.log(this.state.data))
@@ -229,51 +235,108 @@ getAerotowFee(launchFee,unitFee,height){
 		this.setState({data:data},console.log(this.state.data));
 	}
 
-  //membershipHandler(event,memberships,user){
-    //this.setMembership(memberships[event.target.value],user)
-  //}
-
 
 //constructors ---------------------------------
   membership(memberships,user){
     var options = () => {
       var lst = [];
       for(var key in memberships){
-        var defkey = 'opt' + key
-        lst.push(<option key = {defkey} value={key}>{memberships[key]['name']}</option>);
+        lst.push(<option key = {'opt' + key} value={key}>{memberships[key]['name']}</option>);
       }
       return lst
     }
-    //this.membershipHandler(e,memberships,user)
+
+    var memHandler = (e) => {
+      console.log('memHandler')
+      this.setMembership(memberships[e.target.value],user)
+    }
+  
     return(
-      <Form.Control as="select" onChange={e => this.setMembership(memberships[e.target.value],user)} value={this.state.data[user+'MembershipId']}>
+      <Form.Control as="select" onChange={memHandler} value={this.state.data[user]['membershipId']}>
         {options()}
       </Form.Control>
     );
   }
 
-  dropdownInput(column,columnFull,placeHolder,dropdownRows,filter,menuUpdateHandler){
-    var formHandler = (event) => {
-      const {name,value} = event.target
-      this.setData([[name,value]],filter)
+  defaultMenuElement(items){
+    var lst = []
+    for(var key in items){
+      lst.push([key,items[key]])
+    }
+    return lst
+  }
+
+  dropdownInput(row,column,placeHolder,menuName,totalDropdownRows,columnNames,filterElement,menuElement = this.defaultMenuElement){
+    //Utils -------------------------------------
+
+    var filter = (success,failure) => {
+      var lst = []
+      var columns = {}
+
+      for(var key in columnNames){
+        columns[columnNames[key]] = this.state.data[row][columnNames[key]]
+      }
+      
+      for(var userKey in totalDropdownRows){
+        var count = 0
+        for(var columnKey in columns){
+          if(filterElement(totalDropdownRows[userKey][columnKey],columns[columnKey])){count++}
+        }
+        if(count == 0){lst.push(totalDropdownRows[userKey])}
+      }
+
+      var data = {}
+      data[menuName] = lst
+      this.setState(data,success);
     }
 
-    var menuHandler = (event,columnFull,key) => {
+    var menuUpdate = (text,row,column) => {
+      var recordList = this.state[menuName]
+
+      console.log('menuUpdate')
+      console.log(menuName)
+      console.log(recordList)
+
+      if(recordList.length == 1){
+
+        var record = recordList[0]
+        var lst = menuElement(record)
+
+        this.setDataRow(row,lst)
+
+      } else {
+        this.setDataRow(row,[[column,text]])
+      }
+    
+    }
+
+    //Handlers ------------------------------
+
+    var formHandler = (event) => {
+      const {name,value} = event.target
+      var queue = new Promise((resolve,reject) => {this.setDataRow(row,[[name,value]],resolve)})
+      .then(() => {return new Promise((resolve,reject) => {filter(resolve,reject)})})
+    }
+
+    var menuHandler = (event,row,column) => {
       var text = event.target.innerHTML
 
-      var menuQueue = new Promise((resolve,reject) => {this.setData([[columnFull,text]],resolve)})
-      .then(()=>{return new Promise((resolve,reject) => {filter(resolve)})})
-      .then(()=>{menuUpdateHandler(text,columnFull,key)})
+      console.log('menuHandler')
+
+      var menuQueue = new Promise((resolve,reject) => {this.setDataRow(row,[[column,text]],resolve)})
+      .then(()=>{return new Promise((resolve,reject) => {filter(resolve,reject)})})
+      .then(()=>{menuUpdate(text,row,column)})
       .catch((error) => {console.log('menuQueue failed:');console.log(error)})
       
     }
 
-    var dropRows = (column,columnFull) => {
-      
+    //Constructors
+    var dropRows = (row,column) => {
+      var dropdownRows = this.state[menuName]
       var lst = []
+
       for(var key in dropdownRows){
-        var idkey = 'DI' + key
-        lst.push(<Dropdown.Item key={idkey} eventKey={key} onClick={e => menuHandler(e,columnFull,key)}>{dropdownRows[key][column]}</Dropdown.Item>);
+        lst.push(<Dropdown.Item key={"DI" + key} eventKey={key} onClick={e => menuHandler(e,row,column)}>{dropdownRows[key][column]}</Dropdown.Item>);
       }
       return lst
     }
@@ -281,64 +344,34 @@ getAerotowFee(launchFee,unitFee,height){
     return (
       <Dropdown dropupauto="false">
         <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-          <Form.Control autoComplete="new-password" placeholder={placeHolder} name={columnFull} onChange={e => formHandler(e)}  value={this.state.data[columnFull]}/>
+          <Form.Control autoComplete="new-password" placeholder={placeHolder} name={column} onChange={e => formHandler(e)}  value={this.state.data[row][column]}/>
         </Dropdown.Toggle>
 
-        <Dropdown.Menu key={"DM" + columnFull} as={CustomMenu} value={this.state.data[columnFull]}>
-          {dropRows(column,columnFull)}
+        <Dropdown.Menu key={"DM" + row+column} as={CustomMenu} value={this.state.data[row][column]}>
+          {dropRows(row,column)}
         </Dropdown.Menu>
       </Dropdown>
       );
   }
 
   user(title,user){
-    var columnNames = ['FName','LName']
+    var columnNames = ['fName','lName']
     var menuName = user+'ClubUsers'
 
-    var filter = (handler = () => {}) => {
-      var lst = []
-      var columns = {}
-      var tUsers = this.totalClubUsers
-
-      for(var key in columnNames){
-        columns[columnNames[key]] = this.state.data[user+columnNames[key]]
-      }
-      
-      for(var userKey in tUsers){
-        var count = 0
-        for(var columnKey in columns){
-          if(!((tUsers[userKey][columnKey].toLowerCase().startsWith(columns[columnKey].toLowerCase()))||(columns[columnKey] == ''))){count++}
-        }
-        if(count == 0){lst.push(tUsers[userKey])}
-      }
-
-      var data = {}
-      data[menuName] = lst
-      this.setState(data,handler());
+    var filterElement = (searchElement,inputElement) => {
+      return !((searchElement.toLowerCase().startsWith(inputElement.toLowerCase()))||(inputElement == ''))
     }
 
-    var menuUpdateHandler = (text,columnFull,key) => {
-      var users = this.state[menuName]
+    var menuElement = (items) =>{
       var lst = []
-
-      if(users.length == 1){
-
-        var clubUser = users[0]
-        for(var key in clubUser){
-
-          if(key == 'MembershipId'){
-            this.setMembership(this.memberships[clubUser['MembershipId']],user)
-          } else {
-          lst.push([user + key,clubUser[key]])
-          }
+      for(var key in items){
+        if(key == 'membershipId'){
+          this.setMembership(this.memberships[items['membershipId']],user)
+        } else {
+          lst.push([key,items[key]])
         }
-        this.setData(lst)
-
-      } else {
-        this.setData([[columnFull,text]])
       }
-
-        
+      return lst
     }
 
     return(
@@ -351,11 +384,11 @@ getAerotowFee(launchFee,unitFee,height){
         <ul id="name">
 
         <li>
-        {this.dropdownInput('FName',user+'FName',"First Name",this.state[menuName],filter,menuUpdateHandler)}
+        {this.dropdownInput(user,'fName',"First Name",menuName,this.totalClubUsers,columnNames,filterElement,menuElement)}
         </li>
 
         <li>
-        {this.dropdownInput('LName',user+'LName',"Last Name",this.state[menuName],filter,menuUpdateHandler)}
+        {this.dropdownInput(user,'lName',"Last Name",menuName,this.totalClubUsers,columnNames,filterElement,menuElement)}
         </li>
         </ul>
         
@@ -372,66 +405,20 @@ getAerotowFee(launchFee,unitFee,height){
     );
   }
 
-  aircraftFilter(columns){
-    var lst = []
-    var tAircrafts = this.totalAircrafts
-      
-    for(var aircraftKey in tAircrafts){
-      var count = 0
-      for(var columnKey in columns){
+  aircraftFilterElement(searchElement,inputElement) {
 
-        if(!((tAircrafts[aircraftKey][columnKey].toLowerCase().startsWith(columns[columnKey].toLowerCase()))||(columns[columnKey] == ''))){
-          if(!tAircrafts[aircraftKey][columnKey].toLowerCase().slice(3).startsWith(columns[columnKey].toLowerCase())){
-            count++
-          }
-        }
-
+    if(!((searchElement.toLowerCase().startsWith(inputElement.toLowerCase()))||(inputElement == ''))){
+      if(!searchElement.toLowerCase().slice(3).startsWith(inputElement.toLowerCase())){
+        return true
       }
-      if(count == 0){lst.push(tAircrafts[aircraftKey])}
     }
-    return lst
+    return false
   }
 
   aircraft(){
     var columnNames = ['registration','acName']; //
     var menuName = 'aircrafts';
-
-    var filter = (handler = () => {}) => {
-      console.log('aircraft filter')
-
-      var columns = {}
-      for(var key in columnNames){
-        columns[columnNames[key]] = this.state.data[columnNames[key]]
-      }
-
-      var aircraftList = this.aircraftFilter(columns)
-
-      var data = {}
-      data[menuName] = aircraftList
-      this.setState(data,handler());
-    }
-
-    var menuUpdateHandler = (text,columnFull,key) => {
-      var aircrafts = this.state[menuName]
-      if(aircrafts.length == 1){
-
-        var lst = []
-        var aircraft = aircrafts[0]
-        for(var key in aircraft){
-          
-          if(key == 'id'){
-            lst.push(['aircraftId',aircraft[key]])
-          } else {
-            lst.push([key,aircraft[key]])
-          }
-
-        }
-        this.setData(lst)
-
-      } else {
-        this.setData([[columnFull,text]])
-      }
-    }
+    var row = 'aircraft'
 
     return (
       <Form.Row className="row">
@@ -439,12 +426,12 @@ getAerotowFee(launchFee,unitFee,height){
 
       <Form.Group className="group" controlId="formGridRegistration" >
         <Form.Label>Registration</Form.Label>
-        {this.dropdownInput('registration','registration',"Registration",this.state[menuName],filter,menuUpdateHandler)}
+        {this.dropdownInput(row,'registration',"Registration",menuName,this.totalAircrafts,columnNames,this.aircraftFilterElement)}
       </Form.Group>
 
       <Form.Group className="group" controlId="formGridacName">
         <Form.Label>Name</Form.Label>
-        {this.dropdownInput('acName','acName',"Name",this.state[menuName],filter,menuUpdateHandler)}
+        {this.dropdownInput(row,'acName',"Name",menuName,this.totalAircrafts,columnNames,this.aircraftFilterElement)}
       </Form.Group>
 
       <Form.Group className="group" controlId="formGridacName">
@@ -463,43 +450,7 @@ getAerotowFee(launchFee,unitFee,height){
   tug(){
     var columnNames = ['registration','acName']; //
     var menuName = 'tugAircrafts';
-
-    var filter = (handler = () => {}) => {
-      console.log('tug filter')
-
-      var columns = {}
-      for(var key in columnNames){
-        columns[columnNames[key]] = this.state.data['tug' + columnNames[key]]
-      }
-
-      var aircraftList = this.aircraftFilter(columns)
-
-      var data = {}
-      data[menuName] = aircraftList
-      this.setState(data,handler(aircraftList));
-    }
-
-    var menuUpdateHandler = (text,columnFull,key) => {
-      var aircrafts = this.state[menuName]
-      if(aircrafts.length == 1){
-
-        var lst = []
-        var aircraft = aircrafts[0]
-        for(var key in aircraft){
-          
-          if(key == 'id'){
-            lst.push(['tugId',aircraft[key]])
-          } else {
-            lst.push(['tug'+key,aircraft[key]])
-          }
-
-        }
-        this.setData(lst)
-
-      } else {
-        this.setData([[columnFull,text]])
-      }
-    }
+    var row = 'tug'
 
     var handleClick = (event,figure) => {
       var height = this.state.data['releaseHeight']
@@ -521,12 +472,12 @@ getAerotowFee(launchFee,unitFee,height){
 
       <Form.Group className="group" controlId="formGridRegistration" >
         <Form.Label>Registration</Form.Label>
-        {this.dropdownInput('registration','tugregistration',"Registration",this.state[menuName],filter,menuUpdateHandler)}
+        {this.dropdownInput(row,'registration',"Registration",menuName,this.totalAircrafts,columnNames,this.aircraftFilterElement)}
       </Form.Group>
 
       <Form.Group className="group" controlId="formGridacName">
         <Form.Label>Name</Form.Label>
-        {this.dropdownInput('acName','tugacName',"Name",this.state[menuName],filter,menuUpdateHandler)}
+        {this.dropdownInput(row,'acName',"Name",menuName,this.totalAircrafts,columnNames,this.aircraftFilterElement)}
       </Form.Group>
 
       <Form.Group className="group" controlId="formGridacName">
@@ -551,22 +502,10 @@ getAerotowFee(launchFee,unitFee,height){
       if(this.state.data['launchType'] == 'aerotow'){
 
         return (
-        <div className = "placeHolder">
-        <Form.Group className="group" controlId="formGridEmail" >
-          <Form.Label>Aerotow Launch to 2000</Form.Label>
-          <Form.Control placeholder="Launch Fee" name="aerotowStandardFee" onChange={(e) => {this.setData([[e.target.name,e.target.value]])}} onClick={(e)=>e.target.select()} value={this.state.data["aerotowStandardFee"]}/>
-        </Form.Group>
-
-        <Form.Group className="group" controlId="formGridEmail" >
-          <Form.Label>Fee per 1000ft above</Form.Label>
-          <Form.Control placeholder="Launch Fee" name="aerotowUnitFee" onChange={(e) => {this.setData([[e.target.name,e.target.value]])}} onClick={(e)=>e.target.select()} value={this.state.data["aerotowUnitFee"]}/>
-        </Form.Group>
-
         <Form.Group className="group" controlId="formGridEmail" >
           <Form.Label>Launch Fee</Form.Label>
           <Form.Control placeholder="Launch Fee" name="aerotowLaunchFee" onChange={(e) => {this.setData([[e.target.name,e.target.value]])}} onClick={(e)=>e.target.select()} value={this.state.data["aerotowLaunchFee"]}/>
         </Form.Group>
-        </div>
         );
 
       } else {
@@ -591,6 +530,16 @@ getAerotowFee(launchFee,unitFee,height){
         <ToggleButton variant="outline-primary" value={'p1'}>P1</ToggleButton>
         <ToggleButton variant="outline-primary" value={'p2'}>P2</ToggleButton>
         </ToggleButtonGroup>
+      </Form.Group>
+
+      <Form.Group className={(this.state.data['launchType'] == 'winch') ? "group hideElement" : "group showElement"} controlId="formGridEmail" >
+        <Form.Label>Aerotow Launch to 2000</Form.Label>
+        <Form.Control placeholder="Launch Fee" name="aerotowStandardFee" onChange={(e) => {this.setData([[e.target.name,e.target.value]])}} onClick={(e)=>e.target.select()} value={this.state.data["aerotowStandardFee"]}/>
+      </Form.Group>
+
+      <Form.Group className={(this.state.data['launchType'] == 'winch') ? "group hideElement" : "group showElement"} controlId="formGridEmail" >
+        <Form.Label>Fee per 1000ft above</Form.Label>
+        <Form.Control placeholder="Launch Fee" name="aerotowUnitFee" onChange={(e) => {this.setData([[e.target.name,e.target.value]])}} onClick={(e)=>e.target.select()} value={this.state.data["aerotowUnitFee"]}/>
       </Form.Group>
 
       {launch()}
@@ -630,18 +579,17 @@ getAerotowFee(launchFee,unitFee,height){
               </Form.Group>
 
             </Form.Row>
-  
+
             {this.aircraft()}
 
             {this.tug()}
-    
+
             {this.user('P1','p1')}
 
             {this.user('P2','p2')}
 
-            {this.fees()}  
-
-
+            {this.fees()}
+  
             <Button variant="outline-success" onClick={e => handleAdd(e)}>
               Add
             </Button>
@@ -658,8 +606,8 @@ getAerotowFee(launchFee,unitFee,height){
 
   componentDidMount(){
     console.log('logger did mount')
-    this.setMembership(this.memberships[Object.keys(this.memberships)[0]],'p1',true)
-    this.setMembership(this.memberships[Object.keys(this.memberships)[0]],'p2',true)
+    //this.setMembership(this.memberships[Object.keys(this.memberships)[0]],'p1',true)
+    //this.setMembership(this.memberships[Object.keys(this.memberships)[0]],'p2',true)
     
   }
 
