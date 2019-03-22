@@ -14,8 +14,8 @@ import FlightController from '../utilities/flightController'
 class TableLog extends React.Component {
 	constructor(props){
 		super(props);
-		this.clickHandler = this.clickHandler.bind(this);
-		this.clickHandlert = this.clickHandlert.bind(this);
+		//this.clickHandler = this.clickHandler.bind(this);
+		//this.clickHandlert = this.clickHandlert.bind(this);
 
 		//this.addData = this.addData.bind(this);
 		this.addDataTable = this.addDataTable.bind(this);
@@ -34,167 +34,7 @@ class TableLog extends React.Component {
 			tableData:{},
 			inputData:{}
 		}
-
-		/*{
-  			flightNumber:'1',
-  			tailNumber:'YUG',
-			acName:'Puchacz',
-			p1FName:'John',
-			p1LName:'Smith',
-			p2FName:'Jack',
-			p2LName:'Bing',
-			launchFee:'4.50',
-			soaringFee:'0.15'
-  		}
-  		*/
-
-  		/*this.extraData = [{
-  			flightNumber:'2',
-  			tailNumber:'TUG',
-			acName:'Puchacz',
-			p1FName:'Jack',
-			p1LName:'Smith',
-			p2FName:'Jack',
-			p2LName:'Bing',
-			launchFee:'4.50',
-			soaringFee:'0.15'
-  		},{
-  			flightNumber:'3',
-  			tailNumber:'TUG',
-			acName:'Puchacz',
-			p1FName:'Jack',
-			p1LName:'Smith',
-			p2FName:'Jack',
-			p2LName:'Bing',
-			launchFee:'4.50',
-			soaringFee:'0.15'
-  		}]*/
-
-  		//this.database
 		
-	}
-
-//Utils -------------------------------------
-
-	addDataTable(inputData){
-		//table
-		console.log('add data')
-		var tableData = this.state.tableData;
-		var returnData //= tableData.concat(inputData);
-
-		var inpData = this.state.inputData
-		for(var count in inputData){
-			inputData[count]['notes'] = '' // dodgy -------------------------
-			console.log(inputData[count])
-			tableData[inputData[count]['indexNumber']] = inputData[count]
-
-			if(inputData[count]['landTime'] == ''){
-				inpData[inputData[count]['indexNumber']] = {launchTime:inputData[count]['launchTime'],landTime:'',launchTimeStatus:'',landTimeStatus:''}
-			}
-		}
-		this.setState({inputData:inpData},console.log('input ready'));
-
-		this.setState({tableData:tableData},console.log('table ready'));
-	}
-
-	/*addData(inputData){
-		var addDataTable = this.addDataTable
-		var database = this.database //-----------------------------------------------------
-
-		console.log('inputData:')
-		console.log(inputData)
-
-		this.database.countRecords('flights',function(result){ //---------------------------------
-			inputData['flightNumber'] = result+1
-			console.log(inputData)
-			addDataTable(inputData)
-			database.addData('flights',[inputData]) //---------------------------------
-		});
-		
-	}*/
-
-	clearData(){
-		this.setState({tableData:[]},console.log('ready'));
-	}
-
-	updateData(id,name,time){
-		var table = 'flights'
-		var tableData = this.state.tableData;
-		var timeFormated = time.toISOString()
-		tableData[id][name] = timeFormated
-
-		//stage 2
-		this.setState({tableData:tableData},() => {console.log('updateData ready');console.log(this.state.tableData)});
-
-		//helper
-		var updateTable = (columnValues) => {
-			var tableData = this.state.tableData
-			for(var key in columnValues){
-				tableData[id][columnValues[key][0]] = columnValues[key][1]
-			}
-			this.setState({tableData:tableData},() => {console.log('updateTable ready');console.log(this.state.tableData)});
-		}
-
-		//stage 3
-		var processReturnData = (returnData,resolve,reject) => {
-			console.log('processReturnData')
-			console.log(returnData)
-
-			if(returnData['error'] == null){
-				updateTable(returnData)
-				resolve([['flightNumber',returnData['flightNumber']]])
-			} else {
-				reject(returnData['error'])
-			}
-
-		}
-
-		var updateTableFigures = (record,resolve,reject) => {
-			console.log('update table figures')
-			console.log(record)
-
-			var columns = ['flightTime','soaringTotal','total']
-
-			var updateValues = []
-			for(var key in columns){
-				updateValues.push([columns[key],record[columns[key]]])
-			}
-
-			updateTable(updateValues)
-			resolve(record)
-
-		}
-		var checkIndex = (resolve,reject) =>{
-			console.log('indexedBF')
-			console.log(this.state.inputData[id]['launchTimeStatus'])
-			console.log(this.state.inputData[id]['landTimeStatus'])
-			if(this.state.inputData[id]['launchTimeStatus'] == "indexed" && this.state.inputData[id]['landTimeStatus'] == "indexed"){
-				console.log('indexedEnter')
-				resolve()
-
-			}
-			
-		}
-		var setInputData = (resolve,reject) => {
-			var inputData = this.state.inputData;
-			inputData[id][name+'Status'] = 'indexed'
-
-			console.log(inputData)
-
-			this.setState({inputData:inputData},resolve());
-		}
-		var queue = new Promise((resolve,reject) => {window.flightController.tableUpdate(table,id,[[name,timeFormated]],resolve,reject)})	//indexed update time
-		.then(() => {return new Promise((resolve,reject) => {setInputData(resolve,reject)})})												//update input data
-		.then(() => {return new Promise((resolve,reject) => {checkIndex(resolve,reject)})})													//check input data
-		.then(() => {return new Promise((resolve,reject) => {window.flightController.tableUpdateFigures(table,id,resolve,reject)})})		//update record figures
-		.then((record) => {return new Promise((resolve,reject) => {updateTableFigures(record,resolve,reject)})})							//add those figures to table data
-		.then((record) => {return new Promise((resolve,reject) => {window.flightController.tableAddRecordDatabase(record,resolve,reject)})})//add record to mysql
-		.then((returnData) => {return new Promise((resolve,reject) => {processReturnData(returnData,resolve,reject)})})						//add mysql data to table data
-		.then((columnValue) => {return new Promise((resolve,reject) => {window.flightController.tableUpdate(table,id,columnValue,resolve,reject)})}) //add mysql data to indexed
-		//.then((param) => {console.log(param)})
-		.catch((error) => {console.log('updateDate queue failed:');console.log(error)})
-
-		//
 	}
 
 //helpers ---------------------------------
@@ -210,21 +50,117 @@ class TableLog extends React.Component {
 		return (hours + ' : ' +minutes);
 	}
 
-//coms -------------------------------------
-	message(){
-		console.log('TableLog')
+	setData(row,nameValue,successHandler = () => {console.log(this.state.data)}){
+		console.log(row)
+    	console.log(nameValue)
+    	const data = this.state.tableData
+    	for(var key in nameValue){
+      		data[row][nameValue[key][0]] = nameValue[key][1]
+    	}
+    	this.setState({tableData:data},successHandler());
+  	}
+
+
+//Utils -------------------------------------
+
+	addDataTable(inputData){
+		//table
+		console.log('add data')
+		var tableData = this.state.tableData;
+		var returnData //= tableData.concat(inputData);
+
+		var inpData = this.state.inputData
+		for(var count in inputData){
+			
+			if(inputData[count]['launchTime'] == ''){
+				inputData[count]['launchTimeStatus'] = ''
+			} else {
+				inputData[count]['launchTimeStatus'] = 'indexed'
+			}
+
+			if(inputData[count]['landTime'] == ''){
+				inputData[count]['landTimeStatus'] = ''
+			} else {
+				inputData[count]['landTimeStatus'] = 'indexed'
+			}
+
+			inputData[count]['notes'] = '' // dodgy -------------------------
+
+
+			console.log(inputData[count])
+			tableData[inputData[count]['indexNumber']] = inputData[count]
+
+			if(inputData[count]['landTime'] == ''){
+				inpData[inputData[count]['indexNumber']] = {launchTime:inputData[count]['launchTime'],landTime:'',launchTimeStatus:'',landTimeStatus:''}
+			}
+		}
+		this.setState({inputData:inpData},console.log('input ready'));
+
+		this.setState({tableData:tableData},console.log('table ready'));
 	}
+
+	clearData(){
+		this.setState({inputData:[]},console.log('ready'));
+		this.setState({tableData:[]},console.log('ready'));
+	}
+
+	updateData(id,name,time){
+		var table = 'flights'
+		var timeFormated = time.toISOString()
+
+		this.setData(id,[[name,timeFormated]],() => {console.log('updateData ready');console.log(this.state.tableData)})
+
+		window.flightController.tableUpdateTime(table,id,name,timeFormated)
+	}
+
+	updateCheckStatus(id,name,success,failure){
+		var inputData = this.state.inputData;
+		var status = ['launchTimeStatus','landTimeStatus']
+		var ready = false
+
+		console.log(name)
+		inputData[id][name+'Status'] = 'indexed'
+
+		var readyCount = 0
+		for(var key in status){
+			if(inputData[id][status[key]] == 'indexed'){readyCount++}
+		}
+
+		console.log(inputData)
+
+		this.setState({inputData:inputData});
+
+		console.log(readyCount)
+		console.log(success)
+		if(readyCount == 2){
+			success(true)
+			console.log('true')
+		} else {
+			console.log('false')
+			success(false)
+		}
+		
+	}
+
+	updateTableData(id,columnValues,success,failure){
+		console.log('updateTableData')
+		console.log(columnValues)
+
+		this.setData(id,columnValues,success)
+	}
+
+	
 //handlers ----------------------------------
 
-	clickHandler(){
+	/*clickHandler(){
 		console.log('click handler');
 		this.addData(this.extraData);
-	}
+	}*/
 
-	clickHandlert(){
+	/*clickHandlert(){
 		console.log('click handler');
 		this.clearData();
-	}
+	}*/
 
 	timeTextHandler(event) {
 		const {id,name,value} = event.target

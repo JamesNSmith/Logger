@@ -90,7 +90,7 @@ class FlightChannel < ApplicationCable::Channel
     end
   end
 
-  def addUser()
+  def addUser(username,firstName,lastName)
     @defaultPassword = '@4321'
     @userKeys = {
       username:username,
