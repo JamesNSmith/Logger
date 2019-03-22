@@ -10,24 +10,27 @@ class FlightController {
 
 //Logger ---------
   addFromLogger(inputData){
-  	console.log('addFromLogger')
+    console.log('addFromLogger')
 
-  	var database = window.flightControllerDependents['database']
-  	var table = window.flightControllerDependents['table']
-  	var addDataTable = database.addDataTable
-  	var index
+    var database = window.flightControllerDependents['database']
+    var table = window.flightControllerDependents['table']
+    var addDataTable = database.addDataTable
+    var index
 
-	console.log('inputData:')
-	console.log(inputData)
+    console.log('inputData:')
+    console.log(inputData)
 
-	database.countRecords('flights',function(result){ //---------------------------------
-		index = result+1
-		inputData['indexNumber'] = index
-		inputData['flightNumber'] = null
-		console.log(inputData)
-		table.addDataTable(inputData)
-		database.addData('flights',[inputData]) //---------------------------------
-	});
+    var countHandler = (result) => {
+      index = result+1
+      inputData['indexNumber'] = index
+      inputData['flightNumber'] = null
+      console.log('inpData')
+      console.log(inputData)
+      table.addDataTable([inputData])
+      database.addData('flights',[inputData]) //---------------------------------
+    }
+  	
+	  database.countRecords('flights',countHandler);
 
   }
 

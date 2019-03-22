@@ -84,6 +84,8 @@ class TableLog extends React.Component {
 
 		var inpData = this.state.inputData
 		for(var count in inputData){
+			inputData[count]['notes'] = '' // dodgy -------------------------
+			console.log(inputData[count])
 			tableData[inputData[count]['indexNumber']] = inputData[count]
 
 			if(inputData[count]['landTime'] == ''){
@@ -348,7 +350,7 @@ class TableLog extends React.Component {
 		return(
 			<tr key = {data['indexNumber']}>
 			<td><ul className = "td"><li>{data['indexNumber']}</li></ul></td>
-			<td><ul className = "td"><li>{data['tailNumber']}</li><li>{data['acName']}</li></ul></td>
+			<td><ul className = "td"><li>{data['registration']}</li><li>{data['acName']}</li></ul></td>
 			<td><ul className = "td"><li>{data['p1Username']}</li><li>{data['p1FName']}</li><li>{data['p1LName']}</li></ul></td>
 			<td><ul className = "td"><li>{data['p2Username']}</li><li>{data['p2FName']}</li><li>{data['p2LName']}</li></ul></td>
 			<td style={{width:"300px"}}>{this.timeSquare(data['indexNumber'],'launchTime','Launch Time',data['launchTime'],launchClock)}{this.timeSquare(data['indexNumber'],'landTime','Land Time',data['landTime'],landClock)}<ul className = "td"><li>{data['flightTime']}</li></ul></td>

@@ -73,6 +73,7 @@ class Logger extends React.Component {
     this.setPayee = this.setPayee.bind(this);
 
     window.flightControllerDependents['logger'] = this
+    this.flightController = window.flightController
 
     this.memberships = window.memberships
     this.totalClubUsers = window.clubUsers
@@ -116,7 +117,8 @@ class Logger extends React.Component {
 				launchFee:'', //winch
 				soaringFee:'',
         launchTime:'',//time
-        landTime:''
+        landTime:'',
+        notes:''
 			},
       p1ClubUsers:this.totalClubUsers,
       p2ClubUsers:this.totalClubUsers,
@@ -607,11 +609,7 @@ getAerotowFee(launchFee,unitFee,height){
       console.log('add');
       const formData = Object.assign({},this.state.data);
       console.log(formData)
-      this.fligthController.addFromLogger(formData)
-      this.clear()
-    }
-
-    var handleClear = (event) =>{
+      this.flightController.addFromLogger(formData)
       this.clear()
     }
 

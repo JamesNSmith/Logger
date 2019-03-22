@@ -1,4 +1,12 @@
 <div>
+  
+  <h1>Logger</h1>
+
+  <div id="logger">
+  <%= react_component("FlightLogger",{key:'m1'}) %>
+
+  </div>
+
   <%= javascript_tag do %>
     window.user = {id:<%= @user['id'] %>,username:'<%= @user['username'] %>'}; 
     console.log(window.user);
@@ -25,13 +33,6 @@
     console.log(aircrafts)
 
   <% end %>
-  
-  <h1>Logger</h1>
-
-  <div id="logger">
-  <%= react_component("FlightLogger",{key:'m1'}) %>
-
-  </div>
 
 </div>
 
