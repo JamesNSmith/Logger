@@ -160,8 +160,10 @@ class FlightController {
   		//table.addDataTable(data)
   	}
 
-  	var queue = new Promise((resolve,reject) => {cable.ready(resolve,reject)})
-    .then(() => {cable.get('all',cableGet)})
+    if(this.mode != 'demo'){
+  	  var queue = new Promise((resolve,reject) => {cable.ready(resolve,reject)})
+      .then(() => {cable.get('all',cableGet)})
+    }
 
   	//cable.ready()
   	//cable.get('all',cableGet)

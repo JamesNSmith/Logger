@@ -50,6 +50,10 @@ class TableLog extends React.Component {
 		return (hours + ' : ' +minutes);
 	}
 
+	defaultData(){
+		var data = 
+	}
+
 	setData(row,nameValue,successHandler = () => {console.log(this.state.data)}){
 		console.log(row)
     	console.log(nameValue)
@@ -286,9 +290,9 @@ class TableLog extends React.Component {
 		return(
 			<tr key = {data['indexNumber']}>
 			<td><ul className = "td"><li>{data['indexNumber']}</li></ul></td>
-			<td><ul className = "td"><li>{data['registration']}</li><li>{data['acName']}</li></ul></td>
-			<td><ul className = "td"><li>{data['p1Username']}</li><li>{data['p1FName']}</li><li>{data['p1LName']}</li></ul></td>
-			<td><ul className = "td"><li>{data['p2Username']}</li><li>{data['p2FName']}</li><li>{data['p2LName']}</li></ul></td>
+			<td><ul className = "td"><li>{data['aircraft']['registration']}</li><li>{data['aircraft']['acName']}</li></ul></td>
+			<td><ul className = "td"><li>{data['p1']['username']}</li><li>{data['p1']['fName']}</li><li>{data['p1']['lName']}</li></ul></td>
+			<td><ul className = "td"><li>{data['p2']['username']}</li><li>{data['p2']['fName']}</li><li>{data['p2']['lName']}</li></ul></td>
 			<td style={{width:"300px"}}>{this.timeSquare(data['indexNumber'],'launchTime','Launch Time',data['launchTime'],launchClock)}{this.timeSquare(data['indexNumber'],'landTime','Land Time',data['landTime'],landClock)}<ul className = "td"><li>{data['flightTime']}</li></ul></td>
 			<td><ul className = "td"><li>{data['launchFee']}</li><li>{data['soaringFee']}</li><li>{data['soaringTotal']}</li></ul></td>
 			<td><ul className = "td"><li>{data['total']}</li></ul></td>

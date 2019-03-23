@@ -34,14 +34,20 @@ class FlightChannel < ApplicationCable::Channel
     data.each do |record|
       @retData.push({
         flightNumber:record.id,
-        acName: record.aircraft.name,
-        tailNumber: record.aircraft.registration,
-        p1Username: record.club_user_p1.user.username,
-        p1FName: record.club_user_p1.user.first_name,
-        p1LName: record.club_user_p1.user.last_name,
-        p2Username: record.club_user_p2.user.username,
-        p2FName: record.club_user_p2.user.first_name,
-        p2LName: record.club_user_p2.user.last_name,
+        aircraft:{
+          registration: record.aircraft.registration,
+          acName: record.aircraft.name,
+        },
+        p1: {
+          username: record.club_user_p1.user.username,
+          fName: record.club_user_p1.user.first_name,
+          lName: record.club_user_p1.user.last_name
+        },
+        p2: {
+          username: record.club_user_p2.user.username,
+          fName: record.club_user_p2.user.first_name,
+          lName: record.club_user_p2.user.last_name
+        },
         launchTime: record.launch_time,
         landTime: record.land_time,
         flightTime: record.flight_time,
@@ -55,16 +61,16 @@ class FlightChannel < ApplicationCable::Channel
   end
 
   #Main ----------------------------------------------------------------------
-  def aircraft(data)
+  def aircraft(data,aircraftColumn)
     if data['aircraftId']
       return Aircraft.find(data['aircraftId'])
     end
 
-    @aircraftQuery = Aircraft.where(registration: data['tailNumber'])
+    @aircraftQuery = Aircraft.where(registration: data[aircraftColumn]['registration'])
     if @aircraftQuery.length == 0
       @keys = {
-        registration:data['tailNumber'],
-        name:data['acName'],
+        registration:data[aircraftColumn]['registration'],
+        name:data[aircraftColumn]['acName'],
         actype:'glider'
       }
       @aircraft = Aircraft.new(@keys)
@@ -128,22 +134,12 @@ class FlightChannel < ApplicationCable::Channel
     end
   end
 
-  def p1User(data)
-    @id = data['p1Id']
-    @username = data['p1Username']
-    @firstName = data['p1FName']
-    @lastName = data['p1LName']
-    @membership = data['p1Membership']
-
-    return user(data,@id,@username,@firstName,@lastName,@membership)
-  end
-
-  def p2User(data)
-    @id = data['p2Id']
-    @username = data['p2Username']
-    @firstName = data['p2FName']
-    @lastName = data['p2LName']
-    @membership = data['p2Membership']
+  def pUser(data,user)
+    @id = data[user]['id']
+    @username = data[user]['username']
+    @firstName = data[user]['fName']
+    @lastName = data[user]['lName']
+    @membership = data[user]['membership']
 
     return user(data,@id,@username,@firstName,@lastName,@membership)
   end
@@ -155,18 +151,16 @@ class FlightChannel < ApplicationCable::Channel
     @content['user'] = 3
     @content['club'] = 2
     @content['takeoffType'] = 'winch'
-    @content['p1Membership'] = 5
-    @content['p2Membership'] = 5
     
     @keys = {
       user:User.find(@content['user']),
       club:Club.find(@content['club']),
 
-      aircraft: aircraft(@content),
+      aircraft: aircraft(@content,'aircraft'),
       takeoff_type:@content['takeoffType'],
 
-      club_user_p1:p1User(@content),
-      club_user_p2:p2User(@content),      
+      club_user_p1:pUser(@content,'p1'),
+      club_user_p2:pUser(@content,'p2'),      
 
       launch_date: Date.parse(@content['launchTime']),
       launch_time: @content['launchTime'],
