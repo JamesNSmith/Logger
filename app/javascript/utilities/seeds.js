@@ -1,6 +1,6 @@
 const flights = [{
             user:{id: 2, username: "jamesnsmith97"},//Info
-            date:new Date("October 13, 2018 11:13:00").toUTCString(), 
+            date:new Date("October 13, 2018 11:13:00").toISOString(), 
             club:{id: 2, name: "Logger Club"},
 
             aircraft:{id: 1, registration: "G-CUHJ", acName: "k13"},
@@ -19,14 +19,14 @@ const flights = [{
             aerotowLaunchFee:20,
             launchFee:7, //winch
             soaringFee:0.6,
-            launchTime:new Date("October 13, 2018 11:13:00").toUTCString(),//time
-            landTime:new Date("October 13, 2018 11:19:00").toUTCString(),
+            launchTime:new Date("October 13, 2018 11:13:00").toISOString(),//time
+            landTime:new Date("October 13, 2018 11:19:00").toISOString(),
             flightTime:10,
             soaringTotal:6,
             total:13
       },{
             user:{id: 2, username: "jamesnsmith97"},//Info
-            date:new Date("October 13, 2018 11:13:00").toUTCString(), 
+            date:new Date("October 13, 2018 11:13:00").toISOString(), 
             club:{id: 2, name: "Logger Club"},
 
             aircraft:{id: 1, registration: "G-CUHJ", acName: "k13"},
@@ -45,14 +45,14 @@ const flights = [{
             aerotowLaunchFee:20,
             launchFee:7, //winch
             soaringFee:0.6,
-            launchTime:new Date("October 13, 2018 11:13:00").toUTCString(),//time
-            landTime:new Date("October 13, 2018 11:19:00").toUTCString(),
+            launchTime:new Date("October 13, 2018 11:13:00").toISOString(),//time
+            landTime:new Date("October 13, 2018 11:19:00").toISOString(),
             flightTime:10,
             soaringTotal:6,
             total:13
       },{
             user:{id: 2, username: "jamesnsmith97"},//Info
-            date:new Date("October 13, 2018 11:13:00").toUTCString(), 
+            date:new Date("October 13, 2018 11:13:00").toISOString(), 
             club:{id: 2, name: "Logger Club"},
 
             aircraft:{id: 1, registration: "G-CUHJ", acName: "k13"},
@@ -71,14 +71,14 @@ const flights = [{
             aerotowLaunchFee:20,
             launchFee:7, //winch
             soaringFee:0.6,
-            launchTime:new Date("October 13, 2018 11:13:00").toUTCString(),//time
-            landTime:new Date("October 13, 2018 11:19:00").toUTCString(),
+            launchTime:new Date("October 13, 2018 11:13:00").toISOString(),//time
+            landTime:new Date("October 13, 2018 11:19:00").toISOString(),
             flightTime:10,
             soaringTotal:6,
             total:13
       },{
             user:{id: 2, username: "jamesnsmith97"},//Info
-            date:new Date("October 13, 2018 11:13:00").toUTCString(), 
+            date:new Date("October 13, 2018 11:13:00").toISOString(), 
             club:{id: 2, name: "Logger Club"},
 
             aircraft:{id: 1, registration: "G-CUHJ", acName: "k13"},
@@ -97,14 +97,14 @@ const flights = [{
             aerotowLaunchFee:20,
             launchFee:7, //winch
             soaringFee:0.6,
-            launchTime:new Date("October 13, 2018 11:13:00").toUTCString(),//time
-            landTime:new Date("October 13, 2018 11:19:00").toUTCString(),
+            launchTime:new Date("October 13, 2018 11:13:00").toISOString(),//time
+            landTime:new Date("October 13, 2018 11:19:00").toISOString(),
             flightTime:10,
             soaringTotal:6,
             total:13
       },{
             user:{id: 2, username: "jamesnsmith97"},//Info
-            date:new Date("October 13, 2018 11:13:00").toUTCString(), 
+            date:new Date("October 13, 2018 11:13:00").toISOString(), 
             club:{id: 2, name: "Logger Club"},
 
             aircraft:{id: 1, registration: "G-CUHJ", acName: "k13"},
@@ -130,7 +130,7 @@ const flights = [{
             total:''
       },{
             user:{id: 2, username: "jamesnsmith97"},//Info
-            date:new Date("October 13, 2018 11:13:00").toUTCString(), 
+            date:new Date("October 13, 2018 11:13:00").toISOString(), 
             club:{id: 2, name: "Logger Club"},
 
             aircraft:{id: 1, registration: "G-CUHJ", acName: "k13"},
@@ -156,7 +156,7 @@ const flights = [{
             total:''
       },{
             user:{id: 2, username: "jamesnsmith97"},//Info
-            date:new Date("October 13, 2018 11:13:00").toUTCString(), 
+            date:new Date("October 13, 2018 11:13:00").toISOString(), 
             club:{id: 2, name: "Logger Club"},
 
             aircraft:{id: 1, registration: "G-CUHJ", acName: "k13"},

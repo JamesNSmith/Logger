@@ -111,7 +111,9 @@ class Logger extends React.Component {
       p1ClubUsers:JSON.parse(JSON.stringify(this.totalClubUsers)),
       p2ClubUsers:JSON.parse(JSON.stringify(this.totalClubUsers)),
       aircrafts:JSON.parse(JSON.stringify(this.totalAircrafts)),
-      tugAircrafts:JSON.parse(JSON.stringify(this.totalAircrafts))
+      tugAircrafts:JSON.parse(JSON.stringify(this.totalAircrafts)),
+      parkData:{},
+      mode:'create'
 		}
 
     this.defaultValues = [
@@ -226,6 +228,25 @@ getAerotowFee(launchFee,unitFee,height){
 
     this.setState({data:data},console.log(this.state.data))
   }
+
+//foreign functions -----------------------------
+
+importEditData(importData){
+  console.log('importEditData')
+  console.log(importData)
+
+  var currentData = JSON.parse(JSON.stringify(this.state.data))
+  console.log(currentData)
+
+  //this.state.parkData = currentData
+  this.setState({mode:'edit'},console.log(this.state))
+  //this.setState({data:importData},console.log(this.state))
+
+  
+  //this.setState({data:data},)
+
+
+}
 
 //handlers -----------------------------------
 	handleChange(event){

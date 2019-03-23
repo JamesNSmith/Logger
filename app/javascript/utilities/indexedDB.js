@@ -146,7 +146,7 @@ class Database {
     };
   }
 
-  deleteData(table,id){
+  deleteData(table,id,successHandler = this.success,failureHandler = this.failure){
     var openRequest = indexedDB.open(this.dbName, this.version);
 
     openRequest.onsuccess = function(e) {
@@ -160,16 +160,19 @@ class Database {
       request.onsuccess = function(ev) {
         console.log('Woot! Did it -delete');
         e.target.result.close();
+        successHandler()
       };
       request.onerror = function(ev) {
-        console.log('Error', e.target.error.name);
+        console.log('Error', ev.target.error.name);
         e.target.result.close();
+        failureHandler(ev.target.error.name)
       };
     }
 
     openRequest.onerror = function(e) {
       console.log('onerror! add');
       e.target.result.close();
+      failureHandler(e.target.error.name)
     };
   }
 //Add -------------------------

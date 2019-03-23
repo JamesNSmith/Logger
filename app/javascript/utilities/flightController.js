@@ -7,7 +7,7 @@ class FlightController {
     window.flightControllerDependents = {};
 
     this.table = 'flights'
-    this.mode = ''
+    this.mode = 'demo'
   }
 
 //Logger ---------
@@ -47,13 +47,16 @@ class FlightController {
   }
 
   calculateTimeFees (record) {
+    console.log('calculateTimeFees')
     console.log(record)
     var launchFee = record['launchFee']
     var soaringFee = record['soaringFee']
 
-    var launchTime =  new Date(record['launchTime'])
-    var landTime =  new Date(record['landTime'])
-    var flightTime = Math.floor(Math.abs((landTime.getTime() - launchTime.getTime()))/(1000*60))
+    var launchTime =  new Date(record['launchTime']).setFullYear(2020, 11, 3) //dodgy fix -- needs :()
+    var landTime =  new Date(record['landTime']).setFullYear(2020, 11, 3) //dodgy fix -- needs :()
+    console.log(landTime)
+    console.log(launchTime)
+    var flightTime = Math.floor(Math.abs((landTime - launchTime))/(1000*60)) //.getTime()
     console.log('flightTime: ' + flightTime)
 
     var soaringTotal = parseFloat(flightTime * soaringFee).toFixed(2)
@@ -138,6 +141,20 @@ class FlightController {
       console.log(error)
 
     })
+  }
+
+  tableDeleteRecord(index,flightNumber){
+    var database = window.flightControllerDependents['database'];
+
+    database.deleteData('flights',index)
+
+    //cable.delete(flightNumber)
+  }
+
+  tableEditRecord(data){
+    var logger =  window.flightControllerDependents['logger']
+
+    logger.importEditData(data)
   }
 
 //this ---------------------------------
