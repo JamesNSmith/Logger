@@ -39,7 +39,7 @@ class TableLog extends React.Component {
 		
 	}
 
-//helpers ---------------------------------
+//formatters -------------------------------
 	timeFormat(time, separator = ':'){
 		if(time == ''){
 			return ''
@@ -56,6 +56,41 @@ class TableLog extends React.Component {
 		return (hours + separator + minutes);
 	}
 
+	currencyFormat(value){
+		if(value.length == 0){
+			return value
+		}
+
+		value = value.toString()
+		var figure = '£'
+	
+		var dpCount = 0
+		for(var char in value){
+			figure = figure + value[char]
+
+			if(value[char] == '.' || dpCount > 0){
+				dpCount++
+			}
+
+			if(dpCount > 2){
+				break
+			}
+		}
+
+		if(dpCount == 0){
+			figure = figure + '.00'
+		} else if(dpCount == 2){
+			figure = figure + '0'
+		}
+
+		return figure
+	}
+
+	capitaliseFormat(word){
+		return word.charAt(0).toUpperCase() + word.slice(1)
+	}
+
+//helpers ---------------------------------
 	defaultData(){ // not sure -----------------------------
 		var aircraftObj = {id:'',registration:'',acName:''}
     	var userObj = {userId:'',username:'',fName:'',lName:'',membershipId:'',launchFee:'',soaringFee:'',aerotowStandardFee:'',aerotowUnitFee:''}
@@ -113,10 +148,6 @@ class TableLog extends React.Component {
   		var winWidth = window.innerWidth;
 		var winHeight = window.innerHeight;
 		var docHeight = document.height;
-
-		console.log(winWidth)
-		console.log(winHeight)
-		console.log(docHeight)
 
   		window.scroll({
   			top: top + 2*winHeight/3,
@@ -361,38 +392,61 @@ class TableLog extends React.Component {
 	}
 
 //constructors ------------------------------
-	timeInput(index,name,mesg,time,btnImagePath){
+	timeInput(index,name,mesg,time,type,btnImagePath){
+		var returnHTML = []
 		var buttonHandler = (event) =>{
 			this.timeButtonHandler(index,name)
+		}
+
+		if(type == 'left'){
+			var placeholder = mesg + ' - 24(hh:mm)          '
+		} else if(type == 'right'){
+			var placeholder = '          ' + mesg + ' - 24(hh:mm)'
+		} else {
+			var placeholder = mesg + ' - 24(hh:mm)'
+		}
+
+		var form = (<FormControl
+						key={'time' + type + index}
+     			  		placeholder={placeholder} 
+      			  		aria-label={name}
+      			  		aria-describedby={name}
+      			  		autoComplete="new-password"
+      			  		maxLength={5}
+      			  		onChange={this.timeTextHandler}
+      			  		name={name}
+      			  		id={index}
+      			  		value={this.state.tableData[index][name]['input']}
+    			/>);
+		var button = (
+      			  	<Button 
+      			  		key={'btn' + type + index}
+      			  		variant="outline-secondary" 
+      			  		onClick={buttonHandler}
+      			  	>
+      			  	<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d={btnImagePath}/></svg>
+      			  	</Button>
+    				);
+
+		if(type == 'left'){
+			returnHTML.push(<InputGroup.Prepend key={'btninp' + type + index}>{button}</InputGroup.Prepend>)
+			returnHTML.push(form)
+		} else { 
+			returnHTML.push(form)
+			returnHTML.push(<InputGroup.Append key={'btninp' + type + index}>{button}</InputGroup.Append>) 
 		}
 
 		if(this.state.tableData[index]['status'] == 'editTime'){ //this.state.tableData[index]['launchTime']['status'] == 'indexed' && this.state.tableData[index]['landTime']['status'] == 'indexed' &&
 			return(	
 				<InputGroup className="mb-3">
-				<FormControl
-     			  	placeholder={mesg + ' - 24(hh:mm)'} 
-      			  	aria-label={name}
-      			  	aria-describedby={name}
-      			  	autoComplete="new-password"
-      			  	maxLength={5}
-      			  	onChange={this.timeTextHandler}
-      			  	name={name}
-      			  	id={index}
-      			  	value={this.state.tableData[index][name]['input']}
-    			/>
-				<InputGroup.Append>
-      			  	<Button 
-      			  	variant="outline-secondary" 
-      			  	onClick={buttonHandler}
-      			  	>
-      			  	<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d={btnImagePath}/></svg>
-      			  	</Button>
-    			</InputGroup.Append>
-  				</InputGroup>
+					{returnHTML}
+				</InputGroup>	
   			);
 
 		} else {
-  			return(<ul className = "td"><li>{this.timeFormat(time,' : ')}</li></ul>);
+  			return(
+  				<ul className = "td"><li>{this.timeFormat(time,' : ')}</li></ul>
+  			);
 		}
 		
 	}
@@ -518,18 +572,18 @@ class TableLog extends React.Component {
 				<li>{data['p2']['lName']}</li>
 				</ul></td>
 			<td style={{width:"300px"}}>
-				{this.timeInput(data['indexNumber'],'launchTime','Launch Time',data['launchTime']['formatted'],launchClock)}
-				{this.timeInput(data['indexNumber'],'landTime','Land Time',data['landTime']['formatted'],landClock)}
+				{this.timeInput(data['indexNumber'],'launchTime','Launch Time',data['launchTime']['formatted'],'r',launchClock)}
+				{this.timeInput(data['indexNumber'],'landTime','Land Time',data['landTime']['formatted'],'r',landClock)}
 				<ul className = "td"><li className = {editHide()}>{data['flightTime']}</li>
 				</ul></td>
 			<td><ul className = "td">
-				<li>{data['launchFee']}</li>
-				<li>{data['soaringFee']}</li>
-				<li>{data['soaringTotal']}</li>
+				<li>{this.currencyFormat(data['launchFee'])}</li>
+				<li>{this.currencyFormat(data['soaringFee'])}</li>
+				<li>{this.currencyFormat(data['soaringTotal'])}</li>
 				</ul></td>
 			<td><ul className = "td">
-				<li>{data['total']}</li>
-				<li>{data['payee']}</li>
+				<li>{this.currencyFormat(data['total'])}</li>
+				<li>{this.capitaliseFormat(data['payee'])}</li>
 				</ul></td>
 			<td>
 				{buttons()}

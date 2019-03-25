@@ -90,7 +90,11 @@ class FlightController {
     var database = window.flightControllerDependents['database']
     var table = window.flightControllerDependents['table']
 
-    var updatedData = this.updateFees(inputData)
+    if(inputData['launchTime']['formatted'] != '' && inputData['landTime']['formatted'] != ''){
+      var updatedData = this.updateFees(inputData)
+    } else {
+      var updatedData = inputData
+    }
 
     database.updateRecordRow('flights',updatedData) // -------------dodgy
     table.updateDataRow(updatedData)

@@ -7,7 +7,7 @@ const flights = [{
             tug:{id: 2, registration: "G-CUGF", acName: "k13"},
         
             launchType:'winch',
-            releaseHeight:'2000',
+            releaseHeight:2000,
 
             p1:{userId: 2, username: "jamesnsmith97", fName: "James", lName: "Smith", membershipId: 5,launchFee:7,soaringFee:0.6,aerotowStandardFee:20,aerotowUnitFee:5},
             p2:{userId: 1, username: "jamesnsmith", fName: "James", lName: "Smith", membershipId: 5,launchFee:7,soaringFee:0.6,aerotowStandardFee:20,aerotowUnitFee:5}
@@ -33,7 +33,7 @@ const flights = [{
             tug:{id: 2, registration: "G-CUGF", acName: "k13"},
         
             launchType:'winch',
-            releaseHeight:'2000',
+            releaseHeight:2000,
 
             p1:{userId: 2, username: "jamesnsmith97", fName: "James", lName: "Smith", membershipId: 5,launchFee:7,soaringFee:0.6,aerotowStandardFee:20,aerotowUnitFee:5},
             p2:{userId: 1, username: "jamesnsmith", fName: "James", lName: "Smith", membershipId: 5,launchFee:7,soaringFee:0.6,aerotowStandardFee:20,aerotowUnitFee:5}
@@ -59,7 +59,7 @@ const flights = [{
             tug:{id: 2, registration: "G-CUGF", acName: "k13"},
         
             launchType:'winch',
-            releaseHeight:'2000',
+            releaseHeight:2000,
 
             p1:{userId: 2, username: "jamesnsmith97", fName: "James", lName: "Smith", membershipId: 5,launchFee:7,soaringFee:0.6,aerotowStandardFee:20,aerotowUnitFee:5},
             p2:{userId: 1, username: "jamesnsmith", fName: "James", lName: "Smith", membershipId: 5,launchFee:7,soaringFee:0.6,aerotowStandardFee:20,aerotowUnitFee:5}
@@ -85,7 +85,7 @@ const flights = [{
             tug:{id: 2, registration: "G-CUGF", acName: "k13"},
         
             launchType:'winch',
-            releaseHeight:'2000',
+            releaseHeight:2000,
 
             p1:{userId: 2, username: "jamesnsmith97", fName: "James", lName: "Smith", membershipId: 5,launchFee:7,soaringFee:0.6,aerotowStandardFee:20,aerotowUnitFee:5},
             p2:{userId: 1, username: "jamesnsmith", fName: "James", lName: "Smith", membershipId: 5,launchFee:7,soaringFee:0.6,aerotowStandardFee:20,aerotowUnitFee:5}
@@ -111,7 +111,7 @@ const flights = [{
             tug:{id: 2, registration: "G-CUGF", acName: "k13"},
         
             launchType:'winch',
-            releaseHeight:'2000',
+            releaseHeight:2000,
 
             p1:{userId: 2, username: "jamesnsmith97", fName: "James", lName: "Smith", membershipId: 5,launchFee:7,soaringFee:0.6,aerotowStandardFee:20,aerotowUnitFee:5},
             p2:{userId: 1, username: "jamesnsmith", fName: "James", lName: "Smith", membershipId: 5,launchFee:7,soaringFee:0.6,aerotowStandardFee:20,aerotowUnitFee:5}
@@ -137,7 +137,7 @@ const flights = [{
             tug:{id: 2, registration: "G-CUGF", acName: "k13"},
         
             launchType:'winch',
-            releaseHeight:'2000',
+            releaseHeight:2000,
 
             p1:{userId: 2, username: "jamesnsmith97", fName: "James", lName: "Smith", membershipId: 5,launchFee:7,soaringFee:0.6,aerotowStandardFee:20,aerotowUnitFee:5},
             p2:{userId: 1, username: "jamesnsmith", fName: "James", lName: "Smith", membershipId: 5,launchFee:7,soaringFee:0.6,aerotowStandardFee:20,aerotowUnitFee:5}
@@ -163,7 +163,7 @@ const flights = [{
             tug:{id: 2, registration: "G-CUGF", acName: "k13"},
         
             launchType:'winch',
-            releaseHeight:'2000',
+            releaseHeight:2000,
 
             p1:{userId: 2, username: "jamesnsmith97", fName: "James", lName: "Smith", membershipId: 5,launchFee:7,soaringFee:0.6,aerotowStandardFee:20,aerotowUnitFee:5},
             p2:{userId: 1, username: "jamesnsmith", fName: "James", lName: "Smith", membershipId: 5,launchFee:7,soaringFee:0.6,aerotowStandardFee:20,aerotowUnitFee:5}

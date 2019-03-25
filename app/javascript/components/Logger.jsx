@@ -123,7 +123,7 @@ class Logger extends React.Component {
       ['aircraft',JSON.parse(JSON.stringify(this.aircraftObj))],
       ['tug',JSON.parse(JSON.stringify(this.aircraftObj))],
       ['launchType','winch'],
-      ['releaseHeight','2000'],
+      ['releaseHeight',2000],
       ['p1',JSON.parse(JSON.stringify(this.userObj))],
       ['p2',JSON.parse(JSON.stringify(this.userObj))],
       ['payee','p1'],
@@ -476,7 +476,7 @@ importEditData(importData){
 
       <Form.Group className="group" controlId="formGridacName">
         <Form.Label>Launch</Form.Label>
-        <ToggleButtonGroup name="launchType" type="radio" onChange={(event) => this.setData([['launchType',event]])} value={this.state.data['launchType']}>
+        <ToggleButtonGroup vertical name="launchType" type="radio" onChange={(event) => this.setData([['launchType',event]])} value={this.state.data['launchType']}>
         <ToggleButton variant="outline-primary" value={'winch'}>Winch</ToggleButton>
         <ToggleButton variant="outline-primary" value={'aerotow'}>Aerotow</ToggleButton>
         </ToggleButtonGroup>
@@ -494,8 +494,8 @@ importEditData(importData){
 
     var handleClick = (event,figure) => {
       var height = this.state.data['releaseHeight']
-      var returnHeight = (parseInt(height) + figure)
-      var returnLst = [['releaseHeight',returnHeight.toString()]]
+      var returnHeight = (height + figure)
+      var returnLst = [['releaseHeight',returnHeight]]
 
       if(returnHeight >= 2000){
         if(this.state.data['aerotowLaunchFee'] != ''){
@@ -566,7 +566,7 @@ importEditData(importData){
 
       <Form.Group className="group" controlId="formGridacName">
         <Form.Label>Payee</Form.Label>
-        <ToggleButtonGroup name="launchType" type="radio" onChange={this.setPayee} value={this.state.data['payee']}>
+        <ToggleButtonGroup vertical name="launchType" type="radio" onChange={this.setPayee} value={this.state.data['payee']}>
         <ToggleButton variant="outline-primary" value={'p1'}>P1</ToggleButton>
         <ToggleButton variant="outline-primary" value={'p2'}>P2</ToggleButton>
         </ToggleButtonGroup>
