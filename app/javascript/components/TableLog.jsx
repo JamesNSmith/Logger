@@ -4,6 +4,7 @@ import Table from 'react-bootstrap/Table'
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import InputGroup from 'react-bootstrap/InputGroup'
 
 import Database from '../utilities/indexedDB'
@@ -33,7 +34,7 @@ class TableLog extends React.Component {
     	this.input = {}
 		this.state = {
 			tableData:{},
-			inputData:{}
+			//inputData:{}
 		}
 		
 	}
@@ -85,27 +86,62 @@ class TableLog extends React.Component {
 		}
 	}
 
-	setData(row,nameValue,successHandler = () => {console.log(this.state.tableData)}){
+	setData(row,columnValue,successHandler = () => {console.log(this.state.tableData)}){
 		console.log(row)
-    	console.log(nameValue)
+    	console.log(columnValue)
     	const data = this.state.tableData
-    	for(var key in nameValue){
+    	for(var key in columnValue){
 
-    		if(typeof nameValue[key][1] == 'object'){
-    			var tierTwo = data[row][nameValue[key][0]]
-    			var objTwo = nameValue[key][1]
+    		if(typeof columnValue[key][1] == 'object'){
+    			var tierTwo = data[row][columnValue[key][0]]
+    			var objTwo = columnValue[key][1]
 
     			for(var keyTwo in objTwo){
     				tierTwo[objTwo[keyTwo][0]] = objTwo[keyTwo][1]
     			}
-    			data[row][nameValue[key][0]] = tierTwo
+    			data[row][columnValue[key][0]] = tierTwo
 
     		} else {
-      			data[row][nameValue[key][0]] = nameValue[key][1]
+      			data[row][columnValue[key][0]] = columnValue[key][1]
       		}
     	}
     	
     	this.setState({tableData:data},successHandler());
+  	}
+
+  	scrollFocus(top){
+  		var winWidth = window.innerWidth;
+		var winHeight = window.innerHeight;
+		var docHeight = document.height;
+
+		console.log(winWidth)
+		console.log(winHeight)
+		console.log(docHeight)
+
+  		window.scroll({
+  			top: top + 2*winHeight/3,
+  			left: 0,
+  			behavior: 'smooth'
+		});
+  	}
+
+  	scrollLogger(){
+  		window.scroll({
+  			top: 150,
+  			left: 0,
+  			behavior: 'smooth'
+		});
+  	}
+
+  	checkForStatus(status){
+  		var statusFound = false
+  		for(var key in this.state.tableData){
+  			if(this.state.tableData[key]['status'] == status){
+  				statusFound = true;
+  				break;
+  			}
+  		}
+  		return statusFound
   	}
 
 //Utils -------------------------------------
@@ -146,13 +182,16 @@ class TableLog extends React.Component {
 		//var inpData = this.state.inputData
 		for(var count in inputData){
 
-			var formattedLaunchTime = inputData[count]['launchTime']
-			var formattedLandTime = inputData[count]['landTime']
-			
 			if(typeof inputData[count]['launchTime'] != 'object'){//sloppy
-				inputData[count]['launchTime'] = {formatted:formattedLaunchTime,input:this.timeFormat(formattedLaunchTime),status:''}
-				inputData[count]['landTime'] = {formatted:formattedLandTime,input:this.timeFormat(formattedLandTime),status:''}
+				var formattedLaunchTime = inputData[count]['launchTime']
+				var formattedLandTime = inputData[count]['landTime']
+			} else {
+				var formattedLaunchTime = inputData[count]['launchTime']['formatted']
+				var formattedLandTime = inputData[count]['landTime']['formatted']
 			}
+			
+			inputData[count]['launchTime'] = {formatted:formattedLaunchTime,input:this.timeFormat(formattedLaunchTime),status:''}
+			inputData[count]['landTime'] = {formatted:formattedLandTime,input:this.timeFormat(formattedLandTime),status:''}
 
 			inputData[count]['status'] = ''
 			
@@ -170,8 +209,8 @@ class TableLog extends React.Component {
 				inputData[count]['landTime']['status'] = 'indexed'
 			}
 
-			inputData[count]['launchTimeInput']
-			inputData[count]['landTimeInput']
+			//inputData[count]['launchTimeInput']
+			//inputData[count]['landTimeInput']
 
 			//inputData[count]['notes'] = '' // dodgy -------------------------
 
@@ -183,6 +222,22 @@ class TableLog extends React.Component {
 		}
 
 		this.setState({tableData:tableData},console.log('table ready'));
+	}
+
+	updateDataRow(inputData){
+		var data = this.state.tableData
+		data[inputData['indexNumber']] = inputData
+		
+		if(data[inputData['indexNumber']]['launchTime']['status'] == '' || data[inputData['indexNumber']]['launchTime']['status'] == ''){
+			data[inputData['indexNumber']]['status'] = 'editTime'
+		} else {
+			data[inputData['indexNumber']]['status'] = ''
+		}
+
+		this.setState({data:data})
+
+		var element = document.getElementById("tr"+inputData['indexNumber'])
+		this.scrollFocus(element.offsetTop)
 	}
 
 	updateCheckStatus(id,name,success,failure){
@@ -318,6 +373,7 @@ class TableLog extends React.Component {
      			  	placeholder={mesg + ' - 24(hh:mm)'} 
       			  	aria-label={name}
       			  	aria-describedby={name}
+      			  	autoComplete="new-password"
       			  	maxLength={5}
       			  	onChange={this.timeTextHandler}
       			  	name={name}
@@ -352,6 +408,13 @@ class TableLog extends React.Component {
 	} */
 
 	row(data){
+		if(!data){
+  			return (<tr key = "last"><td colSpan="100%" height="60"></td></tr>)
+  			var rowId = "table_row_end"
+		} else {
+			var rowId = "table_row" + data['indexNumber']
+		}
+
 		//handlers ----------------------------
 		var  editTimeHandler = (e) => {
 			console.log('editTimeHandler')
@@ -364,6 +427,8 @@ class TableLog extends React.Component {
 			console.log('editAllHandler')
 			console.log(e)
 			console.log(data)
+			this.setData(data['indexNumber'],[['status','editAll']])
+			this.scrollLogger()
 			window.flightController.tableEditRecord(data)
 			//this.deleteRecord(data['indexNumber'])
 		}
@@ -378,19 +443,62 @@ class TableLog extends React.Component {
 		}
 
 		//constructors -----------------------------
-		//var timeSquare = () => {
+		var buttons = () => {
+			const returnElements = []
+			
+			var editTimes = false
+			var deleteBu = false
+			var editAll = false
+			var goLogger = false
 
-		//}
+			switch(data['status']){
+				case 'editTime':
+					deleteBu = true
+					editAll = true
+					break;
+				case 'editAll':
+					editTimes = false
+					deleteBu = false
+					editAll = false
+					goLogger = true
+					break;
+				case '':
+					editTimes = true
+					deleteBu = true
+					editAll = true
+					break;
 
-		if(!data){
-  			return (<tr key = "last"><td colSpan="100%" height="60"></td></tr>)
+			}
+
+			var totalEditAll = this.checkForStatus('editAll') //Move to body function ??
+
+			if(editTimes){
+				returnElements.push(<Button key="editTimes" variant="outline-info" onClick={editTimeHandler}>Edit Times</Button>)
+			}
+			if(deleteBu){
+				returnElements.push(<Button key="delete" variant="outline-danger" onClick={() => this.deleteRecord(data['indexNumber'])} >Delete</Button>)
+			}
+			if(editAll && !totalEditAll){
+				returnElements.push(<Button key="editAll" variant="outline-info" onClick={editAllHandler}>Edit All</Button>)
+			}
+			if(goLogger){
+				returnElements.push(<Button key="goLogger" variant="outline-info" onClick={this.scrollLogger}>Data in logger</Button>)
+			}
+
+			return (
+				<ButtonGroup vertical>
+					{returnElements}
+				</ButtonGroup>
+			);
 		}
+
+		
 
 		const launchClock = 'M13 12l-.688-4h-.609l-.703 4c-.596.347-1 .984-1 1.723 0 1.104.896 2 2 2s2-.896 2-2c0-.739-.404-1.376-1-1.723zm-1-8c-5.522 0-10 4.477-10 10s4.478 10 10 10 10-4.477 10-10-4.478-10-10-10zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm-2-19.819v-2.181h4v2.181c-1.438-.243-2.592-.238-4 0zm9.179 2.226l1.407-1.407 1.414 1.414-1.321 1.321c-.462-.484-.964-.926-1.5-1.328z'
 		const landClock = 'M22 14c0 5.523-4.478 10-10 10s-10-4.477-10-10 4.478-10 10-10 10 4.477 10 10zm-2 0c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8 8-3.589 8-8zm-6-11.819v-2.181h-4v2.181c1.408-.238 2.562-.243 4 0zm6.679 3.554l1.321-1.321-1.414-1.414-1.407 1.407c.536.402 1.038.844 1.5 1.328zm-8.679 2.265v6h6c0-3.309-2.691-6-6-6z'
 
 		return(
-			<tr key = {data['indexNumber']}>
+			<tr key = {data['indexNumber']} id={"tr" + data['indexNumber']}>
 			<td><ul className = "td">
 				<li>{data['indexNumber']}</li>
 				<li>{data['flightNumber']}</li>
@@ -421,11 +529,10 @@ class TableLog extends React.Component {
 				</ul></td>
 			<td><ul className = "td">
 				<li>{data['total']}</li>
+				<li>{data['payee']}</li>
 				</ul></td>
 			<td>
-				<Button variant="outline-info" onClick={editTimeHandler} className = {editHide()}>Edit Times</Button>
-				<Button variant="outline-danger" onClick={() => this.deleteRecord(data['indexNumber'])} >Delete</Button>
-				<Button variant="outline-info" onClick={editAllHandler} className = {editHide()}>Edit All</Button>
+				{buttons()}
 				</td>
 			</tr>
 		);

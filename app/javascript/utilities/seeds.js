@@ -19,8 +19,8 @@ const flights = [{
             aerotowLaunchFee:20,
             launchFee:7, //winch
             soaringFee:0.6,
-            launchTime:new Date("October 13, 2018 11:13:00").toISOString(),//time
-            landTime:new Date("October 13, 2018 11:19:00").toISOString(),
+            launchTime:{formatted: new Date("October 13, 2018 11:13:00").toISOString(),input:'',status:''} ,//time
+            landTime:{formatted: new Date("October 13, 2018 11:19:00").toISOString(),input:'',status:''},
             flightTime:10,
             soaringTotal:6,
             total:13
@@ -45,8 +45,8 @@ const flights = [{
             aerotowLaunchFee:20,
             launchFee:7, //winch
             soaringFee:0.6,
-            launchTime:new Date("October 13, 2018 11:13:00").toISOString(),//time
-            landTime:new Date("October 13, 2018 11:19:00").toISOString(),
+            launchTime:{formatted: new Date("October 13, 2018 11:13:00").toISOString(),input:'',status:''} ,//time
+            landTime:{formatted: new Date("October 13, 2018 11:19:00").toISOString(),input:'',status:''},
             flightTime:10,
             soaringTotal:6,
             total:13
@@ -71,8 +71,8 @@ const flights = [{
             aerotowLaunchFee:20,
             launchFee:7, //winch
             soaringFee:0.6,
-            launchTime:new Date("October 13, 2018 11:13:00").toISOString(),//time
-            landTime:new Date("October 13, 2018 11:19:00").toISOString(),
+            launchTime:{formatted: new Date("October 13, 2018 11:13:00").toISOString(),input:'',status:''} ,//time
+            landTime:{formatted: new Date("October 13, 2018 11:19:00").toISOString(),input:'',status:''},
             flightTime:10,
             soaringTotal:6,
             total:13
@@ -97,8 +97,8 @@ const flights = [{
             aerotowLaunchFee:20,
             launchFee:7, //winch
             soaringFee:0.6,
-            launchTime:new Date("October 13, 2018 11:13:00").toISOString(),//time
-            landTime:new Date("October 13, 2018 11:19:00").toISOString(),
+            launchTime:{formatted: new Date("October 13, 2018 11:13:00").toISOString(),input:'',status:''} ,//time
+            landTime:{formatted: new Date("October 13, 2018 11:19:00").toISOString(),input:'',status:''},
             flightTime:10,
             soaringTotal:6,
             total:13
@@ -123,8 +123,8 @@ const flights = [{
             aerotowLaunchFee:20,
             launchFee:7, //winch
             soaringFee:0.6,
-            launchTime:'',//time
-            landTime:'',
+            launchTime:{formatted:'',input:'',status:''} ,//time
+            landTime:{formatted:'' ,input:'',status:''},
             flightTime:'',
             soaringTotal:'',
             total:''
@@ -149,8 +149,8 @@ const flights = [{
             aerotowLaunchFee:20,
             launchFee:7, //winch
             soaringFee:0.6,
-            launchTime:'',//time
-            landTime:'',
+            launchTime:{formatted:'',input:'',status:''} ,//time
+            landTime:{formatted:'' ,input:'',status:''},
             flightTime:'',
             soaringTotal:'',
             total:''
@@ -175,8 +175,8 @@ const flights = [{
             aerotowLaunchFee:20,
             launchFee:7, //winch
             soaringFee:0.6,
-            launchTime:'',//time
-            landTime:'',
+            launchTime:{formatted:'',input:'',status:''} ,//time
+            landTime:{formatted:'' ,input:'',status:''},
             flightTime:'',
             soaringTotal:'',
             total:''

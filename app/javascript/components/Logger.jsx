@@ -71,6 +71,7 @@ class Logger extends React.Component {
 
 		//this.handleAdd = this.handleAdd.bind(this);
     this.setPayee = this.setPayee.bind(this);
+    this.importEditData = this.importEditData.bind(this);
 
     window.flightControllerDependents['logger'] = this
     this.flightController = window.flightController
@@ -81,7 +82,7 @@ class Logger extends React.Component {
 
     this.aircraftObj = {id:'',registration:'',acName:''}
     this.userObj = {userId:'',username:'',fName:'',lName:'',membershipId:'',launchFee:'',soaringFee:'',aerotowStandardFee:'',aerotowUnitFee:''}
-
+    this.timeObj = {formatted:'',input:'',status:''}
 		
     this.state = {
 			data:{
@@ -89,14 +90,14 @@ class Logger extends React.Component {
         date:'', 
         club:'',
 
-        aircraft:JSON.parse(JSON.stringify(this.aircraftObj)),
-				tug:JSON.parse(JSON.stringify(this.aircraftObj)),
+        aircraft:'',
+				tug:'',
         
         launchType:'',
         releaseHeight:'',
 
-        p1:JSON.parse(JSON.stringify(this.userObj)),
-        p2:JSON.parse(JSON.stringify(this.userObj)),
+        p1:'',
+        p2:'',
 
         payee:'',//payment
         aerotowStandardFee:'',//aerotow
@@ -108,25 +109,43 @@ class Logger extends React.Component {
         landTime:'',
         //notes:''
 			},
-      p1ClubUsers:JSON.parse(JSON.stringify(this.totalClubUsers)),
-      p2ClubUsers:JSON.parse(JSON.stringify(this.totalClubUsers)),
-      aircrafts:JSON.parse(JSON.stringify(this.totalAircrafts)),
-      tugAircrafts:JSON.parse(JSON.stringify(this.totalAircrafts)),
-      parkData:{},
-      mode:'create'
+      p1ClubUsers:'',
+      p2ClubUsers:'',
+      aircrafts:'',
+      tugAircrafts:'',
+      mode:''
 		}
 
     this.defaultValues = [
+      ['user',window.user],
+      ['date',(new Date()).toISOString()],
+      ['club',window.club],
+      ['aircraft',JSON.parse(JSON.stringify(this.aircraftObj))],
+      ['tug',JSON.parse(JSON.stringify(this.aircraftObj))],
       ['launchType','winch'],
       ['releaseHeight','2000'],
+      ['p1',JSON.parse(JSON.stringify(this.userObj))],
+      ['p2',JSON.parse(JSON.stringify(this.userObj))],
       ['payee','p1'],
-      ['user',window.user],
-      ['date',new Date()],
-      ['club',window.club]
+      ['launchTime',JSON.parse(JSON.stringify(this.timeObj))],
+      ['landTime',JSON.parse(JSON.stringify(this.timeObj))]
+    ];
+
+    this.defaultObjects = [
+      ['p1ClubUsers',JSON.parse(JSON.stringify(this.totalClubUsers))],
+      ['p2ClubUsers',JSON.parse(JSON.stringify(this.totalClubUsers))],
+      ['aircrafts',JSON.parse(JSON.stringify(this.totalAircrafts))],
+      ['tugAircrafts',JSON.parse(JSON.stringify(this.totalAircrafts))],
+      ['mode','create']
     ];
 
     for(var key in this.defaultValues){
       this.state.data[this.defaultValues[key][0]] = this.defaultValues[key][1]
+    }
+
+    for(var key in this.defaultObjects){
+      var stateObj = {};
+      this.state[this.defaultObjects[key][0]] = this.defaultObjects[key][1];
     }
 	}
 //Calculations
@@ -137,7 +156,9 @@ getAerotowFee(launchFee,unitFee,height){
   }
 
 //formatters
-  formatDate(date){
+  formatDate(inputDate){
+    var date = new Date(inputDate)
+    
     var day = date.getDate();
     var month = date.getMonth()+1;
     var year = date.getFullYear();
@@ -151,14 +172,7 @@ getAerotowFee(launchFee,unitFee,height){
     const data = this.state.data
 
     for(var line in data){
-      if(line == 'p1' || line == 'p2'){
-        data[line] = JSON.parse(JSON.stringify(this.userObj))
-      } else if(line == 'aircraft' || line == 'tug'){
-        data[line] = JSON.parse(JSON.stringify(this.aircraftObj))
-      } else {
-        data[line] = ''
-      }
-      
+      data[line] = ''
     }
 
     for(var key in this.defaultValues){
@@ -166,6 +180,12 @@ getAerotowFee(launchFee,unitFee,height){
     }
 
     this.setState({data:data});
+
+    for(var key in this.defaultObjects){
+      var stateObj = {};
+      stateObj[this.defaultObjects[key][0]] = this.defaultObjects[key][1];
+      this.setState(stateObj);
+    }
   }
 
   setData(nameValue,successHandler = () => {console.log(this.state.data)}){
@@ -238,9 +258,8 @@ importEditData(importData){
   var currentData = JSON.parse(JSON.stringify(this.state.data))
   console.log(currentData)
 
-  //this.state.parkData = currentData
   this.setState({mode:'edit'},console.log(this.state))
-  //this.setState({data:importData},console.log(this.state))
+  this.setState({data:importData},console.log(this.state))
 
   
   //this.setState({data:data},)
@@ -574,15 +593,70 @@ importEditData(importData){
     );
   }
 
-	render(){
-    var handleAdd = (event) => {
-      console.log('add');
+  buttons(){
+    var columns = ['launchFee','aerotowLaunchFee','aerotowStandardFee','aerotowUnitFee','soaringFee']
+    var floatData = (data,columns) =>{
+      for(var key in columns){
+        data[columns[key]] = parseFloat(data[columns[key]])
+        console.log(data[columns[key]])
+      }
+      console.log(data)
+      return data
+    }
+    var handleUpdate = (event) =>{
+      console.log('update---');
+
       const formData = Object.assign({},this.state.data);
       console.log(formData)
-      this.flightController.addFromLogger(formData)
+      this.flightController.updateFromLogger(floatData(formData,columns))
+
+      this.setState({mode:'create'},console.log(this.state.mode))
+      this.clear()
+    }
+    var handleCancel = (event) =>{
+      console.log('cancel');
+
+      this.setState({mode:'create'},console.log(this.state.mode))
+      this.clear()
+    }
+    var handleAdd = (event) => {
+      console.log('add');
+      var formData = Object.assign({},this.state.data);
+      //formData['date'] = formData['date']
+      console.log(formData)
+      this.flightController.addFromLogger(floatData(formData,columns))
       this.clear()
     }
 
+    if(this.state.mode == 'edit'){
+      return (
+        <div>
+        <Button variant="outline-success" onClick={e => handleUpdate(e)}>
+          Update
+        </Button>
+        <Button variant="outline-danger" onClick={e => handleCancel(e)}>
+          Cancel
+        </Button>
+        </div>
+      );
+      
+    } else {
+      return (
+        <div>
+        <Button variant="outline-success" onClick={e => handleAdd(e)}>
+          Add
+        </Button>
+        <Button variant="outline-danger" onClick={e => this.clear()}>
+          Clear
+        </Button>
+        </div>
+      );
+
+    }
+  }
+
+	render(){
+  
 		return(
 			<div>
 			
@@ -592,7 +666,11 @@ importEditData(importData){
             <Form.Row className="row">
             <Form.Label><h3>Info</h3></Form.Label>
               <Form.Group className="group" controlId="formGridDate" >
-                <Form.Control disabled aria-describedby="basic-addon1" placeholder="Date" name="date" value={this.formatDate(this.state.data['date'])}/>
+                <h4>{this.state.data['indexNumber']}</h4> 
+              </Form.Group>
+
+              <Form.Group className="group" controlId="formGridDate" >
+                <Form.Control disabled aria-describedby="basic-addon1" placeholder="Date" name="date" value={this.formatDate(this.state.data['date'])}/> 
               </Form.Group>
 
               <Form.Group className="group" controlId="formGridClub" >
@@ -611,12 +689,7 @@ importEditData(importData){
 
             {this.fees()}
   
-            <Button variant="outline-success" onClick={e => handleAdd(e)}>
-              Add
-            </Button>
-            <Button variant="outline-danger" onClick={e => this.clear()}>
-              Clear
-            </Button>
+            {this.buttons()}
 
           </Form>
         </div>

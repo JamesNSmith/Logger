@@ -219,7 +219,40 @@ class Database {
     };
   }
 //Update -----------------
-  updateRecord(table,id,columnValue,successHandler = this.success,failureHandler = this.failure){
+  updateRecordRow(table,record,successHandler = this.success,failureHandler = this.failure){
+    var openRequest = indexedDB.open(this.dbName, this.version);
+
+    openRequest.onsuccess = function(e) {
+      console.log('running onsuccess 3');
+      console.log(table)
+      var db = e.target.result;
+      var transaction = db.transaction([table], 'readwrite');
+      var records = transaction.objectStore(table);
+
+      var request = records.put(record);
+      console.dir(records)
+      request.onsuccess = function(ev) {
+        console.log('Woot! Did it -update row');
+
+        var record = request.result;
+        console.log(record)
+        successHandler(record)
+
+      };
+      request.onerror = function(ev) {
+        e.target.result.close();
+        failureHandler(ev.target.error.name)
+      };   
+    }
+
+    openRequest.onerror = function(e) {
+      e.target.result.close();
+      console.log('onerror! get');
+      failureHandler(e.target.error.name);
+
+    };
+  }
+  updateRecordValues(table,id,columnValue,successHandler = this.success,failureHandler = this.failure){
     var openRequest = indexedDB.open(this.dbName, this.version);
 
     openRequest.onsuccess = function(e) {
@@ -235,13 +268,21 @@ class Database {
         console.log('Woot! Did it -update');
 
         var record = request.result;
-        console.log(request)
         console.log(record)
-
-        console.log(id)
-        console.log(columnValue)
         for(var key in columnValue){
-          record[columnValue[key][0]] = columnValue[key][1]
+
+          if(typeof columnValue[key][1] == 'object'){
+            var tierTwo = record[columnValue[key][0]]
+            var objTwo = columnValue[key][1]
+
+            for(var keyTwo in objTwo){
+              tierTwo[objTwo[keyTwo][0]] = objTwo[keyTwo][1]
+            }
+            record[columnValue[key][0]] = tierTwo
+
+          } else {
+            record[columnValue[key][0]] = columnValue[key][1]
+          }
         }
 
         var requestUpdate = records.put(record);
@@ -264,10 +305,9 @@ class Database {
     }
 
     openRequest.onerror = function(e) {
-      console.log('onerror! get');
-      console.dir(e);
-
       e.target.result.close();
+      console.log('onerror! get');
+      failureHandler(e.target.error.name);
     };
   }
 //Get ----------------------------

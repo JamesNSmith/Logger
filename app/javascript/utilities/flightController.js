@@ -10,6 +10,54 @@ class FlightController {
     this.mode = 'demo'
   }
 
+//Helpers ---------------
+  calculateTimeFees (record) {
+    var twoDP = (num) => {
+      return Math.round(num*100)/100
+    }
+    console.log('calculateTimeFees')
+    console.log(record)
+    var launchFee = parseFloat(record['launchFee'])
+    var soaringFee = parseFloat(record['soaringFee'])
+
+    console.log(record['launchTime']['formatted'])
+    console.log(record['landTime']['formatted'])
+
+    console.log(record['launchTime']['input'])
+    console.log(record['landTime']['input'])
+
+    var launchTime =  new Date(record['launchTime']['formatted']).setFullYear(2020, 11, 3) //dodgy fix -- needs :()
+    var landTime =  new Date(record['landTime']['formatted']).setFullYear(2020, 11, 3) //dodgy fix -- needs :()
+    console.log(landTime)
+    console.log(launchTime)
+    var flightTime = Math.floor(Math.abs((landTime - launchTime))/(1000*60)) //.getTime()
+    console.log('flightTime: ' + flightTime)
+
+    var soaringTotal = twoDP(flightTime * soaringFee);
+    var total = launchFee + soaringTotal
+
+    var returnVals = [['flightTime',flightTime],['soaringTotal',soaringTotal],['total',total]]
+    console.log(returnVals)
+
+    return {record,returnVals}
+  }
+
+// logger helpers --------------
+  updateFees(inputData){
+    if(inputData['launchTime'] != '' && inputData['landTime'] != ''){
+      var updateVals = (this.calculateTimeFees(inputData))['returnVals']
+
+      console.log(updateVals)
+
+      for(var key in updateVals){
+        inputData[updateVals[key][0]] = updateVals[key][1]
+      }
+    }
+
+    console.log(inputData)
+    return inputData
+  }
+
 //Logger ---------
   addFromLogger(inputData){
     console.log('addFromLogger')
@@ -28,12 +76,26 @@ class FlightController {
       inputData['flightNumber'] = null
       console.log('inpData')
       console.log(inputData)
+      database.addData('flights',[inputData]) //-----------dodgy
       table.addDataTable([inputData])
-      database.addData('flights',[inputData]) //---------------------------------
     }
   	
 	  database.countRecords('flights',countHandler);
 
+  }
+
+  updateFromLogger(inputData){
+    console.log('updateFromLogger')
+
+    var database = window.flightControllerDependents['database']
+    var table = window.flightControllerDependents['table']
+
+    var updatedData = this.updateFees(inputData)
+
+    database.updateRecordRow('flights',updatedData) // -------------dodgy
+    table.updateDataRow(updatedData)
+
+    //cable.updateDataRow(updatedDate)
   }
 
 //Table helpers ------------------------
@@ -46,26 +108,7 @@ class FlightController {
     return object
   }
 
-  calculateTimeFees (record) {
-    console.log('calculateTimeFees')
-    console.log(record)
-    var launchFee = record['launchFee']
-    var soaringFee = record['soaringFee']
-
-    var launchTime =  new Date(record['launchTime']).setFullYear(2020, 11, 3) //dodgy fix -- needs :()
-    var landTime =  new Date(record['landTime']).setFullYear(2020, 11, 3) //dodgy fix -- needs :()
-    console.log(landTime)
-    console.log(launchTime)
-    var flightTime = Math.floor(Math.abs((landTime - launchTime))/(1000*60)) //.getTime()
-    console.log('flightTime: ' + flightTime)
-
-    var soaringTotal = parseFloat(flightTime * soaringFee).toFixed(2)
-    var total = parseFloat(launchFee) + parseFloat(soaringTotal)
-
-    var returnVals = [['flightTime',flightTime],['soaringTotal',soaringTotal],['total',total]]
-
-    return {record,returnVals}
-  }
+  
 
 //table handlers -----------------------
 
@@ -94,7 +137,7 @@ class FlightController {
     var databaseIndex = []
 
     var queue = new Promise((resolve,reject) => {
-      database.updateRecord(indexTable,id,[[name,time]],resolve,reject)
+      database.updateRecordValues(indexTable,id,[[name,[['formatted',time]]]],resolve,reject)
 
     }).then(() => {
       return new Promise((resolve,reject) => {table.updateCheckStatus(id,name,resolve,reject)})
@@ -113,7 +156,7 @@ class FlightController {
       timeUpdatedValues = returnVals
 
     }).then(() => {
-      return new Promise((resolve,reject) => {database.updateRecord(indexTable,id,timeUpdatedValues,resolve,reject)})
+      return new Promise((resolve,reject) => {database.updateRecordValues(indexTable,id,timeUpdatedValues,resolve,reject)})
 
     }).then((index) => {
       return new Promise((resolve,reject) => {table.updateTableData(id,timeUpdatedValues,resolve,reject)})
@@ -131,7 +174,7 @@ class FlightController {
       databaseIndex = returnVals
 
     }).then(() => {
-      return new Promise((resolve,reject) => {database.updateRecord(indexTable,id,databaseIndex,resolve,reject)})
+      return new Promise((resolve,reject) => {database.updateRecordValues(indexTable,id,databaseIndex,resolve,reject)})
 
     }).then((index) => {
       return new Promise((resolve,reject) => {table.updateTableData(id,databaseIndex,resolve,reject)})
