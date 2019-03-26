@@ -9,6 +9,11 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :first_name
       t.string :last_name
       t.string :utype
+      t.string :auth_token
+      t.string :confirm_token
+      t.boolean :email_confirmed, :default => false
+      t.string :password_reset_token
+      t.datetime :password_reset_sent_at
       #preferences
 
       t.timestamps

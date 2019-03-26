@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
+  
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'pages#index' 
 
   #get 'users' => 'users#index'
   match '/users', to: 'users#index', via: [:get, :post]
   get 'signup' => 'users#new'
-  resources :users
+  
 
   match '/clubs', to: 'clubs#index', via: [:get, :post]
   match '/clubs/add', to: 'clubs#new', via: [:get, :post]
@@ -35,5 +37,9 @@ Rails.application.routes.draw do
   delete 'logout' => 'sessions#destroy'
 
   mount ActionCable.server, at: '/cable'
+
+  resources :users
+  #resources :sessions
+  resources :password_resets
 
 end

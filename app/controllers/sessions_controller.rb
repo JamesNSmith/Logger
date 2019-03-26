@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
       session[:user_id] = @user.id
       @club = @user.clubs
       if @club 
-        session[:club_id] = (@club.first)['id']
+        session[:club_id] = (@club.first)['id'] #dodgy
       end
 
       #session[:expires] = 1.hour

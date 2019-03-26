@@ -38,16 +38,16 @@
   margin:17px
 }
 
-.login, .signup {
+.login, .signup, .reset {
   margin: 0 auto;
   width: 400px;
 }
 
-.login .form, .signup .form {
+.form{
   text-align:center;
 }
 
-.login form input, .signup form input {
+.form form input{
   width: 290px;
   height: 40px;
   padding:5px;
@@ -55,7 +55,7 @@
 
 }
 
-.signup form label {
+.form form label {
   width:280px;
   margin:auto;
   text-align:left;
@@ -66,14 +66,14 @@
   }
 
 
-.login form input.form-btn, .signup form input.form-btn {
+.form form input.form-btn {
   //margin-left: 30px;
   width: 200px;
 
   transition: background 0.5s, color 0.5s;
 }
 
-.login form input.form-btn:hover, .signup form input.form-btn:hover {
+.form form input.form-btn:hover{
   color: #fff;
   background-color: #000;
   text-decoration: none;

@@ -5,7 +5,7 @@
     <h1>Sign up</h1>
 
     <%= form_for(@user) do |f| %>
-    <div class="field"> 
+    
       <ul>
           <!--<li><%= f.label "Name " %></li>-->
           <li>
@@ -18,8 +18,9 @@
           <li><%= f.email_field :email, :placeholder => "Email", :class => @status %></li>
       	  <!--<li><%= f.label "Password " %></li>-->
           <li><%= f.password_field :password, :placeholder => "Password", :class => @status%></li> 
+          <li><%= f.password_field :password_confirmation, :placeholder => "Confirm Password", :class => @status%></li> 
        </ul>
-  	</div> 
+  	 
   	<div class="actions"> 
       <%= f.submit "Create", class: "form-btn"%> 
   	</div> 
