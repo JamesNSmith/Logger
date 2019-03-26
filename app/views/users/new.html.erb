@@ -1,5 +1,5 @@
-<div class="login">
-  <div class="container">
+<div class="signup">
+  <div class="userContainer">
     <div class="form">
 
     <h1>Sign up</h1>
@@ -7,13 +7,21 @@
     <%= form_for(@user) do |f| %>
     <div class="field"> 
       <ul>
-          <li><%= f.label "Name " %><%= f.text_area :first_name %><%= f.text_area :last_name %></li> 	
-      	  <li><%= f.label "Email " %><%= f.text_area :email %></li>
-      	  <li><%= f.label "Password " %><%= f.text_area :password %></li> 
+          <!--<li><%= f.label "Name " %></li>-->
+          <li>
+            <%= f.text_field :first_name, :placeholder => "First Name", :id => "first", :class => @status %>
+            <%= f.text_field :last_name, :placeholder => "Last Name", :id => "last", :class => @status %>  
+          </li>
+          <!--<li><%= f.label "Username " %></li>-->
+          <li><%= f.email_field :username, :placeholder => "Username", :class => @status %></li> 	
+      	  <!--<li><%= f.label "Email " %></li>-->
+          <li><%= f.email_field :email, :placeholder => "Email", :class => @status %></li>
+      	  <!--<li><%= f.label "Password " %></li>-->
+          <li><%= f.password_field :password, :placeholder => "Password", :class => @status%></li> 
        </ul>
   	</div> 
   	<div class="actions"> 
-      <%= f.submit "Create" %> 
+      <%= f.submit "Create", class: "form-btn"%> 
   	</div> 
     <% end %>
  
