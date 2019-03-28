@@ -1,6 +1,6 @@
 <div class="reset">
   <div class="userContainer">
-    <div class="form">
+    <div class="inputForm">
 
     <h1>Reset Password</h1>
 
@@ -22,7 +22,7 @@
       <li><%= f.password_field :password_confirmation %></li>
       
       <div class="actions">
-        <%= f.submit "Update Password" %>
+        <%= f.submit "Update Password", class: "form-btn"  %>
       </div>
     </ul>
     <% end %>

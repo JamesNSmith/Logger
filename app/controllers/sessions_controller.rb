@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   def create 
     @user = User.find_by_email(params[:session][:email]) 
     if @user && @user.authenticate(params[:session][:password])
-      if user.email_confirmed
+      if @user.email_confirmed
         session[:user_id] = @user.id
         @club = @user.clubs
         if @club 
@@ -16,22 +16,21 @@ class SessionsController < ApplicationController
         end 
 
       else
-        flash.now[:error] = 'Please activate your account by following the instructions in the account confirmation email you received to proceed'
-        render '/'
+        #UserMailer.registration_confirmation(@user).deliver # dodgy
+        flash.now[:danger] = 'Please activate your account by following the instructions in the account confirmation email you received to proceed'
       end
      
       @@status = ''
       redirect_to '/' 
     else 
       @@status = "error"
-      flash.now[:error] = 'Invalid email/password combination' # Not quite right!
-      redirect_to '/login' 
+      redirect_to '/login', :danger => 'Invalid email/password combination' # Not quite right!
     end
 	end
 
 	def destroy 
   	session[:user_id] = nil
     session[:club_id] = nil  
-  	redirect_to '/' 
+  	redirect_to '/', :notice => "Logged out!" 
 	end
 end

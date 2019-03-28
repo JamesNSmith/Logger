@@ -34,7 +34,7 @@
   margin-bottom: 10px;
 }
 */
-.form h1{
+.inputForm h1{
   margin:17px
 }
 
@@ -43,11 +43,11 @@
   width: 400px;
 }
 
-.form{
+.inputForm{
   text-align:center;
 }
 
-.form form input{
+.inputForm form input{
   width: 290px;
   height: 40px;
   padding:5px;
@@ -55,7 +55,7 @@
 
 }
 
-.form form label {
+.inputForm form label {
   width:280px;
   margin:auto;
   text-align:left;
@@ -66,14 +66,14 @@
   }
 
 
-.form form input.form-btn {
+.inputForm form input.form-btn {
   //margin-left: 30px;
   width: 200px;
 
   transition: background 0.5s, color 0.5s;
 }
 
-.form form input.form-btn:hover{
+.inputForm form input.form-btn:hover{
   color: #fff;
   background-color: #000;
   text-decoration: none;

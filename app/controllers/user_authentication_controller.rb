@@ -1,13 +1,15 @@
 class UserAuthenticationController < ApplicationController
-  def confirm_email
-  	@user = User.find_by_confirm_token!(params[:id])
-    if user
+  def show
+  	@user = User.find_by_email_confirm_token!(params[:id])
+    if @user
       @user.email_activate
-      flash[:success] = "Welcome to the Sample App! Your email has been confirmed.
+      flash.now[:success] = "Welcome to FlightLogger! Your email has been confirmed.
       Please sign in to continue."
-      redirect_to 'login'
+      #session[:user_id] = @user.id #not sure
+      #redirect_to '/'
+      redirect_to '/login' 
     else
-      flash[:error] = "Sorry. User does not exist"
+      flash.now[:danger] = "Sorry. User does not exist"
       redirect_to '/'
     end
   end

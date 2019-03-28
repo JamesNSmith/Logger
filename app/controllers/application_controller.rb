@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   #force_ssl 
 
+  add_flash_types :danger, :info, :warning, :success
+
   helper_method :current_user, :current_club  
 
   #User ------------------------------------

@@ -112,6 +112,18 @@
       </div>
     </div>
 
+    <div id="flash" class="containerPageHeader">
+      <div class="flash">
+      <% flash.each do |name, msg| %>
+        <div class="alert alert-<%= name %>">
+            <%= msg  %>
+        </div>
+      <% end %>
+      </div>
+    </div>
+
+
+
     <%= yield %>
 
     <div id="copyright" >

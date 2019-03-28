@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   #get 'users' => 'users#index'
   match '/users', to: 'users#index', via: [:get, :post]
-  get 'signup' => 'users#new'
+  match '/signup', to: 'users#new', via: [:get, :post]
   
 
   match '/clubs', to: 'clubs#index', via: [:get, :post]
