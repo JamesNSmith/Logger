@@ -109,6 +109,8 @@ ActiveRecord::Schema.define(version: 20190222235025) do
     t.string "last_name"
     t.string "utype"
     t.string "auth_token"
+    t.string "email_confirm_token"
+    t.boolean "email_confirmed", default: false
     t.string "password_reset_token"
     t.datetime "password_reset_sent_at"
     t.datetime "created_at", null: false

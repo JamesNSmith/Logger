@@ -7,18 +7,24 @@ class SessionsController < ApplicationController
 
   def create 
     @user = User.find_by_email(params[:session][:email]) 
-    if @user && @user.authenticate(params[:session][:password]) 
-      session[:user_id] = @user.id
-      @club = @user.clubs
-      if @club 
-        session[:club_id] = (@club.first)['id'] #dodgy
-      end
+    if @user && @user.authenticate(params[:session][:password])
+      if user.email_confirmed
+        session[:user_id] = @user.id
+        @club = @user.clubs
+        if @club 
+          session[:club_id] = (@club.first)['id'] #dodgy
+        end 
 
-      #session[:expires] = 1.hour
+      else
+        flash.now[:error] = 'Please activate your account by following the instructions in the account confirmation email you received to proceed'
+        render '/'
+      end
+     
       @@status = ''
       redirect_to '/' 
     else 
       @@status = "error"
+      flash.now[:error] = 'Invalid email/password combination' # Not quite right!
       redirect_to '/login' 
     end
 	end

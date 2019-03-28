@@ -6,15 +6,15 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 ua1 = User.create(username:'jamesnsmith',email: 'jamesnsmith@hotmail.co.uk', password: '1234', password_confirmation: '1234', first_name: 'James', last_name: 'Smith', utype: 'webadmin')
-ua2 = User.create(username:'jamesnsmith97',email: 'jamesnsmith97@gmail.com', password: '1234', password_confirmation: '1234', first_name: 'James', last_name: 'Smith', utype: '')
+ua2 = User.create(username:'jamesnsmith97',email: 'jamesnsmith97@gmail.com', password: '1234', password_confirmation: '1234', first_name: 'James', last_name: 'Smith', utype: '', email_confirmed: true)
 
-u1 = User.create(username:'carlosBu',email: 'carlos@email.com', password: 'Carlos1', password_confirmation: 'Carlos1', first_name: 'Carlos', last_name: 'Bueno')
-u2 = User.create(username:'freidaBu',email: 'freida@email.com', password: 'Freida1', password_confirmation: 'Freida1', first_name: 'Frieda', last_name: 'Bueno')
-u3 = User.create(username:'julianBu',email: 'julian@email.com', password: 'Julian1', password_confirmation: 'Julian1', first_name: 'Julian', last_name: 'Bueno')
+u1 = User.create(username:'carlosBu',email: 'carlos@email.com', password: 'Carlos1', password_confirmation: 'Carlos1', first_name: 'Carlos', last_name: 'Bueno', email_confirmed: true)
+u2 = User.create(username:'freidaBu',email: 'freida@email.com', password: 'Freida1', password_confirmation: 'Freida1', first_name: 'Frieda', last_name: 'Bueno', email_confirmed: true)
+u3 = User.create(username:'julianBu',email: 'julian@email.com', password: 'Julian1', password_confirmation: 'Julian1', first_name: 'Julian', last_name: 'Bueno', email_confirmed: true)
 
-u4 = User.create(username:'losBu',email: 'los@email.com', password: 'Carlos1', password_confirmation: 'Carlos1', first_name: 'los', last_name: 'Bueno')
-u5 = User.create(username:'idaBu',email: 'ida@email.com', password: 'Freida1', password_confirmation: 'Freida1', first_name: 'eda', last_name: 'Bueno')
-u6 = User.create(username:'lianBu',email: 'lian@email.com', password: 'Julian1', password_confirmation: 'Julian1', first_name: 'lian', last_name: 'Bueno')
+u4 = User.create(username:'losBu',email: 'los@email.com', password: 'Carlos1', password_confirmation: 'Carlos1', first_name: 'los', last_name: 'Bueno', email_confirmed: true)
+u5 = User.create(username:'idaBu',email: 'ida@email.com', password: 'Freida1', password_confirmation: 'Freida1', first_name: 'eda', last_name: 'Bueno', email_confirmed: true)
+u6 = User.create(username:'lianBu',email: 'lian@email.com', password: 'Julian1', password_confirmation: 'Julian1', first_name: 'lian', last_name: 'Bueno', email_confirmed: true)
 
 u7 = User.create(first_name: 'Jack', last_name: 'Bueno', password:'@4321', password_confirmation:'@4321')
 puts(u7.errors.messages)

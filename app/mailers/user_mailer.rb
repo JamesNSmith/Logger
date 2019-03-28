@@ -5,6 +5,14 @@ class UserMailer < ApplicationMailer
   #
   #   en.user_mailer.password_reset.subject
   #
+
+  #default :from => "me@mydomain.com"
+
+  def registration_confirmation(user)
+    @user = user
+    mail(:to => "#{user.name} <#{user.email}>", :subject => "Registration Confirmation")
+  end
+
   def password_reset(user)
     @user = user
     mail :to => user.email, :subject => "Password Reset"
