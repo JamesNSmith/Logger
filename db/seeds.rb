@@ -48,12 +48,12 @@ a6 = Aircraft.create(registration:'G-CHUV', name:'Puchacz', actype:'glider')
 
 cud1 = ClubUser.create(user:ua1,club:cd1,membership:md1,utype:'admin')
 cud2 = ClubUser.create(user:ua2,club:c1,membership:m4,utype:'admin') #userType:normal,admin,normal editor, normal financial
-cu1 = ClubUser.create(user:u1,club:c1,membership:m4,utype:'')
-cu2 = ClubUser.create(user:u2,club:c1,membership:m4,utype:'')
-cu3 = ClubUser.create(user:u3,club:c1,membership:m5,utype:'')
-cu4 = ClubUser.create(user:u4,club:c2,membership:m7,utype:'')
-cu5 = ClubUser.create(user:u5,club:c2,membership:m8,utype:'')
-cu6 = ClubUser.create(user:u6,club:c2,membership:m9,utype:'')
+cu1 = ClubUser.create(user:u1,club:c1,membership:m4,utype:'regular')
+cu2 = ClubUser.create(user:u2,club:c1,membership:m4,utype:'regular')
+cu3 = ClubUser.create(user:u3,club:c1,membership:m5,utype:'regular')
+cu4 = ClubUser.create(user:u4,club:c2,membership:m7,utype:'regular')
+cu5 = ClubUser.create(user:u5,club:c2,membership:m8,utype:'regular')
+cu6 = ClubUser.create(user:u6,club:c2,membership:m9,utype:'regular')
 
 f1 = Flight.create(user:u3,club:c1,takeoff_type:"winch",aircraft:a1,club_user_p1:cu1,club_user_p2:cu2,launch_fee:7.00,soaring_fee:0.15,launch_date:Date.current,launch_time:Time.parse("12:00"),land_time:Time.parse("12:10"),flight_time:10)
 puts(f1.errors.messages)

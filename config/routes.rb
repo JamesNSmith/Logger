@@ -18,7 +18,8 @@ Rails.application.routes.draw do
   #get 'addclub' => 'clubs#new'
   #post 'clubs' => 'clubs#create'
   delete '/clubs/del' => 'clubs#destroy'
-  match '/clubs/members', to: 'clubs#show', via: [:get, :post]
+  match '/clubs/members', to: 'clubs#show', via: :get
+  match '/clubs/user', to: 'clubs#view', via: :get
 
   #get '/memberships' => 'memberships#index'
   match '/memberships', to: 'memberships#index', via: :get

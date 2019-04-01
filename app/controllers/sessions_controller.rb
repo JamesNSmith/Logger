@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
         puts @club
         if @club 
           puts @club
-          #session[:club_id] = (@club.first)['id'] #dodgy
+          session[:club_id] = (@club.first)['id'] #dodgy
         end 
 
       else

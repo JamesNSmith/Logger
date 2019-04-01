@@ -413,9 +413,16 @@ nav{
 /*********************************************************************************/
 .recordPage {
 	position: relative;
-	height:400px;
+	width:1000px;
+	margin: 0 auto;
+	//height:400px;
+}
+
+.recordPage h1{
+  margin:17px
 }
 
 .recordTable {
-	
+	margin:40px;
 }
+

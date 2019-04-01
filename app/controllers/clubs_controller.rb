@@ -15,15 +15,18 @@ class ClubsController < ApplicationController
     end
   end
 
+  def view
+    case request.method_symbol
+    when :get
+      @clubs = User.find(session[:user_id]).clubs
+    end
+  end
+
   def show
     case request.method_symbol
     when :get
-      if current_club
-        @club = current_club
-        @users = @club.users
-      end
-    when :post
-      #???
+      @club = current_club
+      @users = @club.users
     end
   end
 
@@ -66,11 +69,10 @@ class ClubsController < ApplicationController
   def destroy 
   	session[:club_id] = nil 
   	redirect_to '/' 
-  end
+  end 
   
   private
   def club_params
     params.require(:club).permit(:name, :initials, :country)
   end
-
 end

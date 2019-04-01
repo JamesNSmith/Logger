@@ -1,0 +1,25 @@
+<div class="boxListContainer">
+
+  <h1>Clubs</h1>
+
+  <div class="boxList">
+  	<% @clubs.each do |club| %> 
+    <div class="boxL">
+	    <ul> 
+  	  <li><%= club.name %></li> 
+  	  <li><%= club.initials %></li>
+  		<li><%= club.country %></li>
+      <li>
+        <%= form_for(:clubs, url: '/clubs') do |f| %> 
+        <%= f.hidden_field :id, value: club.id %>
+        <%= f.submit "Select", class: "box-list-btn" %>
+        <% end %>
+      </li>
+      </ul> 
+
+      
+
+	  </div> 
+    <% end %>
+  </div>
+</div>
