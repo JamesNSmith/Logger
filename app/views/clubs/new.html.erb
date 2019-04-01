@@ -1,19 +1,23 @@
-<div class="login">
-  <div class="container">
-    <div class="form">
+<div class="club">
+  <div class="userContainer">
+    <div class="inputForm">
 
     <h1>Add Club</h1>
 
     <%= form_for(@club,url: '/clubs/add') do |f| %>
     <div class="field"> 
       <ul>
-          <li><%= f.label "Name " %><%= f.text_area :name %></li> 	
-      	  <li><%= f.label "Initials " %><%= f.text_area :initials %></li>
-      	  <li><%= f.label "Country " %><%= f.text_area :country %></li> 
+          <!--<li><%= f.label "Name " %></li>-->
+          <li><%= f.text_field :name, :placeholder => "Name" %></li> 	
+      	  <!--<li><%= f.label "Initials " %></li>-->
+          <li><%= f.text_field :initials, :placeholder => "Initials (max 3)" %></li>
+      	  <!--<li><%= f.label "Country " %></li>-->
+          <!--<li><%= f.text_field :country, :placeholder => "Country" %></li>-->
+          <%= f.hidden_field :country, value: 'UK' %> 
        </ul>
   	</div> 
   	<div class="actions"> 
-      <%= f.submit "Create" %> 
+      <%= f.submit "Create", class: "form-btn" %> 
   	</div> 
     <% end %>
  

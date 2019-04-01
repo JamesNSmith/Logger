@@ -1,19 +1,27 @@
-<div class="users">
+<div class="recordDiv">
 
-  <h1>Members</h1>
+  <h1><%= @club.name %> Members</h1>
 
-  <div class="container">
-    <% if current_club %>
-    
+  <div class="recordTable">
+    <table>
+      <th>
+        <td>Name</td>
+        <td>Username</td>
+        <td>Email</td>
+        <td>User Type</td>
+      </th>
+    <tbody>
     <% @users.each do |user| %> 
-      <div class="user"> 
-      <p><%= user.email %></p> 
-      <p><%= user.first_name %></p>
-      <p><%= user.last_name %></p> 
-      <p><%= user.utype %></p> 
+      <tr>
+      <td><p><%= user.first_name %> <%= user.last_name %></p></td>
+      <td><p><%= user.username %></p></td>  
+      <td><p><%= user.email %></p></td>  
+      <td><p><%= user.utype %></p></td> 
       
-      </div> 
+      </tr>
+      
     <% end %>
-    <% end %>
+    </tbody>
+    
   </div>
 </div>

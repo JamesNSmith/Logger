@@ -11,8 +11,11 @@ class SessionsController < ApplicationController
       if @user.email_confirmed
         session[:user_id] = @user.id
         @club = @user.clubs
+        puts 'Club:'
+        puts @club
         if @club 
-          session[:club_id] = (@club.first)['id'] #dodgy
+          puts @club
+          #session[:club_id] = (@club.first)['id'] #dodgy
         end 
 
       else
@@ -21,7 +24,8 @@ class SessionsController < ApplicationController
       end
      
       @@status = ''
-      redirect_to '/' 
+      redirect_to '/'
+      #redirect_back(fallback_location: '/') 
     else 
       @@status = "error"
       redirect_to '/login', :danger => 'Invalid email/password combination' # Not quite right!
@@ -31,6 +35,6 @@ class SessionsController < ApplicationController
 	def destroy 
   	session[:user_id] = nil
     session[:club_id] = nil  
-  	redirect_to '/', :notice => "Logged out!" 
+  	redirect_to '/', :info => "Logged out!" 
 	end
 end

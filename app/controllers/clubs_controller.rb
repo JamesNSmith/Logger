@@ -1,4 +1,7 @@
 class ClubsController < ApplicationController
+  before_action :require_user
+  before_action :require_club, only: :show
+
   def index
     case request.method_symbol
     when :get
@@ -16,7 +19,8 @@ class ClubsController < ApplicationController
     case request.method_symbol
     when :get
       if current_club
-        @users = current_club.users
+        @club = current_club
+        @users = @club.users
       end
     when :post
       #???
@@ -28,12 +32,33 @@ class ClubsController < ApplicationController
     when :get
   	 @club = Club.new
     when :post
+      @user = User.find(session[:user_id])
       @club = Club.new(club_params)
       if @club.save
-        session[:club_id] = @club.id
+        ##< not sure dodgy
+        #session[:club_id] = @club.id
+        ClubMailer.confirmation(@user,@club).deliver
+        flash[:success] = "Further instructions have been sent to your email address"
+        ##>
+
         redirect_to '/'
+
+        #@membership = Membership.find(1)
+        #puts @clubMembership
+
+        #@clubUser = ClubUser.new(user:@user,club:@club,membership:@membership,utype:'admin')
+
+        #if @clubUser.save
+ 
+        #else
+        #  flash[:error] = "Ooooppss, something went wrong!"
+         # redirect_to '/clubs/add'
+        #  puts "error clubuser"
+        #end
       else
-        redirect_to '/addclub'
+        flash[:error] = "Ooooppss, something went wrong!"
+        redirect_to '/clubs/add'
+        puts "error club"
       end
     end
   end

@@ -54,6 +54,8 @@ ActiveRecord::Schema.define(version: 20190222235025) do
     t.string "name"
     t.string "initials"
     t.string "country"
+    t.string "auth_token"
+    t.string "link_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

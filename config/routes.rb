@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   
 
+  get 'club_link/new'
+
   get 'user_authentication/new'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -44,5 +46,6 @@ Rails.application.routes.draw do
   #resources :sessions
   resources :password_resets
   resources :user_authentication
+  resources :club_link
 
 end

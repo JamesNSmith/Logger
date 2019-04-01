@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
   
   def require_user 
-  	redirect_to '/login' unless current_user 
+  	redirect_to '/login', :warning => 'user required' unless current_user 
   end
 
   #Club ------------------------------------
@@ -24,5 +24,9 @@ class ApplicationController < ActionController::Base
     #puts session[:club_id]
     #puts session[:club_id].class
   	@current_club ||= Club.find(session[:club_id]) if session[:club_id] 
+  end
+
+  def require_club 
+    redirect_to '/login', :warning => 'club required' unless current_club 
   end
 end
