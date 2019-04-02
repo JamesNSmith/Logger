@@ -10,9 +10,13 @@
   	  <li><%= club.initials %></li>
   		<li><%= club.country %></li>
       <li>
-        <%= form_for(:clubs, url: '/clubs') do |f| %> 
-        <%= f.hidden_field :id, value: club.id %>
-        <%= f.submit "Select", class: "box-list-btn" %>
+        <% if session[:club_id] != club.id %>
+          <%= form_for(:clubs, url: '/clubs/user') do |f| %> 
+          <%= f.hidden_field :id, value: club.id %>
+          <%= f.submit "Select", class: "box-list-btn" %>
+          <% end %>
+        <% else %>
+          Current
         <% end %>
       </li>
       </ul> 

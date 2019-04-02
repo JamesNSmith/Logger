@@ -19,6 +19,13 @@ class ClubsController < ApplicationController
     case request.method_symbol
     when :get
       @clubs = User.find(session[:user_id]).clubs
+    when :post
+      puts params
+      @club = Club.find_by_id(params[:clubs][:id]) 
+      if @club 
+        session[:club_id] = @club.id
+        redirect_to '/clubs/members' #not sure
+      end
     end
   end
 

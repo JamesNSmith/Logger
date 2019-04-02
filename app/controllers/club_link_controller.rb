@@ -10,20 +10,26 @@ class ClubLinkController < ApplicationController
       if @club.users.length == 0
       	@utype = 'admin'
       else
-      	@utype = ''
+      	@utype = 'regular'
       end
-
-      @clubUser = ClubUser.new(user:@user,club:@club,membership:@membership,utype:@utype) ##,utype:'admin'
-
-      if @clubUser.save 
-      	session[:club_id] = @club.id
-      	redirect_to '/', :success => "You have joined " + @club.name
+      @checkClubUser = ClubUser.where("user_id = :user AND club_id = :club",{user: @user, club: @club})
+      puts @checkClubUser
+      if @checkClubUser.length > 0
+         redirect_to '/', :warning => "You are already a member of " +  @club.name + "!"
       else
-      	redirect_to '/', :danger => "Sorry. Club does not exist"
+        @clubUser = ClubUser.new(user:@user,club:@club,membership:@membership,utype:@utype) ##,utype:'admin'
+
+        if @clubUser.save 
+          session[:club_id] = @club.id
+          redirect_to '/', :success => "You have joined " + @club.name
+        else
+          redirect_to '/', :danger => "Sorry. Club does not exist!"
+        end
+
       end
-      
+ 
     else
-      redirect_to '/', :danger => "Sorry. Club does not exist"
+      redirect_to '/', :danger => "Sorry. Club does not exist!"
     end
   end
 end

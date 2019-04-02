@@ -10,12 +10,12 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:session][:password])
       if @user.email_confirmed
         session[:user_id] = @user.id
-        @club = @user.clubs
+        @clubs = @user.clubs
         puts 'Club:'
-        puts @club
-        if @club 
+        puts @clubs
+        if @clubs.length > 0 
           puts @club
-          session[:club_id] = (@club.first)['id'] #dodgy
+          session[:club_id] = (@clubs.first)['id'] #dodgy
         end 
 
       else

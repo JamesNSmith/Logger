@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   
 
-  get 'club_link/new'
+  #get 'club_link/new'
 
-  get 'user_authentication/new'
+  #get 'user_authentication/new'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'pages#index' 
@@ -15,11 +15,9 @@ Rails.application.routes.draw do
 
   match '/clubs', to: 'clubs#index', via: [:get, :post]
   match '/clubs/add', to: 'clubs#new', via: [:get, :post]
-  #get 'addclub' => 'clubs#new'
-  #post 'clubs' => 'clubs#create'
   delete '/clubs/del' => 'clubs#destroy'
   match '/clubs/members', to: 'clubs#show', via: :get
-  match '/clubs/user', to: 'clubs#view', via: :get
+  match '/clubs/user', to: 'clubs#view', via: [:get, :post]
 
   #get '/memberships' => 'memberships#index'
   match '/memberships', to: 'memberships#index', via: :get

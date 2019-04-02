@@ -8,7 +8,8 @@
       <p><%= club.id %></p> 
   	  <p><%= club.name %></p> 
   	  <p><%= club.initials %></p>
-  		<p><%= club.country %></p> 
+  		<p><%= club.country %></p>
+      <p><%= new_club_link_url(club.link_token) %></p> 
       
       <%= form_for(:clubs, url: '/clubs') do |f| %> 
       <%= f.hidden_field :id, value: club.id %>
